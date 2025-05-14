@@ -6,7 +6,7 @@ import CustomSearch from '../CustomSearch'
 import Lister from '../Lister'
 import DoctorCard from '../DoctorCard'
 import SearchFilters from '../SearchFilters'
-import { doctorFilters, filters } from '@/dummy/filters'
+import { doctorFilters } from '@/dummy/filters'
 import { doctors } from '@/dummy/doctors'
 import { useRouter } from 'next/navigation'
 

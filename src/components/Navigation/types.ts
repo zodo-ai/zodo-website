@@ -1,4 +1,4 @@
-interface HeaderLinksI {
+export type HeaderLinksI =  {
   label: string;
   link: string;
 }

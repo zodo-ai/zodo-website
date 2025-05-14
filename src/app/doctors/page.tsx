@@ -1,4 +1,3 @@
-import Download from '@/components/Download';
 import DownloadApp from '@/components/DownloadApp';
 import FindDoctors from '@/components/FindDoctors';
 import Reviews from '@/components/Reviews';

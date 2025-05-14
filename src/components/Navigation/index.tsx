@@ -4,6 +4,7 @@ import React from 'react'
 import { twMerge } from 'tailwind-merge';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '../ui/sidebar';
 import { BrandLogo } from '../Logo';
+import { HeaderLinksI } from './types';
 
 const Navigation = ({ headerLinks }: { headerLinks: HeaderLinksI[] }) => {
     const pathname = usePathname()
