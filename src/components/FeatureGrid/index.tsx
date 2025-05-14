@@ -1,10 +1,10 @@
 import { FeatureCardPropsI } from './types'
 import Image from 'next/image'
-import ServiceOne from "~/png/ServiceOne.svg"
-import ServiceTwo from "~/png/ServiceTwo.svg"
-import ServiceThree from "~/png/ServiceThree.svg"
-import ServiceFour from "~/png/ServiceFour.svg"
-import ServiceFive from "~/png/ServiceFive.svg"
+import ServiceOne from "~/svg/ServiceOne.svg"
+import ServiceTwo from "~/svg/ServiceTwo.svg"
+import ServiceThree from "~/svg/ServiceThree.svg"
+import ServiceFour from "~/svg/ServiceFour.svg"
+import ServiceFive from "~/svg/ServiceFive.svg"
 
 const FeatureCard = ({ icon, title, description }: FeatureCardPropsI) => {
     return (

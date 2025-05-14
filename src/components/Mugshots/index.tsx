@@ -3,7 +3,7 @@ import Phones from "~/png/phones.png"
 import { TrustedBy } from "../TrustedBy"
 import TrustedBrands from "../TrustedBrands"
 
-export const Mugshots = () => {
+const Mugshots = () => {
     return (
         <>
             <div className="relative w-full flex justify-center mx-auto">
@@ -35,3 +35,5 @@ export const Mugshots = () => {
         </>
     )
 }
+
+export default Mugshots;

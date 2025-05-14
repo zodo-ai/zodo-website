@@ -16,7 +16,7 @@ const options = [
   },
 ];
 
-export const Download = () => {
+const Download = () => {
   return (
     <div className="flex justify-center">
       <Image src={qr} alt="Qr code" width={136} height={136} />
@@ -42,3 +42,5 @@ export const Download = () => {
     </div>
   );
 };
+
+export default Download;

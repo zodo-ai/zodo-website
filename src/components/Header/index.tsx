@@ -26,7 +26,7 @@ const headerLinks = [
   }
 ];
 
-export const Header = () => {
+const Header = () => {
   const pathname = usePathname()
   return (
     <div className="flex items-center justify-between py-4 px-6 border-b border-gray-100">

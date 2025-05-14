@@ -1,10 +1,12 @@
-import { HeroTitle } from "@/components/Banner";
-import { Download } from "@/components/Download";
+import AboutUs from "@/components/AboutUs";
+import HeroTitle from "@/components/Banner";
+import Download from "@/components/Download";
 import FindDoctors from "@/components/FindDoctors";
 import FindHospitals from "@/components/FindHospitals";
-import { Header } from "@/components/Header";
-import { Mugshots } from "@/components/Mugshots";
+import Header from "@/components/Header";
+import Mugshots from "@/components/Mugshots";
 import Privacy from "@/components/Privacy";
+import Reviews from "@/components/Reviews";
 import Services from "@/components/Services";
 
 
@@ -25,6 +27,8 @@ const Home = () => {
       <FindHospitals />
       <Services />
       <Privacy />
+      <AboutUs />
+      <Reviews />
     </div>
   );
 }
