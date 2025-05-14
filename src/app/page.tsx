@@ -1,8 +1,10 @@
 import AboutUs from "@/components/AboutUs";
 import HeroTitle from "@/components/Banner";
 import Download from "@/components/Download";
+import DownloadApp from "@/components/DownloadApp";
 import FindDoctors from "@/components/FindDoctors";
 import FindHospitals from "@/components/FindHospitals";
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Mugshots from "@/components/Mugshots";
 import Privacy from "@/components/Privacy";
@@ -29,6 +31,9 @@ const Home = () => {
       <Privacy />
       <AboutUs />
       <Reviews />
+      <DownloadApp />
+        <Footer />
+
     </div>
   );
 }
