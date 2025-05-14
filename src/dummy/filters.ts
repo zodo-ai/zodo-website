@@ -1,0 +1,1 @@
+export const filters = ['All', 'Near by hospitals', 'Top rated']

@@ -54,8 +54,6 @@ const FindDoctors = () => {
                     )}
                 />
             </section>
-
-
         </div>
     )
 }

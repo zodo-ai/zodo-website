@@ -1,10 +1,11 @@
 import { HeroTitle } from "@/components/Banner";
 import { Download } from "@/components/Download";
 import FindDoctors from "@/components/FindDoctors";
+import FindHospitals from "@/components/FindHospitals";
 import { Header } from "@/components/Header";
 import { Mugshots } from "@/components/Mugshots";
-import TrustedBrands from "@/components/TrustedBrands";
-import { TrustedBy } from "@/components/TrustedBy";
+import Services from "@/components/Services";
+
 
 const Home = () => {
   return (
@@ -20,7 +21,8 @@ const Home = () => {
         <Mugshots />
       </div>
       <FindDoctors />
-
+      <FindHospitals />
+      <Services />
     </div>
   );
 }

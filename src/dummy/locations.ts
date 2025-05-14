@@ -1,0 +1,1 @@
+export const locations = ["Alappuzha", "Kochi", "Thrissur"]
