@@ -1,11 +1,10 @@
 'use client'
-import Link from "next/link";
 import { ArrowRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { twMerge } from "tailwind-merge";
-import { usePathname } from "next/navigation";
 import { BrandLogo } from "../Logo";
+import Navigation from "../Navigation";
+import { SidebarTrigger } from "../ui/sidebar";
 
 const headerLinks = [
   {
@@ -13,11 +12,15 @@ const headerLinks = [
     link: "/",
   },
   {
-    label: "Features",
-    link: "/features"
+    label: "Find Doctors",
+    link: "/doctors"
   },
   {
-    label: "About us",
+    label: "Find Hospitals",
+    link: "/hospitls"
+  },
+  {
+    label: "About Us",
     link: "/about"
   },
   {
@@ -27,23 +30,18 @@ const headerLinks = [
 ];
 
 const Header = () => {
-  const pathname = usePathname()
   return (
     <div className="flex items-center justify-between py-4 px-6 border-b border-gray-100">
+      <div className="flex gap-2 items-center">
+        <div className="flex lg:hidden">
+        <SidebarTrigger />
+          
+        </div>
       <BrandLogo />
 
-      <nav className="flex items-center justify-center flex-1 mx-10">
-        <div className="flex space-x-8">
-          {headerLinks.map((item) => {
-            const isActive = pathname === item.link
-            return (
-              <Link key={item.link} href={item.link} className={twMerge("font-medium text-sm pb-1", isActive ? "text-[#1D453F]" : "text-[#004746]")}>
-                {item.label}
-              </Link>
-            );
-          })}
-        </div>
-      </nav>
+      </div>
+
+      <Navigation headerLinks={headerLinks} />
 
       <div className="flex items-center space-x-4">
         <div className="relative">
