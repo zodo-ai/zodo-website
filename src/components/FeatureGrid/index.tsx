@@ -45,27 +45,12 @@ const FeatureGrid = () => {
         },
     ]
 
-    const firstRow = features.slice(0, 3)
-    const secondRow = features.slice(3)
-
     return (
-        <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {firstRow.map((feature, idx) => (
-                    <div key={idx} className="w-full">
-                        <FeatureCard {...feature} />
-                    </div>
-                ))}
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {secondRow.map((feature, idx) => (
-                    <div key={idx} className="w-full">
-                        <FeatureCard {...feature} />
-                    </div>
-                ))}
-            </div>
-        </>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((feature, idx) => (
+                <FeatureCard key={idx} {...feature} />
+            ))}
+        </div>
     )
 }
 

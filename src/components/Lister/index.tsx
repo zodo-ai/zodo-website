@@ -14,7 +14,7 @@ const Lister = <T,>({ items, renderItem, itemsPerPage = 8 }: ListerProps<T>) => 
 
   return (
     <div className="flex flex-col items-center">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-7 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
         {items.slice(0, visibleCount).map((item, index) => (
           <React.Fragment key={index}>{renderItem(item)}</React.Fragment>
         ))}

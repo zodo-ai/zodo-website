@@ -4,6 +4,7 @@ import FindDoctors from "@/components/FindDoctors";
 import FindHospitals from "@/components/FindHospitals";
 import { Header } from "@/components/Header";
 import { Mugshots } from "@/components/Mugshots";
+import Privacy from "@/components/Privacy";
 import Services from "@/components/Services";
 
 
@@ -23,6 +24,7 @@ const Home = () => {
       <FindDoctors />
       <FindHospitals />
       <Services />
+      <Privacy />
     </div>
   );
 }
