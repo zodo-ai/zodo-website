@@ -15,7 +15,6 @@ import Services from "@/components/Services";
 const Home = () => {
   return (
     <div className="flex-1 space-y-10">
-      <Header />
       <div className="mt-16">
         <HeroTitle />
       </div>
@@ -32,7 +31,6 @@ const Home = () => {
       <AboutUs />
       <Reviews />
       <DownloadApp />
-        <Footer />
 
     </div>
   );

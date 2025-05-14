@@ -9,6 +9,8 @@ import DoctorOne from "~/png/DoctorOne.png";
 import DoctorTwo from "~/png/DoctorTwo.png"
 import DoctorThree from "~/png/DoctorThree.png"
 import DoctorFour from "~/png/DoctorFour.png"
+import SearchFilters from '../SearchFilters'
+import { doctorFilters, filters } from '@/dummy/filters'
 
 const doctors = [
     { name: 'Dr. Norman Colins', specialty: 'Dental Surgeon', image: DoctorOne },
@@ -23,11 +25,17 @@ const doctors = [
     { name: 'Dr. Steven Lee', specialty: 'Cardiology', image: DoctorTwo },
     { name: 'Dr. David Kim', specialty: 'Dental Surgeon', image: DoctorThree },
     { name: 'Dr. Johan Smith', specialty: 'Orthopedic', image: DoctorFour },
-
+    { name: 'Dr. Norman Colins', specialty: 'Dental Surgeon', image: DoctorOne },
+    { name: 'Dr. Steven Lee', specialty: 'Cardiology', image: DoctorTwo },
+    { name: 'Dr. David Kim', specialty: 'Dental Surgeon', image: DoctorThree },
+    { name: 'Dr. Johan Smith', specialty: 'Orthopedic', image: DoctorFour }, { name: 'Dr. Norman Colins', specialty: 'Dental Surgeon', image: DoctorOne },
+    { name: 'Dr. Steven Lee', specialty: 'Cardiology', image: DoctorTwo },
+    { name: 'Dr. David Kim', specialty: 'Dental Surgeon', image: DoctorThree },
+    { name: 'Dr. Johan Smith', specialty: 'Orthopedic', image: DoctorFour },
 
 ];
 
-const FindDoctors = () => {
+const FindDoctors = ({ showFilters = false, itemsPerPage }: { showFilters?: boolean; itemsPerPage?: number }) => {
     return (
         <div className='flex flex-col justify-center items-center gap-4'>
             <div>
@@ -42,9 +50,12 @@ const FindDoctors = () => {
                 />
             </div>
 
+            {showFilters && <div><SearchFilters filters={doctorFilters} /></div>}
+
             <section className="max-w-7xl mx-auto px-4 mb-20">
                 <Lister
                     items={doctors}
+                    itemsPerPage={itemsPerPage}
                     renderItem={(doctor) => (
                         <DoctorCard
                             name={doctor.name}
