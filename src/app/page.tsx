@@ -4,8 +4,6 @@ import Download from "@/components/Download";
 import DownloadApp from "@/components/DownloadApp";
 import FindDoctors from "@/components/FindDoctors";
 import FindHospitals from "@/components/FindHospitals";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import Mugshots from "@/components/Mugshots";
 import Privacy from "@/components/Privacy";
 import Reviews from "@/components/Reviews";

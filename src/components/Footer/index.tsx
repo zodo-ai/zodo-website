@@ -85,8 +85,10 @@ const Footer = () => {
 
                 {/* Company Address */}
                 <p className="text-sm text-center max-w-xs text-[#cbd5d7] leading-relaxed">
-                    Zodo Healthtech Pvt Ltd, 2nd Floor, Pioneer Tower, MG Road, Bengaluru, India - 560001
+                    ZODO HEALTH CARE PRIVATE LIMITED, Kannur, Kerala, PIN: 673316
                 </p>
+
+                
 
                 {/* Copyright */}
                 <p className=" text-[#CCDADA]">

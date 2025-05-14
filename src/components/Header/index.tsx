@@ -17,7 +17,7 @@ const headerLinks = [
   },
   {
     label: "Find Hospitals",
-    link: "/hospitls"
+    link: "/hospitals"
   },
   {
     label: "About Us",

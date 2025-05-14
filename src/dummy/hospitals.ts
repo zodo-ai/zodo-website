@@ -64,4 +64,84 @@ export const hospitals = [
     location: "Kochi",
     logo: HospitalFour,
   },
+  {
+    name: "Apollo",
+    location: "Kochi",
+    logo: HospitalOne,
+  },
+  {
+    name: "Manipal Hospital Old Airport Road",
+    location: "Alappuzha",
+    logo: HospitalTwo,
+  },
+  {
+    name: "KIMS Hospitals",
+    location: "Thrissur",
+    logo: HospitalThree,
+  },
+  {
+    name: "Yashoda Hospitals",
+    location: "Kochi",
+    logo: HospitalFour,
+  },
+  {
+    name: "Apollo",
+    location: "Kochi",
+    logo: HospitalOne,
+  },
+  {
+    name: "Manipal Hospital Old Airport Road",
+    location: "Alappuzha",
+    logo: HospitalTwo,
+  },
+  {
+    name: "KIMS Hospitals",
+    location: "Thrissur",
+    logo: HospitalThree,
+  },
+  {
+    name: "Yashoda Hospitals",
+    location: "Kochi",
+    logo: HospitalFour,
+  },
+  {
+    name: "Apollo",
+    location: "Kochi",
+    logo: HospitalOne,
+  },
+  {
+    name: "Manipal Hospital Old Airport Road",
+    location: "Alappuzha",
+    logo: HospitalTwo,
+  },
+  {
+    name: "KIMS Hospitals",
+    location: "Thrissur",
+    logo: HospitalThree,
+  },
+  {
+    name: "Yashoda Hospitals",
+    location: "Kochi",
+    logo: HospitalFour,
+  },
+  {
+    name: "Apollo",
+    location: "Kochi",
+    logo: HospitalOne,
+  },
+  {
+    name: "Manipal Hospital Old Airport Road",
+    location: "Alappuzha",
+    logo: HospitalTwo,
+  },
+  {
+    name: "KIMS Hospitals",
+    location: "Thrissur",
+    logo: HospitalThree,
+  },
+  {
+    name: "Yashoda Hospitals",
+    location: "Kochi",
+    logo: HospitalFour,
+  },
 ];

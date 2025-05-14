@@ -9,8 +9,10 @@ import SearchFilters from '../SearchFilters'
 import Lister from '../Lister'
 import HospitalCard from '../HospitalCard'
 import { hospitals } from '@/dummy/hospitals'
+import { useRouter } from 'next/navigation'
 
-const FindHospitals = () => {
+const FindHospitals = ({ itemsPerPage }: { itemsPerPage?: number }) => {
+    const router = useRouter()
     return (
         <div className='flex flex-col justify-center items-center gap-4'>
             <div>
@@ -33,12 +35,13 @@ const FindHospitals = () => {
             <section className="max-w-7xl mx-auto px-4 mb-20">
                 <Lister
                     items={hospitals}
+                    itemsPerPage={itemsPerPage}
                     renderItem={(hospital) => (
                         <HospitalCard
                             name={hospital.name}
                             location='Kochi'
                             logo={hospital.logo}
-                            onBook={() => console.log("Booked")}
+                            onBook={() => router.push(`/hospitals/${hospital.name}`)}
                         />
                     )}
                 />
