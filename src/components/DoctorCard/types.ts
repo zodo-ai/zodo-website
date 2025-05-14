@@ -4,4 +4,5 @@ export type DoctorCardProps = {
   name: string;
   specialty: string;
   image: string | StaticImageData;
+  onBook: () => void;
 };

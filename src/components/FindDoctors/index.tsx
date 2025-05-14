@@ -8,8 +8,10 @@ import DoctorCard from '../DoctorCard'
 import SearchFilters from '../SearchFilters'
 import { doctorFilters, filters } from '@/dummy/filters'
 import { doctors } from '@/dummy/doctors'
+import { useRouter } from 'next/navigation'
 
 const FindDoctors = ({ showFilters = false, itemsPerPage }: { showFilters?: boolean; itemsPerPage?: number }) => {
+    const router = useRouter()
     return (
         <div className='flex flex-col justify-center items-center gap-4'>
             <div>
@@ -35,6 +37,7 @@ const FindDoctors = ({ showFilters = false, itemsPerPage }: { showFilters?: bool
                             name={doctor.name}
                             specialty={doctor.specialty}
                             image={doctor.image}
+                            onBook={() => router.push(`/doctors/${doctor.name}`)}
                         />
                     )}
                 />
