@@ -13,13 +13,13 @@ import Services from "@/components/Services";
 const Home = () => {
   return (
     <div className="flex-1 space-y-10">
-      <div className="mt-16">
+      <div className="mt-8 lg:mt-16">
         <HeroTitle />
       </div>
       <div className="my-6">
         <Download />
       </div>
-      <div className="mt-36">
+      <div className="mt-12 lg:mt-36">
         <Mugshots />
       </div>
       <FindDoctors />

@@ -9,6 +9,7 @@ import SearchFilters from '../SearchFilters'
 import { doctorFilters } from '@/dummy/filters'
 import { doctors } from '@/dummy/doctors'
 import { useRouter } from 'next/navigation'
+import { locations } from '@/dummy/locations'
 
 const FindDoctors = ({ showFilters = false, itemsPerPage }: { showFilters?: boolean; itemsPerPage?: number }) => {
     const router = useRouter()
@@ -18,9 +19,9 @@ const FindDoctors = ({ showFilters = false, itemsPerPage }: { showFilters?: bool
                 <OutlinedHeader text='EASY AND FAST BOOKING' />
             </div>
             <CustomHead text='Find For Doctors' highlight='Doctors' />
-            <div className='mb-10 flex justify-center w-full items-center'>
+            <div className='mb-10 flex justify-center w-full items-center px-6'>
                 <CustomSearch
-                    locations={['Bangalore', 'Chennai', 'Delhi']}
+                    locations={locations}
                     onLocationChange={(loc) => console.log('Selected:', loc)}
                     onSearchChange={(q) => console.log('Search Query:', q)}
                 />
@@ -28,7 +29,7 @@ const FindDoctors = ({ showFilters = false, itemsPerPage }: { showFilters?: bool
 
             {showFilters && <div><SearchFilters filters={doctorFilters} /></div>}
 
-            <section className="max-w-7xl mx-auto px-4 mb-20">
+            <section className="max-w-7xl px-4 mb-20">
                 <Lister
                     items={doctors}
                     itemsPerPage={itemsPerPage}

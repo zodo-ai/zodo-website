@@ -19,7 +19,7 @@ const FindHospitals = ({ itemsPerPage }: { itemsPerPage?: number }) => {
                 <OutlinedHeader text='EASY AND FAST BOOKING' />
             </div>
             <CustomHead text='Find For Hospital' highlight='Hospital' />
-            <div className='mb-10 flex justify-center w-full items-center'>
+            <div className='mb-10 flex justify-center w-full items-center  px-6'>
                 <CustomSearch
                     locations={locations}
                     onLocationChange={(loc) => console.log('Selected:', loc)}

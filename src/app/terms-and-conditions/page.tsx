@@ -7,9 +7,17 @@ const Terms = () => {
             <h1 className="text-2xl font-bold mb-4">Terms & Conditions</h1>
             <p className="text-sm mb-2 text-gray-500">Last updated on 07-05-2025 08:54:29</p>
 
-            <p>These Terms and Conditions, along with privacy policy or other terms (“Terms”) constitute a binding agreement by and between ZODO HEALTH CARE PRIVATE LIMITED, (“Website Owner” or “we” or “us” or “our”) and you (“you” or “your”) and relate to your use of our website, goods (as applicable) or services (as applicable) (collectively, “Services”).</p>
-            <p>By using our website and availing the Services, you agree that you have read and accepted these Terms (including the Privacy Policy). We reserve the right to modify these Terms at any time and without assigning any reason. It is your responsibility to periodically review these Terms to stay informed of updates.</p>
+            <p>These Terms and Conditions, along with privacy policy or other terms (“Terms”) constitute a binding
+                agreement by and between ZODO HEALTH CARE PRIVATE LIMITED, ( “Website Owner” or “we”
+                or “us” or “our”) and you (“you” or “your”) and relate to your use of our website, goods (as applicable)
+                or services (as applicable) (collectively, “Services”).</p>
+            <br />
+            <p>
+                By using our website and availing the Services, you agree that you have read and accepted these Terms (including the Privacy Policy). We reserve the right to modify these Terms at any time and without assigning any reason. It is your responsibility to periodically review these Terms to stay informed of updates.</p>
+            <br />
 
+            <p>The use of this website or availing of our Services is subject to the following terms of use:</p>
+            <br />
             <ul className="list-disc list-inside space-y-2 mt-4">
                 <li>To access and use the Services, you agree to provide true, accurate and complete information to us during and after registration, and you shall be responsible for all acts done through the use of your registered account.</li>
                 <li>Neither we nor any third parties provide any warranty or guarantee as to the accuracy, timeliness, performance, completeness or suitability of the information and materials offered on this website or through the Services, for any specific purpose. You acknowledge that such information and materials may contain inaccuracies or errors and we expressly exclude liability for any such inaccuracies or errors to the fullest extent permitted by law.</li>

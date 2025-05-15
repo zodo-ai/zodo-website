@@ -1,13 +1,16 @@
+'use client'
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react'
 import { twMerge } from 'tailwind-merge';
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '../ui/sidebar';
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '../ui/sidebar';
 import { BrandLogo } from '../Logo';
 import { HeaderLinksI } from './types';
+import { Separator } from '../ui/separator';
 
 const Navigation = ({ headerLinks }: { headerLinks: HeaderLinksI[] }) => {
     const pathname = usePathname()
+    const { setOpenMobile } = useSidebar();
 
     return (
         <div>
@@ -16,7 +19,7 @@ const Navigation = ({ headerLinks }: { headerLinks: HeaderLinksI[] }) => {
                     {headerLinks.map((item) => {
                         const isActive = pathname === item.link
                         return (
-                            <Link key={item.link} href={item.link} className={twMerge("font-medium text-sm pb-1", isActive ? "text-[#1D453F]" : "text-[#004746]")}>
+                            <Link key={item.label} href={item.link} className={twMerge("font-medium text-sm pb-1", isActive ? "text-[#1D453F]" : "text-[#004746]")}>
                                 {item.label}
                             </Link>
                         );
@@ -26,22 +29,22 @@ const Navigation = ({ headerLinks }: { headerLinks: HeaderLinksI[] }) => {
 
             <Sidebar>
                 <SidebarContent>
-                    <SidebarGroup>
+                    <SidebarGroup className='flex'>
                         <SidebarGroupLabel>
-                            <div className='my-2'>
+                            <div className='my-auto mx-auto'>
                                 <BrandLogo />
 
                             </div>
                         </SidebarGroupLabel>
                         <SidebarGroupContent>
-                            <SidebarMenu className='mt-5'>
+                            <Separator className='my-6' />
+                            <SidebarMenu >
                                 {headerLinks.map((item) => {
                                     const isActive = pathname === item.link
-
                                     return (
-                                        <SidebarMenuItem key={item.link}>
+                                        <SidebarMenuItem key={item.label}>
                                             <SidebarMenuButton asChild>
-                                                <Link key={item.link} href={item.link} className={twMerge("font-medium text-sm pb-1", isActive ? "text-[#1D453F]" : "text-[#004746]")}>
+                                                <Link onClick={() => setOpenMobile(false)} key={item.link} href={item.link} className={twMerge("font-medium text-sm pb-1", isActive ? "text-[#1D453F]" : "text-[#004746]")}>
                                                     {item.label}
                                                 </Link>
                                             </SidebarMenuButton>

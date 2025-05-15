@@ -19,8 +19,8 @@ const options = [
 const Download = () => {
   return (
     <div className="flex justify-center">
-      <Image src={qr} alt="Qr code" width={136} height={136} />
-      <div className="flex flex-col gap-1 justify-center">
+      <Image className="hidden lg:flex" src={qr} alt="Qr code" width={136} height={136} />
+      <div className="flex flex-col-reverse lg:flex-col gap-1 justify-center items-center lg:items-start">
         <p className="text-[#004746] font-bold text-3xl">
           Download <span className="text-[#00BC72]">Now</span>
         </p>

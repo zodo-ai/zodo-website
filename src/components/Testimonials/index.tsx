@@ -55,8 +55,8 @@ const Testimonials = () => {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="w-10 h-10" />
-        <CarouselNext className="w-10 h-10" />
+        <CarouselPrevious className="w-10 h-10 hidden lg:flex" />
+        <CarouselNext className="w-10 h-10 hidden lg:flex" />
       </Carousel>
   );
 };

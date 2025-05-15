@@ -19,8 +19,7 @@ const DownloadApp = () => {
 
           <div className="flex flex-col sm:flex-row items-start md:items-center gap-4">
             <Image className="hidden md:flex" src={QRCode} alt="QR Code" width={100} height={100} />
-
-            <div className="flex gap-4">
+            <div className="space-y-3 lg:space-y-0 lg:flex gap-4">
               <Image src={AppStore} alt="Download on App Store" width={120} height={40} />
               <Image src={PlayStore} alt="Get it on Google Play" width={120} height={40} />
             </div>

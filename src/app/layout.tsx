@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-w-full flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full flex flex-col`}
       >
 
         <SidebarProvider className="flex-col" defaultOpen={false}>

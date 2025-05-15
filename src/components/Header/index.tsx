@@ -21,11 +21,11 @@ const headerLinks = [
   },
   {
     label: "About Us",
-    link: "/about"
+    link: "/"
   },
   {
     label: "Contact",
-    link: '/contact'
+    link: '/'
   }
 ];
 
@@ -43,8 +43,8 @@ const Header = () => {
 
       <Navigation headerLinks={headerLinks} />
 
-      <div className="flex items-center space-x-4">
-        <div className="relative">
+      <div className=" items-center space-x-4 hidden lg:flex">
+        <div className="relative ">
           <Search
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
             size={18}
@@ -55,7 +55,7 @@ const Header = () => {
             className="pl-10 pr-4 py-2 h-10 rounded-full border border-gray-200 focus:border-emerald-500 focus:ring-0 w-48"
           />
         </div>
-        <Button className="bg-[#1D453F] hover:bg-emerald-900 text-white rounded-full px-7 h-10">
+        <Button className="bg-[#1D453F] hover:bg-emerald-900 text-white rounded-full px-7 h-10 flex">
           Get Appointment
           <ArrowRight />
         </Button>

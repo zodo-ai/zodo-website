@@ -8,9 +8,10 @@ import Gradient from "~/png/GradientGreen.png";
 import OutlinedHeader from "../OutlinedHeader";
 import Thunder from "~/svg/SuperThunder.svg"
 import { Button } from "../ui/button";
+import links from "@/dummy/links";
+import Link from "next/link";
 
 const Footer = () => {
-    const navItems = ["Home", "About us", "Contact", "Terms & Conditions", "Privacy Policy"];
     const socialIcons = [SocialOne, SocialTwo, SocialThree];
 
     return (
@@ -61,13 +62,17 @@ const Footer = () => {
 
                 {/* Navigation Pills */}
                 <div className="flex flex-wrap justify-center gap-3">
-                    {navItems.map((item) => (
-                        <button
-                            key={item}
-                            className="bg-[#195654] hover:bg-[#236c6a] font-medium text-sm md:text-base px-4 py-2 rounded-full transition"
+                    {links.map((item) => (
+                        <Link
+                            key={item.label}
+                            href={item.link}
                         >
-                            {item}
-                        </button>
+                            <button
+                                className="bg-[#195654] hover:bg-[#236c6a] font-medium text-sm md:text-base px-4 py-2 rounded-full transition"
+                            >
+                                {item.label}
+                            </button>
+                        </Link>
                     ))}
                 </div>
 
@@ -88,7 +93,7 @@ const Footer = () => {
                     ZODO HEALTH CARE PRIVATE LIMITED, Kannur, Kerala, PIN: 673316
                 </p>
 
-                
+
 
                 {/* Copyright */}
                 <p className=" text-[#CCDADA]">
