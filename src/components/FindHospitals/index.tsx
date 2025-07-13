@@ -4,6 +4,7 @@ import OutlinedHeader from '../OutlinedHeader'
 import CustomHead from '../CustomHead'
 import CustomSearch from '../CustomSearch'
 import { locations } from '@/dummy/locations'
+import useDistrictsHook from '@/hooks/districts/use-hook'
 import { filters } from '@/dummy/filters'
 import SearchFilters from '../SearchFilters'
 import Lister from '../Lister'
@@ -16,9 +17,10 @@ import { HospitalsI } from '@/network/hospitals/types'
 interface FindHospitalsProps {
     itemsPerPage?: number;
     useApiData?: boolean; // Flag to switch between API and dummy data
+    useDistricts?: boolean; // Flag to use districts API instead of dummy locations
 }
 
-const FindHospitals = ({ itemsPerPage = 10, useApiData = true }: FindHospitalsProps) => {
+const FindHospitals = ({ itemsPerPage = 10, useApiData = true, useDistricts = true }: FindHospitalsProps) => {
     const router = useRouter()
 
 
@@ -31,15 +33,23 @@ const FindHospitals = ({ itemsPerPage = 10, useApiData = true }: FindHospitalsPr
         loadMore,
         search,
         filterByLocation,
+        filterByDistrict,
         error
     } = useHospitalListing({
         initialLimit: itemsPerPage,
         autoFetch: useApiData
     });
 
-    const handleLocationChange = (location: string) => {
+    // Use districts hook for location data
+    const { districts } = useDistrictsHook();
+
+    const handleLocationChange = (location: string, districtId?: string) => {
         if (useApiData) {
-            filterByLocation(location);
+            if (useDistricts && districtId) {
+                filterByDistrict(districtId);
+            } else {
+                filterByLocation(location);
+            }
         }
     };
 
@@ -57,9 +67,10 @@ const FindHospitals = ({ itemsPerPage = 10, useApiData = true }: FindHospitalsPr
             <CustomHead text='Find For Hospital' highlight='Hospital' />
             <div className='mb-10 flex justify-center w-full items-center px-6'>
                 <CustomSearch
-                    locations={locations}
+                    locations={useDistricts ? districts : locations}
                     onLocationChange={handleLocationChange}
                     onSearchChange={handleSearchChange}
+                    useDistricts={useDistricts}
                 />
             </div>
 

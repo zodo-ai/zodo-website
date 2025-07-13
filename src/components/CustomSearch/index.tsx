@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import clsx from 'clsx';
-import { CustomSearchPropsI } from './types';
+import { CustomSearchPropsI, LocationOption } from './types';
 import Location from "~/svg/location.svg"
 import Search from "~/svg/search.svg"
 import Chevron from "~/svg/ChevronDown.svg"
@@ -20,13 +20,34 @@ const CustomSearch: React.FC<CustomSearchPropsI> = ({
     locations,
     onLocationChange,
     onSearchChange,
+    useDistricts = false,
 }) => {
     const [selectedLocation, setSelectedLocation] = useState<string>('Location');
     const [query, setQuery] = useState<string>('');
+    const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
 
-    const handleSelectLocation = (location: string) => {
-        setSelectedLocation(location);
-        onLocationChange?.(location);
+    const handleSelectLocation = (location: LocationOption) => {
+        if (useDistricts && typeof location === 'object') {
+            setSelectedLocation(location.name);
+            onLocationChange?.(location.name, location.id);
+        } else if (typeof location === 'string') {
+            setSelectedLocation(location);
+            onLocationChange?.(location);
+        }
+        setIsPopoverOpen(false); // Close the popover after selection
+    };
+
+    const getLocationKey = (location: LocationOption): string => {
+        return typeof location === 'object' ? location.id : location;
+    };
+
+    const getLocationName = (location: LocationOption): string => {
+        return typeof location === 'object' ? location.name : location;
+    };
+
+    const isLocationSelected = (location: LocationOption): boolean => {
+        const locationName = getLocationName(location);
+        return locationName === selectedLocation;
     };
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,38 +57,42 @@ const CustomSearch: React.FC<CustomSearchPropsI> = ({
 
     return (
         <div className="flex w-full max-w-3xl rounded-full border shadow-xs overflow-hidden">
-            <Popover>
-                <PopoverTrigger className="flex items-center px-4 py-3 gap-2 text-gray-500 hover:bg-gray-100 focus:outline-none">
+            <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+                <PopoverTrigger className="flex items-center px-2 sm:px-4 py-3 gap-1 sm:gap-2 text-gray-500 hover:bg-gray-100 focus:outline-none min-w-0 flex-shrink-0">
                     <MapPin />
-                    <span className="text-sm">{selectedLocation}</span>
-                    <ChevronDown />
+                    <span className="text-xs sm:text-sm truncate max-w-[80px] sm:max-w-none">{selectedLocation}</span>
+                    <div className="flex-shrink-0">
+                        <ChevronDown />
+                    </div>
                 </PopoverTrigger>
                 <PopoverContent className="w-48 p-2">
                     <ul className="space-y-1">
                         {locations.map((location) => (
                             <li
-                                key={location}
+                                key={getLocationKey(location)}
                                 className={clsx(
                                     'cursor-pointer rounded px-2 py-1 text-sm hover:bg-gray-100',
-                                    location === selectedLocation && 'font-semibold text-green-600'
+                                    isLocationSelected(location) && 'font-semibold text-green-600'
                                 )}
                                 onClick={() => handleSelectLocation(location)}
                             >
-                                {location}
+                                {getLocationName(location)}
                             </li>
                         ))}
                     </ul>
                 </PopoverContent>
             </Popover>
 
-            <div className="w-px bg-gray-200 my-2" />
+            <div className="w-px bg-gray-200 my-2 flex-shrink-0" />
 
-            <div className="flex items-center px-4 py-3 flex-grow text-gray-500">
-                <SearchIcon />
+            <div className="flex items-center px-2 sm:px-4 py-3 flex-grow text-gray-500 min-w-0">
+                <div className="flex-shrink-0">
+                    <SearchIcon />
+                </div>
                 <Input
                     type="text"
                     placeholder="Search doctor, Hospital"
-                    className="border-none p-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none text-sm placeholder:text-gray-400"
+                    className="border-none p-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none text-xs sm:text-sm placeholder:text-gray-400 min-w-0"
                     value={query}
                     onChange={handleSearchChange}
                 />

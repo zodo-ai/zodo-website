@@ -18,6 +18,7 @@ const useHospitalListing = (options: UseHospitalListingOptionsI = {}): UseHospit
     const [totalItems, setTotalItems] = useState(0);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [locationFilter, setLocationFilter] = useState<string>('');
+    const [districtFilter, setDistrictFilter] = useState<string>('');
 
     const fetchHospitals = useCallback(async (params: FetchHospitalsParams, isLoadMore = false) => {
         try {
@@ -63,8 +64,9 @@ const useHospitalListing = (options: UseHospitalListingOptionsI = {}): UseHospit
             limit: initialLimit,
             name: searchQuery || undefined,
             location: locationFilter || undefined,
+            district_id: districtFilter || undefined,
         }, true);
-    }, [currentPage, totalPages, loadingMore, initialLimit, searchQuery, locationFilter, fetchHospitals]);
+    }, [currentPage, totalPages, loadingMore, initialLimit, searchQuery, locationFilter, districtFilter, fetchHospitals]);
 
     const refresh = useCallback(() => {
         setCurrentPage(1);
@@ -73,8 +75,9 @@ const useHospitalListing = (options: UseHospitalListingOptionsI = {}): UseHospit
             limit: initialLimit,
             name: searchQuery || undefined,
             location: locationFilter || undefined,
+            district_id: districtFilter || undefined,
         });
-    }, [initialLimit, searchQuery, locationFilter, fetchHospitals]);
+    }, [initialLimit, searchQuery, locationFilter, districtFilter, fetchHospitals]);
 
     const search = useCallback((query: string) => {
         setSearchQuery(query);
@@ -84,8 +87,9 @@ const useHospitalListing = (options: UseHospitalListingOptionsI = {}): UseHospit
             limit: initialLimit,
             name: query || undefined,
             location: locationFilter || undefined,
+            district_id: districtFilter || undefined,
         });
-    }, [initialLimit, locationFilter, fetchHospitals]);
+    }, [initialLimit, locationFilter, districtFilter, fetchHospitals]);
 
     const filterByLocation = useCallback((location: string) => {
         setLocationFilter(location);
@@ -95,12 +99,26 @@ const useHospitalListing = (options: UseHospitalListingOptionsI = {}): UseHospit
             limit: initialLimit,
             name: searchQuery || undefined,
             location: location || undefined,
+            district_id: districtFilter || undefined,
         });
-    }, [initialLimit, searchQuery, fetchHospitals]);
+    }, [initialLimit, searchQuery, districtFilter, fetchHospitals]);
+
+    const filterByDistrict = useCallback((districtId: string) => {
+        setDistrictFilter(districtId);
+        setCurrentPage(1);
+        fetchHospitals({
+            page: 1,
+            limit: initialLimit,
+            name: searchQuery || undefined,
+            location: locationFilter || undefined,
+            district_id: districtId || undefined,
+        });
+    }, [initialLimit, searchQuery, locationFilter, fetchHospitals]);
 
     const clearFilters = useCallback(() => {
         setSearchQuery('');
         setLocationFilter('');
+        setDistrictFilter('');
         setCurrentPage(1);
         fetchHospitals({
             page: 1,
@@ -132,6 +150,7 @@ const useHospitalListing = (options: UseHospitalListingOptionsI = {}): UseHospit
         refresh,
         search,
         filterByLocation,
+        filterByDistrict,
         clearFilters,
     };
 };

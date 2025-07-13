@@ -10,11 +10,47 @@ import { doctorFilters } from '@/dummy/filters'
 import { doctors } from '@/dummy/doctors'
 import { useRouter } from 'next/navigation'
 import { locations } from '@/dummy/locations'
-import useHospitalListing from '@/hooks/hospitals/use-hook'
+import useDoctorListing from '@/hooks/doctors/use-hook'
+import useDistrictsHook from '@/hooks/districts/use-hook'
+import { DoctorI } from '@/network/doctors/types'
 
-const FindDoctors = ({ showFilters = false, itemsPerPage }: { showFilters?: boolean; itemsPerPage?: number }) => {
+interface FindDoctorsProps {
+    showFilters?: boolean;
+    itemsPerPage?: number;
+    useApiData?: boolean;
+    useDistricts?: boolean;
+}
+
+const FindDoctors = ({ showFilters = false, itemsPerPage = 10, useApiData = true, useDistricts = true }: FindDoctorsProps) => {
     const router = useRouter()
-    const { loading } = useHospitalListing()
+
+    const {
+        doctors: apiDoctors,
+        loading,
+        loadingMore,
+        hasMore,
+        loadMore,
+        search,
+        filterByCity,
+        error
+    } = useDoctorListing({
+        initialLimit: itemsPerPage,
+        autoFetch: useApiData
+    });
+
+    const { districts } = useDistrictsHook();
+
+    const handleLocationChange = (location: string, _districtId?: string) => {
+        if (useApiData) {
+            filterByCity(location);
+        }
+    };
+
+    const handleSearchChange = (query: string) => {
+        if (useApiData) {
+            search(query);
+        }
+    };
     return (
         <div className='flex flex-col justify-center items-center gap-4'>
             <div>
@@ -23,27 +59,53 @@ const FindDoctors = ({ showFilters = false, itemsPerPage }: { showFilters?: bool
             <CustomHead text='Find For Doctors' highlight='Doctors' />
             <div className='mb-10 flex justify-center w-full items-center px-6'>
                 <CustomSearch
-                    locations={locations}
-                    onLocationChange={(loc) => console.log('Selected:', loc)}
-                    onSearchChange={(q) => console.log('Search Query:', q)}
+                    locations={useDistricts ? districts : locations}
+                    onLocationChange={handleLocationChange}
+                    onSearchChange={handleSearchChange}
+                    useDistricts={useDistricts}
                 />
             </div>
 
             {showFilters && <div><SearchFilters filters={doctorFilters} /></div>}
 
+            {error && useApiData && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+                    <p>Error loading doctors: {error}</p>
+                </div>
+            )}
+
             <section className="max-w-7xl px-4 mb-20">
-                <Lister
-                    items={doctors}
-                    itemsPerPage={itemsPerPage}
-                    renderItem={(doctor) => (
-                        <DoctorCard
-                            name={doctor.name}
-                            specialty={doctor.specialty}
-                            image={doctor.image}
-                            onBook={() => router.push(`/doctors/${doctor.name}`)}
-                        />
-                    )}
-                />
+                {useApiData ? (
+                    <Lister<DoctorI>
+                        items={apiDoctors}
+                        itemsPerPage={itemsPerPage}
+                        hasMore={hasMore}
+                        loading={loading}
+                        loadingMore={loadingMore}
+                        onLoadMore={loadMore}
+                        useLegacyPagination={false}
+                        renderItem={(doctor) => (
+                            <DoctorCard
+                                doctor={doctor}
+                                onBook={() => router.push(`/doctors/${doctor.id}`)}
+                            />
+                        )}
+                    />
+                ) : (
+                    <Lister
+                        items={doctors}
+                        itemsPerPage={itemsPerPage}
+                        useLegacyPagination={true}
+                        renderItem={(doctor) => (
+                            <DoctorCard
+                                name={doctor.name}
+                                specialty={doctor.specialty}
+                                image={doctor.image}
+                                onBook={() => router.push(`/doctors/${doctor.name}`)}
+                            />
+                        )}
+                    />
+                )}
             </section>
         </div>
     )

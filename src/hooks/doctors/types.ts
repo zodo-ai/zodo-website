@@ -1,7 +1,7 @@
-import { HospitalsI } from "@/network/hospitals/types";
+import { DoctorI } from "@/network/doctors/types";
 
-export type UseHospitalListingReturnI = {
-    hospitals: HospitalsI[];
+export interface UseDoctorListingReturnI {
+    doctors: DoctorI[];
     loading: boolean;
     loadingMore: boolean;
     error: string | null;
@@ -12,12 +12,12 @@ export type UseHospitalListingReturnI = {
     loadMore: () => void;
     refresh: () => void;
     search: (query: string) => void;
-    filterByLocation: (location: string) => void;
-    filterByDistrict: (districtId: string) => void;
+    filterByCity: (city: string) => void;
+    filterByHospital: (hospitalId: string) => void;
     clearFilters: () => void;
 }
 
-export type UseHospitalListingOptionsI = {
+export interface UseDoctorListingOptionsI {
     initialLimit?: number;
     autoFetch?: boolean;
 }

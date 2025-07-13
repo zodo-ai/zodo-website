@@ -18,7 +18,7 @@ function HospitalCard(props: HospitalCardPropsI | LegacyHospitalCardPropsI): Rea
                         alt={hospital.name}
                         width={230}
                         height={182}
-                        className="object-cover mb-4"
+                        className="object-cover mb-4 w-[230px] h-[182px]"
                     />
                 ) : (
                     <div className="w-[230px] h-[182px] bg-gray-200 flex items-center justify-center mb-4 rounded">

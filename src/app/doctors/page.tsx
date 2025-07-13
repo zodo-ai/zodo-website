@@ -6,7 +6,7 @@ import React from 'react'
 const Doctors = () => {
     return (
         <div className='mt-20'>
-            <FindDoctors showFilters={true} itemsPerPage={16} />
+            <FindDoctors showFilters={true} itemsPerPage={10} useApiData={true} useDistricts={true} />
             <Reviews />
             <DownloadApp />
         </div>

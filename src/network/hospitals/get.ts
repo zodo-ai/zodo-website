@@ -6,10 +6,11 @@ export interface FetchHospitalsParams {
     limit?: number;
     name?: string;
     location?: string;
+    district_id?: string;
 }
 
 export const fetchHospitalsAPI = async (params: FetchHospitalsParams = {}): Promise<HospitalDataI> => {
-    const { page = 1, limit = 10, name, location } = params;
+    const { page = 1, limit = 10, name, location, district_id } = params;
 
     const query: Record<string, string | number> = {
         page,
@@ -22,6 +23,10 @@ export const fetchHospitalsAPI = async (params: FetchHospitalsParams = {}): Prom
 
     if (location) {
         query.location = location;
+    }
+
+    if (district_id) {
+        query.district_id = district_id;
     }
 
     return await apiCall("hospitals", "GET", {
