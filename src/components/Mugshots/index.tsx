@@ -21,7 +21,7 @@ const Mugshots = () => {
                             className="w-full max-w-[1289px] h-auto object-cover hidden lg:flex"
                         />
                     </div>
-                    <div className="flex flex-col gap-10 items-center">
+                    <div className="flex flex-col lg:hidden gap-10 items-center">
                         <Image src={Phone} alt="Mughshot" width={200} height={311} className="object-contain" />
                         <div className="flex flex-shrink">
                             <TrustedBy />
@@ -31,7 +31,7 @@ const Mugshots = () => {
                 </div>
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent hidden lg:flex" />
-                <div className="absolute bottom-0 left-0 right-0 h-[50%] hidden lg:flex" >
+                <div className="absolute bottom-0 left-0 right-0 h-[40%] hidden lg:flex" >
                     <div className="absolute bottom-0 left-0 right-0 bg-white h-full hidden lg:flex justify-center">
                         <div className="mt-12">
                             <TrustedBrands />
