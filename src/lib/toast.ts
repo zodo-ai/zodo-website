@@ -15,7 +15,7 @@ export const showToast = ({
 }: ShowToastOptionsI): void => {
   const options: ToastOptions = {
     duration: visibilityTime,
-    position: 'bottom-center',
+    position: 'top-right',
   };
 
   if (type === 'success') {

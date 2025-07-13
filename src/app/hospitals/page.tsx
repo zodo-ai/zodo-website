@@ -6,7 +6,7 @@ import React from 'react'
 const Hospitals = () => {
   return (
      <div className='mt-20'>
-            <FindHospitals itemsPerPage={16} />
+            <FindHospitals itemsPerPage={16} useApiData={true} />
             <Reviews />
             <DownloadApp />
         </div>

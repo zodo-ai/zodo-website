@@ -10,9 +10,11 @@ import { doctorFilters } from '@/dummy/filters'
 import { doctors } from '@/dummy/doctors'
 import { useRouter } from 'next/navigation'
 import { locations } from '@/dummy/locations'
+import useHospitalListing from '@/hooks/hospitals/use-hook'
 
 const FindDoctors = ({ showFilters = false, itemsPerPage }: { showFilters?: boolean; itemsPerPage?: number }) => {
     const router = useRouter()
+    const { loading } = useHospitalListing()
     return (
         <div className='flex flex-col justify-center items-center gap-4'>
             <div>
