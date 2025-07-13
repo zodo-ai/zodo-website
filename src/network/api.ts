@@ -89,7 +89,6 @@ export const apiCall = async <PayloadT = unknown, ResponseT = unknown>(
     { payload, query, routeId, headers }: APICallI<PayloadT> = {},
 ): Promise<ResponseT> => {
     try {
-        console.log(BASE_URL, 'baseURl');
         const url = generateUrl({
             baseUrl: BASE_URL,
             path,
@@ -125,7 +124,6 @@ export const apiCall = async <PayloadT = unknown, ResponseT = unknown>(
         const isJson = contentType?.includes('application/json');
         const json = isJson ? await response.json() : null;
         
-        // console.log(json, query, payload, 'jsonChecking....')
         if (response.status >= 200 && response.status < 300) {
             return json as ResponseT;
         }
