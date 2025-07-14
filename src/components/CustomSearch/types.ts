@@ -4,7 +4,8 @@ export type LocationOption = string | DistrictI;
 
 export type CustomSearchPropsI = {
   locations: LocationOption[];
+  placeholder: string;
   onLocationChange?: (location: string, districtId?: string) => void;
   onSearchChange?: (query: string) => void;
-  useDistricts?: boolean; // Flag to determine if using district objects or strings
+  useDistricts?: boolean; 
 };

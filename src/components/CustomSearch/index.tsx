@@ -21,6 +21,7 @@ const CustomSearch: React.FC<CustomSearchPropsI> = ({
     onLocationChange,
     onSearchChange,
     useDistricts = false,
+    placeholder = 'Search'
 }) => {
     const [selectedLocation, setSelectedLocation] = useState<string>('Location');
     const [query, setQuery] = useState<string>('');
@@ -91,7 +92,7 @@ const CustomSearch: React.FC<CustomSearchPropsI> = ({
                 </div>
                 <Input
                     type="text"
-                    placeholder="Search doctor, Hospital"
+                    placeholder={placeholder}
                     className="border-none p-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none text-xs sm:text-sm placeholder:text-gray-400 min-w-0"
                     value={query}
                     onChange={handleSearchChange}

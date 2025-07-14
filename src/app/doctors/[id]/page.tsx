@@ -22,7 +22,7 @@ const DoctorDetailed = () => {
                         <DoctorDetails />
                     </div>
                     <div className="flex flex-col items-center justify-center gap-10 mb-10">
-                        <CustomSearch locations={locations} />
+                        <CustomSearch locations={locations} placeholder="Search your doctor" />
                         <SearchFilters filters={hospitalDoctorFilters} />
                     </div>
                 </div>

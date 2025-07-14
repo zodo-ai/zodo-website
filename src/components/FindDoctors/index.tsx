@@ -63,6 +63,7 @@ const FindDoctors = ({ showFilters = false, itemsPerPage = 10, useApiData = true
                     onLocationChange={handleLocationChange}
                     onSearchChange={handleSearchChange}
                     useDistricts={useDistricts}
+                    placeholder='Search for doctors'
                 />
             </div>
 

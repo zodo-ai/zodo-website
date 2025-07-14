@@ -71,6 +71,7 @@ const FindHospitals = ({ itemsPerPage = 10, useApiData = true, useDistricts = tr
                     onLocationChange={handleLocationChange}
                     onSearchChange={handleSearchChange}
                     useDistricts={useDistricts}
+                    placeholder='Search for hospitals'
                 />
             </div>
 
