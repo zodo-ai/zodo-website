@@ -31,8 +31,8 @@ const DoctorDetailed = () => {
 
     const { districts } = useDistrictsHook();
 
-    const handleLocationChange = (location: string, _districtId?: string) => {
-        filterByCity(location);
+    const handleLocationChange = (_location: string, districtId?: string | null) => {
+        filterByCity(districtId || null);
     };
 
     const handleSearchChange = (query: string) => {

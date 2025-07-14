@@ -1,5 +1,5 @@
 export interface DistrictI {
-    id: string;
+    id: string | null;
     name: string;
     state?: string;
     created_at?: string;

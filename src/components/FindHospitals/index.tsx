@@ -43,7 +43,7 @@ const FindHospitals = ({ itemsPerPage = 10, useApiData = true, useDistricts = tr
     // Use districts hook for location data
     const { districts } = useDistrictsHook();
 
-    const handleLocationChange = (location: string, districtId?: string) => {
+    const handleLocationChange = (location: string, districtId?: string | null) => {
         if (useApiData) {
             if (useDistricts && districtId) {
                 filterByDistrict(districtId);

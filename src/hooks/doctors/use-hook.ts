@@ -15,7 +15,7 @@ const useDoctorListing = (options: UseDoctorListingOptionsI = {}): UseDoctorList
     const [totalPages, setTotalPages] = useState(0);
     const [totalItems, setTotalItems] = useState(0);
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [cityFilter, setCityFilter] = useState<string>('');
+    const [districtFilter, setDistrictFilter] = useState<string>('');
     const [hospitalFilter, setHospitalFilter] = useState<string>('');
 
     const fetchDoctors = useCallback(async (params: FetchDoctorsParams, isLoadMore = false) => {
@@ -86,10 +86,10 @@ const useDoctorListing = (options: UseDoctorListingOptionsI = {}): UseDoctorList
             page: nextPage,
             limit: initialLimit,
             name: searchQuery || undefined,
-            city: cityFilter || undefined,
+            district_id: districtFilter || undefined,
             hospital_id: hospitalFilter || undefined,
         }, true);
-    }, [currentPage, totalPages, loadingMore, initialLimit, searchQuery, cityFilter, hospitalFilter, fetchDoctors]);
+    }, [currentPage, totalPages, loadingMore, initialLimit, searchQuery, districtFilter, hospitalFilter, fetchDoctors]);
 
     const refresh = useCallback(() => {
         setCurrentPage(1);
@@ -97,10 +97,10 @@ const useDoctorListing = (options: UseDoctorListingOptionsI = {}): UseDoctorList
             page: 1,
             limit: initialLimit,
             name: searchQuery || undefined,
-            city: cityFilter || undefined,
+            district_id: districtFilter || undefined,
             hospital_id: hospitalFilter || undefined,
         });
-    }, [initialLimit, searchQuery, cityFilter, hospitalFilter, fetchDoctors]);
+    }, [initialLimit, searchQuery, districtFilter, hospitalFilter, fetchDoctors]);
 
     const search = useCallback((query: string) => {
         setSearchQuery(query);
@@ -109,19 +109,19 @@ const useDoctorListing = (options: UseDoctorListingOptionsI = {}): UseDoctorList
             page: 1,
             limit: initialLimit,
             name: query || undefined,
-            city: cityFilter || undefined,
+            district_id: districtFilter || undefined,
             hospital_id: hospitalFilter || undefined,
         });
-    }, [initialLimit, cityFilter, hospitalFilter, fetchDoctors]);
+    }, [initialLimit, districtFilter, hospitalFilter, fetchDoctors]);
 
-    const filterByCity = useCallback((city: string) => {
-        setCityFilter(city);
+    const filterByCity = useCallback((districtId: string | null) => {
+        setDistrictFilter(districtId || '');
         setCurrentPage(1);
         fetchDoctors({
             page: 1,
             limit: initialLimit,
             name: searchQuery || undefined,
-            city: city || undefined,
+            district_id: districtId || undefined,
             hospital_id: hospitalFilter || undefined,
         });
     }, [initialLimit, searchQuery, hospitalFilter, fetchDoctors]);
@@ -133,14 +133,14 @@ const useDoctorListing = (options: UseDoctorListingOptionsI = {}): UseDoctorList
             page: 1,
             limit: initialLimit,
             name: searchQuery || undefined,
-            city: cityFilter || undefined,
+            district_id: districtFilter || undefined,
             hospital_id: hospitalId || undefined,
         });
-    }, [initialLimit, searchQuery, cityFilter, fetchDoctors]);
+    }, [initialLimit, searchQuery, districtFilter, fetchDoctors]);
 
     const clearFilters = useCallback(() => {
         setSearchQuery('');
-        setCityFilter('');
+        setDistrictFilter('');
         setHospitalFilter('');
         setCurrentPage(1);
         fetchDoctors({

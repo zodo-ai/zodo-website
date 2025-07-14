@@ -46,6 +46,11 @@ export type HospitalsI = {
   created_at: string;
 };
 
+// Hospital detail response type
+export interface HospitalDetailResponseI {
+  data: HospitalsI;
+}
+
 type BankDetailsI = {
   ifsc: string;
   upi_id: string;

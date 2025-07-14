@@ -103,8 +103,8 @@ const useHospitalListing = (options: UseHospitalListingOptionsI = {}): UseHospit
         });
     }, [initialLimit, searchQuery, districtFilter, fetchHospitals]);
 
-    const filterByDistrict = useCallback((districtId: string) => {
-        setDistrictFilter(districtId);
+    const filterByDistrict = useCallback((districtId: string | null) => {
+        setDistrictFilter(districtId || '');
         setCurrentPage(1);
         fetchHospitals({
             page: 1,

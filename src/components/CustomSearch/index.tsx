@@ -30,16 +30,16 @@ const CustomSearch: React.FC<CustomSearchPropsI> = ({
     const handleSelectLocation = (location: LocationOption) => {
         if (useDistricts && typeof location === 'object') {
             setSelectedLocation(location.name);
-            onLocationChange?.(location.name, location.id);
+            onLocationChange?.(location.name, (location?.id));
         } else if (typeof location === 'string') {
             setSelectedLocation(location);
             onLocationChange?.(location);
         }
-        setIsPopoverOpen(false); // Close the popover after selection
+        setIsPopoverOpen(false);
     };
 
-    const getLocationKey = (location: LocationOption): string => {
-        return typeof location === 'object' ? location.id : location;
+    const getLocationKey = (location: LocationOption): string | null => {
+        return typeof location === 'object' ? location?.id : location;
     };
 
     const getLocationName = (location: LocationOption): string => {

@@ -13,11 +13,18 @@ export type UseHospitalListingReturnI = {
     refresh: () => void;
     search: (query: string) => void;
     filterByLocation: (location: string) => void;
-    filterByDistrict: (districtId: string) => void;
+    filterByDistrict: (districtId: string | null) => void;
     clearFilters: () => void;
 }
 
 export type UseHospitalListingOptionsI = {
     initialLimit?: number;
     autoFetch?: boolean;
+}
+
+export interface UseHospitalDetailReturn {
+    hospital: HospitalsI | null;
+    loading: boolean;
+    error: string | null;
+    refresh: () => void;
 }

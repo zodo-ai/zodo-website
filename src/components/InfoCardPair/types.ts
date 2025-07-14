@@ -1,7 +1,7 @@
 import { StaticImageData } from "next/image"
 
 export type LeftCardInfoI = {
-  imageSrc: StaticImageData
+  imageSrc: StaticImageData | string
   title: string
   subtitle: string
   rating?: {

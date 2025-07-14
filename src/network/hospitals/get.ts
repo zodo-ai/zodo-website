@@ -1,12 +1,12 @@
 import { apiCall } from "../api"
-import { HospitalDataI } from "./types";
+import { HospitalDataI, HospitalDetailResponseI, HospitalsI } from "./types";
 
 export interface FetchHospitalsParams {
     page?: number;
     limit?: number;
     name?: string;
     location?: string;
-    district_id?: string;
+    district_id?: string | null;
 }
 
 export const fetchHospitalsAPI = async (params: FetchHospitalsParams = {}): Promise<HospitalDataI> => {
@@ -25,11 +25,15 @@ export const fetchHospitalsAPI = async (params: FetchHospitalsParams = {}): Prom
         query.location = location;
     }
 
-    if (district_id) {
+    if (district_id && district_id !== "null") {
         query.district_id = district_id;
     }
 
     return await apiCall("hospitals", "GET", {
         query
     });
-}
+};
+
+export const fetchHospitalDetailAPI = async (hospitalId: string): Promise<HospitalsI> => {
+    return await apiCall(`hospitals/${hospitalId}`, "GET", {});
+};

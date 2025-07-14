@@ -12,7 +12,7 @@ export interface UseDoctorListingReturnI {
     loadMore: () => void;
     refresh: () => void;
     search: (query: string) => void;
-    filterByCity: (city: string) => void;
+    filterByCity: (districtId: string | null) => void;
     filterByHospital: (hospitalId: string) => void;
     clearFilters: () => void;
 }

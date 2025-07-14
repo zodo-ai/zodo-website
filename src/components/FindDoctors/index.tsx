@@ -40,9 +40,9 @@ const FindDoctors = ({ showFilters = false, itemsPerPage = 10, useApiData = true
 
     const { districts } = useDistrictsHook();
 
-    const handleLocationChange = (location: string, _districtId?: string) => {
+    const handleLocationChange = (_location: string, districtId?: string | null) => {
         if (useApiData) {
-            filterByCity(location);
+            filterByCity(String(districtId));
         }
     };
 

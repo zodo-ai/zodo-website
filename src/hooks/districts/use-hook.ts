@@ -20,7 +20,12 @@ const useDistricts = (): UseDistrictsReturn => {
             setLoading(true);
             setError(null);
             const response = await fetchDistrictsAPI();
-            setDistricts(response.data || response as any); // Handle different response formats
+            const districtsWithDefault = [
+                { id: null, name: 'Choose' },
+                ...(response.data || (response as any))
+            ];
+            
+            setDistricts(districtsWithDefault); 
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to fetch districts';
             setError(errorMessage);
