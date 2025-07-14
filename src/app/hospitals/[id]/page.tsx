@@ -6,8 +6,7 @@ import DoctorCard from "@/components/DoctorCard";
 import DownloadApp from "@/components/DownloadApp";
 import HospitalDetails from "@/components/HospitalDetails";
 import Lister from "@/components/Lister";
-import SearchFilters from "@/components/SearchFilters";
-import { hospitalDoctorFilters } from "@/dummy/filters";
+
 import { useRouter, useParams } from "next/navigation";
 import useDoctorListing from "@/hooks/doctors/use-hook";
 import useHospitalDetail from "@/hooks/hospitals/use-detail-hook";
@@ -96,6 +95,13 @@ const HospitalDetailed = () => {
                     loadingMore={loadingMore}
                     onLoadMore={loadMore}
                     useLegacyPagination={false}
+                    noResultsTitle="No doctors found in this hospital"
+                    noResultsDescription="This hospital doesn't have any doctors available at the moment, or they don't match your search criteria."
+                    noResultsIcon={
+                        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    }
                     renderItem={(doctor) => (
                         <DoctorCard
                             doctor={doctor}

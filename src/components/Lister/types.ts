@@ -9,4 +9,9 @@ export type ListerProps<T> = {
   onLoadMore?: () => void;
   // Legacy mode for backward compatibility
   useLegacyPagination?: boolean;
+  // No results customization
+  noResultsTitle?: string;
+  noResultsDescription?: string;
+  noResultsIcon?: React.ReactNode;
+  noResultsAction?: React.ReactNode;
 };
