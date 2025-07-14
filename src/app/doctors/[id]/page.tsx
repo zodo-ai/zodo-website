@@ -6,13 +6,38 @@ import DoctorDetails from "@/components/DoctorDetails";
 import DownloadApp from "@/components/DownloadApp";
 import Lister from "@/components/Lister";
 import SearchFilters from "@/components/SearchFilters";
-import { doctors } from "@/dummy/doctors";
 import { hospitalDoctorFilters } from "@/dummy/filters";
-import { locations } from "@/dummy/locations";
 import { useRouter } from "next/navigation";
+import useDoctorListing from "@/hooks/doctors/use-hook";
+import useDistrictsHook from "@/hooks/districts/use-hook";
+import { DoctorI } from "@/network/doctors/types";
 
 const DoctorDetailed = () => {
     const router = useRouter()
+
+    const {
+        doctors: apiDoctors,
+        loading,
+        loadingMore,
+        hasMore,
+        loadMore,
+        search,
+        filterByCity,
+        error
+    } = useDoctorListing({
+        initialLimit: 12,
+        autoFetch: true
+    });
+
+    const { districts } = useDistrictsHook();
+
+    const handleLocationChange = (location: string, _districtId?: string) => {
+        filterByCity(location);
+    };
+
+    const handleSearchChange = (query: string) => {
+        search(query);
+    };
     return (
         <div>
             <div className="flex flex-col items-center justify-center">
@@ -22,22 +47,36 @@ const DoctorDetailed = () => {
                         <DoctorDetails />
                     </div>
                     <div className="flex flex-col items-center justify-center gap-10 mb-10">
-                        <CustomSearch locations={locations} placeholder="Search your doctor" />
-                        <SearchFilters filters={hospitalDoctorFilters} />
+                        <CustomSearch
+                            locations={districts}
+                            onLocationChange={handleLocationChange}
+                            onSearchChange={handleSearchChange}
+                            useDistricts={true}
+                        />
                     </div>
                 </div>
             </div>
 
+            {/* Error state */}
+            {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 max-w-7xl mx-auto">
+                    <p>Error loading doctors: {error}</p>
+                </div>
+            )}
+
             <section className="max-w-7xl mx-auto px-4 mb-10">
-                <Lister
-                    items={doctors}
+                <Lister<DoctorI>
+                    items={apiDoctors}
                     itemsPerPage={12}
+                    hasMore={hasMore}
+                    loading={loading}
+                    loadingMore={loadingMore}
+                    onLoadMore={loadMore}
+                    useLegacyPagination={false}
                     renderItem={(doctor) => (
                         <DoctorCard
-                            name={doctor.name}
-                            specialty={doctor.specialty}
-                            image={doctor.image}
-                            onBook={() => router.push(`/doctors/${doctor.name}`)}
+                            doctor={doctor}
+                            onBook={() => router.push(`/doctors/${doctor.id}`)}
                         />
                     )}
                 />
