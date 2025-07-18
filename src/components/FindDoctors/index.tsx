@@ -95,7 +95,7 @@ const FindDoctors = ({ showFilters = false, itemsPerPage = 10, useApiData = true
                         renderItem={(doctor) => (
                             <DoctorCard
                                 doctor={doctor}
-                                onBook={() => router.push(`/doctors/${doctor.id}`)}
+                                onBook={() => router.push(`/doctors/${doctor.slug || doctor.id}`)}
                             />
                         )}
                     />

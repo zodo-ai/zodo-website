@@ -1,25 +1,39 @@
 import React from 'react'
 import InfoCardPair from '../InfoCardPair'
 import HospitalOne from "~/png/HospitalOne.png"
+import { DoctorI } from '@/network/doctors/types'
 
-const DoctorDetails = () => {
+interface DoctorDetailsProps {
+    doctor?: DoctorI | null;
+    loading?: boolean;
+}
+
+const DoctorDetails = ({ doctor, loading }: DoctorDetailsProps) => {
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1B7C7B]"></div>
+            </div>
+        );
+    }
+
     return (
         <div>
             <InfoCardPair
                 leftCard={{
-                    imageSrc: HospitalOne,
-                    title: 'Dr. Shomolu Bariga',
-                    subtitle: 'Dentist',
-                    rating: { value: 4.9, count: 623 },
-                    location: '100 Patients 12 year exp',
-                    phone: '+0479 232344233',
-                    tag: 'Apollo Hospital',
+                    imageSrc: doctor?.profile_pic && doctor.profile_pic.trim() !== '' ? doctor.profile_pic : HospitalOne,
+                    title: doctor?.name || 'Dr. Shomolu Bariga',
+                    subtitle: 'Doctor', // Could be enhanced with specialty field if available
+                    rating: { value: 4.9, count: 623 }, // Default values since not in API
+                    location: doctor?.city ? `${doctor.city} • Experience` : '100 Patients 12 year exp',
+                    phone: doctor?.phone_number || '',
+                    tag: doctor?.hospital_id ? 'Hospital Doctor' : 'Independent Practice',
                 }}
                 rightCard={{
                     heading: 'About Me',
-                    description: `Dr. Shomolu Bariga is a Dentist from Osun State. 
-He practices at General Hospital
-He practices at General HospitalHe practices at General HospitalHe practices at General HospitalHe practices at General HospitalHe practices at General HospitalHe practices at General HospitalHe practices at General Hospital.`,
+                    description: doctor?.name ?
+                        `${doctor.name} is a dedicated medical professional providing quality healthcare services. ${doctor.city ? `Based in ${doctor.city}, ` : ''}committed to patient care and medical excellence.` :
+                        `Dr. Shomolu Bariga is a Dentist from Osun State. He practices at General Hospital and is committed to providing excellent patient care.`,
                 }}
             />
 

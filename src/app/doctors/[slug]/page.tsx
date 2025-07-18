@@ -1,18 +1,31 @@
 'use client'
+import React from 'react';
 import CustomHead from "@/components/CustomHead";
-import CustomSearch from "@/components/CustomSearch";
+
 import DoctorCard from "@/components/DoctorCard";
 import DoctorDetails from "@/components/DoctorDetails";
 import DownloadApp from "@/components/DownloadApp";
 import Lister from "@/components/Lister";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import useDoctorListing from "@/hooks/doctors/use-hook";
-import useDistrictsHook from "@/hooks/districts/use-hook";
+import useDoctorDetail from "@/hooks/doctors/use-detail-hook";
 import { DoctorI } from "@/network/doctors/types";
+import Search from "~/svg/search.svg";
+import Image from 'next/image';
+import { Input } from '@/components/ui/input';
 
 const DoctorDetailed = () => {
     const router = useRouter()
+    const params = useParams()
+    const doctorSlug = params.slug as string
+
+    // Use the doctor detail hook to get doctor information
+    const {
+        doctor,
+        loading: doctorLoading,
+        error: doctorError
+    } = useDoctorDetail(doctorSlug);
 
     const {
         doctors: apiDoctors,
@@ -28,11 +41,7 @@ const DoctorDetailed = () => {
         autoFetch: true
     });
 
-    const { districts } = useDistrictsHook();
 
-    const handleLocationChange = (_location: string, districtId?: string | null) => {
-        filterByCity(districtId || null);
-    };
 
     const handleSearchChange = (query: string) => {
         search(query);
@@ -43,15 +52,25 @@ const DoctorDetailed = () => {
                 <div className="space-y-10 mt-20">
                     <CustomHead text='Find Your Doctor' highlight='Doctor' />
                     <div>
-                        <DoctorDetails />
+                        <DoctorDetails doctor={doctor} loading={doctorLoading} />
+                        {doctorError && (
+                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+                                <p>Error loading doctor details: {doctorError}</p>
+                            </div>
+                        )}
                     </div>
                     <div className="flex flex-col items-center justify-center gap-10 mb-10">
-                        <CustomSearch
-                            locations={districts}
-                            onLocationChange={handleLocationChange}
-                            onSearchChange={handleSearchChange}
-                            useDistricts={true}
-                        />
+                        <div className="flex w-full max-w-3xl rounded-full border shadow-xs overflow-hidden">
+                            <div className="flex items-center px-4 py-3 flex-grow text-gray-500">
+                                <Image src={Search} alt='Search' className='w-6 h-6 mr-2' />
+                                <Input
+                                    type="text"
+                                    placeholder="Search related doctors"
+                                    className="border-none p-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none text-sm placeholder:text-gray-400"
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSearchChange(e.target.value)}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,7 +101,7 @@ const DoctorDetailed = () => {
                     renderItem={(doctor) => (
                         <DoctorCard
                             doctor={doctor}
-                            onBook={() => router.push(`/doctors/${doctor.id}`)}
+                            onBook={() => router.push(`/doctors/${doctor.slug || doctor.id}`)}
                         />
                     )}
                 />

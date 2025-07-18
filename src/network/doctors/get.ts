@@ -1,5 +1,5 @@
 import { apiCall } from "../api";
-import { DoctorsDataI } from "./types";
+import { DoctorsDataI, DoctorI } from "./types";
 
 export interface FetchDoctorsParams {
     page?: number;
@@ -30,5 +30,13 @@ export const fetchDoctorsAPI = async (params: FetchDoctorsParams = {}): Promise<
 
     return await apiCall("doctors", "GET", {
         query
+    });
+};
+
+export const fetchDoctorDetailAPI = async (doctorId: string): Promise<DoctorI> => {
+    return await apiCall(`doctors`, "GET", {
+        query: {
+            slug: doctorId
+        }
     });
 };

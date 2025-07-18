@@ -107,7 +107,7 @@ const FindHospitals = ({ itemsPerPage = 10, useApiData = true, useDistricts = tr
                         renderItem={(hospital) => (
                             <HospitalCard
                                 hospital={hospital}
-                                onBook={() => router.push(`/hospitals/${hospital.id}`)}
+                                onBook={() => router.push(`/hospitals/${hospital.slug || hospital.id}`)}
                             />
                         )}
                     />

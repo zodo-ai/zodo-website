@@ -1,5 +1,6 @@
 export interface DoctorI {
     id: string;
+    slug?: string | null;
     profile_pic: string | null;
     name: string;
     email: string;

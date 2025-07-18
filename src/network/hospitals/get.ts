@@ -35,5 +35,9 @@ export const fetchHospitalsAPI = async (params: FetchHospitalsParams = {}): Prom
 };
 
 export const fetchHospitalDetailAPI = async (hospitalId: string): Promise<HospitalsI> => {
-    return await apiCall(`hospitals/${hospitalId}`, "GET", {});
+    return await apiCall(`hospitals`, "GET", {
+        query: {
+            slug: hospitalId
+        }
+    });
 };

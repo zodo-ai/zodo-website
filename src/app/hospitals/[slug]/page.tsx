@@ -17,13 +17,13 @@ import Image from 'next/image';
 const HospitalDetailed = () => {
     const router = useRouter()
     const params = useParams()
-    const hospitalId = params.id as string
+    const hospitalSlug = params.slug as string
 
     const {
         hospital,
         loading: hospitalLoading,
         error: hospitalError
-    } = useHospitalDetail(hospitalId);
+    } = useHospitalDetail(hospitalSlug);
 
     const {
         doctors: apiDoctors,
@@ -40,10 +40,10 @@ const HospitalDetailed = () => {
     });
 
     React.useEffect(() => {
-        if (hospitalId) {
-            filterByHospital(hospitalId);
+        if (hospitalSlug) {
+            filterByHospital(hospitalSlug);
         }
-    }, [hospitalId, filterByHospital]);
+    }, [hospitalSlug, filterByHospital]);
 
     const handleSearchChange = (query: string) => {
         search(query);
@@ -105,7 +105,7 @@ const HospitalDetailed = () => {
                     renderItem={(doctor) => (
                         <DoctorCard
                             doctor={doctor}
-                            onBook={() => router.push(`/doctors/${doctor.id}`)}
+                            onBook={() => router.push(`/doctors/${doctor.slug || doctor.id}`)}
                         />
                     )}
                 />
