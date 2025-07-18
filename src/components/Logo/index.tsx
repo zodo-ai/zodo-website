@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import Logo from "~/svg/logo.svg"
+import Logo from "~/png/main_logo.png"
 
 export const BrandLogo = () => {
     return (

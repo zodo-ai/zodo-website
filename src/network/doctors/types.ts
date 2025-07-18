@@ -1,3 +1,7 @@
+export interface SpecialisationI{
+    name: string
+}
+
 export interface DoctorI {
     id: string;
     slug?: string | null;
@@ -13,6 +17,10 @@ export interface DoctorI {
     user_id: string;
     phone_number: string;
     pricing: string | null;
+    avg_rating: number | 0;
+    specialisations : SpecialisationI[];
+    about:string | null;
+    work_start_date: string | null;
 }
 
 export interface DoctorsResponseI {

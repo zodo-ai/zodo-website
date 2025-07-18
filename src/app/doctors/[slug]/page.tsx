@@ -40,9 +40,7 @@ const DoctorDetailed = () => {
         initialLimit: 12,
         autoFetch: true
     });
-
-
-
+    
     const handleSearchChange = (query: string) => {
         search(query);
     };
