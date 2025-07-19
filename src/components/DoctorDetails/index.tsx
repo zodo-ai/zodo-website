@@ -102,7 +102,7 @@ const DoctorDetails = ({ doctor, loading, timeSlots }: DoctorDetailsProps) => {
       />
 
       <div className="grid md:grid-cols-[3fr_2fr] gap-4 rounded-2xl md:w-7xl md:mx-0 mx-4">
-        <div className="space-y-4 rounded-2xl border border-[#E4E4E4] px-4 py-6 gap-6 bg-[#FAFAFA] min-h-[450px] md:min-h-[400px]">
+        <div className="space-y-4 rounded-2xl border border-[#E4E4E4] px-4 py-6 gap-6 bg-[#FAFAFA] min-h-[550px] md:min-h-[450px] h-auto">
           <h3 className="text-[#03182C] font-semibold text-xl ">
             Time Slot Available
           </h3>
@@ -129,10 +129,10 @@ const DoctorDetails = ({ doctor, loading, timeSlots }: DoctorDetailsProps) => {
             </div>
           </div>
         </div>
-        <div className="space-y-4 rounded-2xl border border-[#E4E4E4] px-4 py-6 gap-6 bg-[#FAFAFA]">
+        {/* <div className="space-y-4 rounded-2xl border border-[#E4E4E4] px-4 py-6 gap-6 bg-[#FAFAFA]">
           <h3 className="text-[#03182C] font-semibold text-xl">Reviews</h3>
           <div className="bg-[#EAF7FF] rounded-xl  h-64"></div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
