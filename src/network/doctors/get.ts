@@ -1,5 +1,5 @@
 import { apiCall } from "../api";
-import { DoctorsDataI, DoctorI } from "./types";
+import { DoctorsDataI, DoctorI, TimeSlotI, ReviewResponseI, ReviewsDataI } from "./types";
 
 export interface FetchDoctorsParams {
   page?: number;
@@ -7,6 +7,12 @@ export interface FetchDoctorsParams {
   name?: string;
   district_id?: string | null;
   hospital_id?: string;
+}
+
+export interface FetchReviewParams {
+  page?: number;
+  limit?: number;
+  doctor_id?: string;
 }
 
 export const fetchDoctorsAPI = async (
@@ -38,8 +44,30 @@ export const fetchDoctorsAPI = async (
 export const fetchDoctorDetailAPI = async (
   doctorId: string
 ): Promise<DoctorI> => {
-    console.log("Doctor ",doctorId);
-    
   const url = `doctors/${encodeURIComponent(doctorId)}`;
   return await apiCall(url, "GET");
+};
+
+export const fetchDoctorTimeslotsAPI = async (
+  doctorId: string
+): Promise<TimeSlotI> => {
+  const url = `time-slots/doctors/${encodeURIComponent(doctorId)}`;
+  return await apiCall(url, "GET");
+};
+
+export const fetchReviewsAPI = async (
+  params: FetchReviewParams = {}
+): Promise<ReviewsDataI> => {
+  const { page = 1, limit = 10, doctor_id } = params;
+
+  const query: Record<string, string | number> = {
+    page,
+    limit,
+  };
+  if (doctor_id && doctor_id !== "null") {
+    query.doctor_id = doctor_id;
+  }
+  return await apiCall("reviews", "GET", {
+    query,
+  });
 };

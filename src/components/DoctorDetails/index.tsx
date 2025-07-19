@@ -1,17 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InfoCardPair from "../InfoCardPair";
 import HospitalOne from "~/png/HospitalOne.png";
-import { DoctorI } from "@/network/doctors/types";
+import { DoctorI, TimeSlotI } from "@/network/doctors/types";
 import { calculateExperience } from "@/helpers/calculateExperience";
+import useDoctorTimeslot from "@/hooks/doctors/use-timeslot-hook";
+import { useParams } from "next/navigation";
+import { categorizeSlots } from "@/helpers/categoriesTimeSlots";
+import TimeSlots from "./Timeslots";
 
 interface DoctorDetailsProps {
   doctor?: DoctorI | null;
   loading?: boolean;
+  timeSlots?: TimeSlotI | null;
+}
+interface TabItem {
+  id: string;
+  title: string;
+  component: React.ReactNode; // Or React.ReactNode if it can be more flexible
 }
 
-const DoctorDetails = ({ doctor, loading }: DoctorDetailsProps) => {
-    const tabs = ["Morning", "Afternoon", "Evening"];
-    const [activeTab, setActiveTab] = useState("Morning");
+const DoctorDetails = ({ doctor, loading, timeSlots }: DoctorDetailsProps) => {
+  const { morning, evening, afternoon } = categorizeSlots(
+    timeSlots?.data || []
+  );
+  console.log("Evening", evening);
+
+  const tabs = [
+    {
+      id: "1",
+      title: "Morning",
+      component: <TimeSlots timeSlots={morning} />,
+    },
+    {
+      id: "2",
+      title: "Afternoon",
+      component: <TimeSlots timeSlots={afternoon} />,
+    },
+    {
+      id: "3",
+      title: "Evening",
+      component: <TimeSlots timeSlots={evening} />,
+    },
+  ];
+  console.log(morning, evening, afternoon);
+  const [activeTab, setActiveTab] = useState<TabItem>();
+  useEffect(() => {
+
+        setActiveTab(tabs[0])
+    }, [timeSlots])
+
+
   if (loading) {
     return (
       <div className="flex justify-center items-center py-8">
@@ -19,8 +57,10 @@ const DoctorDetails = ({ doctor, loading }: DoctorDetailsProps) => {
       </div>
     );
   }
+  const params = useParams();
+  const doctorSlug = params.slug as string;
+  console.log("Slug ", doctorSlug);
 
-  console.log("Doctor ", doctor);
   const rating = doctor?.avg_rating || 0;
   const specialisation = doctor?.specialisations
     ? doctor?.specialisations[0].name
@@ -29,6 +69,9 @@ const DoctorDetails = ({ doctor, loading }: DoctorDetailsProps) => {
   const experience = doctor?.work_start_date
     ? calculateExperience(doctor?.work_start_date)
     : "";
+
+    
+    
   return (
     <div className="">
       <InfoCardPair
@@ -40,7 +83,9 @@ const DoctorDetails = ({ doctor, loading }: DoctorDetailsProps) => {
           title: doctor?.name || "",
           subtitle: specialisation, // Could be enhanced with specialty field if available
           rating: { value: rating, count: 623 }, // Default values since not in API
-          location: doctor?.city ? `${doctor?.city} • ${experience} of experience` : "",
+          location: doctor?.city
+            ? `${doctor?.city} • ${experience} of experience`
+            : "",
           phone: doctor?.phone_number || "",
           tag: doctor?.hospital_id ? "Hospital Doctor" : "Independent Practice",
         }}
@@ -56,37 +101,32 @@ const DoctorDetails = ({ doctor, loading }: DoctorDetailsProps) => {
         }}
       />
 
-      <div className="grid grid-cols-[3fr_2fr] gap-4 rounded-2xl">
-        <div className="space-y-4 rounded-2xl border border-[#E4E4E4] px-4 py-6 gap-6 bg-[#FAFAFA]">
+      <div className="grid md:grid-cols-[3fr_2fr] gap-4 rounded-2xl md:w-7xl md:mx-0 mx-4">
+        <div className="space-y-4 rounded-2xl border border-[#E4E4E4] px-4 py-6 gap-6 bg-[#FAFAFA] min-h-[450px] md:min-h-[400px]">
           <h3 className="text-[#03182C] font-semibold text-xl ">
             Time Slot Available
           </h3>
           <div className="rounded-xl h-64">
             <div className="w-full">
-      {/* Tab Buttons */}
-      <div className="flex border-b">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            className={`relative px-4 py-2 text-sm sm:text-base transition-all duration-300 ${
-              activeTab === tab
-                ? "text-teal-700 font-medium border-b-2 border-teal-600"
-                : "text-gray-500"
-            }`}
-            onClick={() => setActiveTab(tab)}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
-
-      {/* Tab Content */}
-      <div className="mt-4 text-sm sm:text-base text-gray-700">
-        {activeTab === "Morning" && <div>Morning content here</div>}
-        {activeTab === "Afternoon" && <div>Afternoon content here</div>}
-        {activeTab === "Evening" && <div>Evening content here</div>}
-      </div>
-    </div>
+              <div className="flex border-b">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    className={`relative px-4 py-2 text-sm sm:text-base transition-all duration-300 ${
+                      activeTab?.id === tab.id
+                        ? "text-teal-700 font-medium border-b-2 border-teal-600"
+                        : "text-gray-500"
+                    }`}
+                    onClick={() => setActiveTab(tab)}
+                  >
+                    {tab.title}
+                  </button>
+                ))}
+              </div>
+              <div className="mt-4 text-sm sm:text-base text-gray-700">
+                {activeTab?.component}
+              </div>
+            </div>
           </div>
         </div>
         <div className="space-y-4 rounded-2xl border border-[#E4E4E4] px-4 py-6 gap-6 bg-[#FAFAFA]">
