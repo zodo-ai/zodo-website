@@ -11,11 +11,12 @@ const useHospitalDetail = (hospitalId: string): UseHospitalDetailReturn => {
 
     const fetchHospitalDetail = async () => {
         if (!hospitalId) return;
-        
+
         try {
             setLoading(true);
             setError(null);
             const response = await fetchHospitalDetailAPI(hospitalId);
+            
             setHospital(response);
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to fetch hospital details';

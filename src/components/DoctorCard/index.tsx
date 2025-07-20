@@ -27,7 +27,7 @@ function DoctorCard(props: DoctorCardProps | LegacyDoctorCardProps): React.React
         <h3 className="text-xl font-semibold text-[#1B3C74]">{capitalizeFirstLetter(doctor.name)}</h3>
         <p className="text-sm text-[#727C8D] my-2">{capitalizeFirstLetter(doctor.city ?? "")}</p>
         <Button onClick={onBook} className='rounded-full bg-[#2F7269] font-bold mb-2'>
-          Get Appointment
+          View Details
         </Button>
       </div>
     );
@@ -45,7 +45,7 @@ function DoctorCard(props: DoctorCardProps | LegacyDoctorCardProps): React.React
         <h3 className="text-xl font-semibold text-[#1B3C74]">{name}</h3>
         <p className="text-sm text-[#727C8D] my-2">{specialty}</p>
         <Button onClick={onBook} className='rounded-full bg-[#2F7269] font-bold mb-2'>
-          Get Appointment
+          View Details
         </Button>
       </div>
     );

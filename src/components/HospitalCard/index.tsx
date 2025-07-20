@@ -31,7 +31,7 @@ function HospitalCard(props: HospitalCardPropsI | LegacyHospitalCardPropsI): Rea
                     <p className="text-sm text-[#727C8D] my-2">{hospital.location}</p>
                 </div>
                 <Button onClick={onBook} className='rounded-full bg-[#2F7269] font-bold mb-2'>
-                    Book now
+                    View Details
                 </Button>
             </div>
         );
@@ -52,7 +52,7 @@ function HospitalCard(props: HospitalCardPropsI | LegacyHospitalCardPropsI): Rea
                     <p className="text-sm text-[#727C8D] my-2">{location}</p>
                 </div>
                 <Button onClick={onBook} className='rounded-full bg-[#2F7269] font-bold mb-2'>
-                    Book now
+                    View Details
                 </Button>
             </div>
         );
