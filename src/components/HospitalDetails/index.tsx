@@ -20,7 +20,6 @@ const HospitalDetails = ({ hospital, loading }: HospitalDetailsProps) => {
         );
     }
 
-    console.log("Hospital !!",hospital);
       const hospitalSlug = params.slug as string;
       console.log("Slug ", hospitalSlug);
     return (

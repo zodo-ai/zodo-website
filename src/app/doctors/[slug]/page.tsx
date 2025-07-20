@@ -48,7 +48,7 @@ const DoctorDetailed = () => {
     timeSlots,
     loading: timeslotLoading,
     error: timeslotError,
-  } = useDoctorTimeslot(doctorSlug);
+  } = useDoctorTimeslot(doctor?.id || "");
 
  
 

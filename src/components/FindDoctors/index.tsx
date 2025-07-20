@@ -118,7 +118,7 @@ const FindDoctors = ({
               <DoctorCard
                 doctor={doctor}
                 onBook={() => {
-                  router.push(`/doctors/${doctor.id || doctor.slug}`);
+                  router.push(`/doctors/${doctor.slug || doctor.id}`);
                 }}
               />
             )}

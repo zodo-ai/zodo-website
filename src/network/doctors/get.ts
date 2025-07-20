@@ -44,7 +44,7 @@ export const fetchDoctorsAPI = async (
 export const fetchDoctorDetailAPI = async (
   doctorId: string
 ): Promise<DoctorI> => {
-  const url = `doctors/${encodeURIComponent(doctorId)}`;
+  const url = `doctors/slug/${encodeURIComponent(doctorId)}`;
   return await apiCall(url, "GET");
 };
 
