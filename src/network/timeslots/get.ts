@@ -2,21 +2,21 @@ import { apiCall } from "../api";
 import { TimeSlotsResponseI, FetchTimeSlotsParams } from "./types";
 
 export const fetchTimeSlotsAPI = async (params: FetchTimeSlotsParams): Promise<TimeSlotsResponseI> => {
-    const { doctorId, hospitalId, appointmentDate } = params;
-    
+    const { doctor_id, hospitalId, date } = params;
+
     const query: Record<string, string> = {
-        appointmentDate
+        date
     };
-    
-    if (doctorId) {
-        query.doctorId = doctorId;
+
+    if (doctor_id) {
+        query.doctor_id = doctor_id;
     }
-    
+
     if (hospitalId) {
         query.hospitalId = hospitalId;
     }
-    
-    return await apiCall("timeslots", "GET", {
+
+    return await apiCall("time-slots/available", "GET", {
         query
     });
 };

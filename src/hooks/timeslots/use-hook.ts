@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchTimeSlotsAPI, FetchTimeSlotsParams } from '@/network/timeslots/get';
-import { TimeSlotI } from '@/network/timeslots/types';
+import { fetchTimeSlotsAPI } from '@/network/timeslots/get';
+import { FetchTimeSlotsParams, TimeSlotI } from '@/network/timeslots/types';
 import { showToast } from '@/lib/toast';
 
 export interface UseTimeSlotsReturn {
@@ -13,30 +13,29 @@ export interface UseTimeSlotsReturn {
 }
 
 export interface UseTimeSlotsOptions {
-    doctorId?: string;
+    doctor_id?: string;
     hospitalId?: string;
     autoFetch?: boolean;
 }
 
 const useTimeSlots = (options: UseTimeSlotsOptions = {}): UseTimeSlotsReturn => {
-    const { doctorId, hospitalId, autoFetch = false } = options;
-    
+    const { doctor_id, hospitalId, autoFetch = false } = options;
     const [timeSlots, setTimeSlots] = useState<TimeSlotI[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
 
     const fetchTimeSlots = useCallback(async (date: Date) => {
+        if(!doctor_id) return;
         try {
             setLoading(true);
             setError(null);
             
-            // Format date as YYYY-MM-DD string
             const appointmentDate = date.toISOString().split('T')[0];
             
             const params: FetchTimeSlotsParams = {
-                appointmentDate,
-                ...(doctorId && { doctorId }),
+                date: appointmentDate,
+                ...(doctor_id && { doctor_id : doctor_id }),
                 ...(hospitalId && { hospitalId })
             };
             
@@ -54,7 +53,7 @@ const useTimeSlots = (options: UseTimeSlotsOptions = {}): UseTimeSlotsReturn => 
         } finally {
             setLoading(false);
         }
-    }, [doctorId, hospitalId]);
+    }, [doctor_id, hospitalId]);
 
     const handleDateChange = useCallback((date: Date | undefined) => {
         setSelectedDate(date);
