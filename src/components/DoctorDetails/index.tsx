@@ -7,6 +7,8 @@ import { useParams } from "next/navigation";
 import { categorizeSlots } from "@/helpers/categoriesTimeSlots";
 import TimeSlots from "./Timeslots";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Calendar } from "@/components/ui/calendar";
+import useTimeSlots from "@/hooks/timeslots/use-hook";
 
 interface DoctorDetailsProps {
   doctor?: DoctorI | null;
@@ -23,18 +25,32 @@ interface TabItem {
   component: React.ReactNode;
 }
 
-const DoctorDetails = ({
-  doctor,
-  loading,
-  timeSlots,
-  reviews,
-  hasMoreReviews,
-  loadingMoreReviews,
-  onLoadMoreReviews,
-}: DoctorDetailsProps) => {
-  const { morning, evening, afternoon } = categorizeSlots(
-    timeSlots?.data || []
-  );
+const DoctorDetails = ({ doctor, loading, reviews }: DoctorDetailsProps) => {
+  const params = useParams();
+  const doctorSlug = params.slug as string;
+
+  // Use the time slots hook
+  const {
+    timeSlots,
+    loading: timeSlotsLoading,
+    error: timeSlotsError,
+    selectedDate,
+    setSelectedDate
+  } = useTimeSlots({
+    doctorId: doctorSlug,
+    autoFetch: false
+  });
+
+  // Convert TimeSlotI to the format expected by categorizeSlots
+  const convertTimeSlots = (slots: TimeSlotI[]) => {
+    return slots.map(slot => ({
+      startTime: slot.time,
+      endTime: slot.time, // Assuming single time slot, could be enhanced
+      isAvailable: slot.isAvailable
+    }));
+  };
+
+  const { morning, evening, afternoon } = categorizeSlots(convertTimeSlots(timeSlots || []));
   console.log("Evening", evening);
 
   const tabs = [
@@ -57,22 +73,9 @@ const DoctorDetails = ({
   console.log(morning, evening, afternoon);
   const [activeTab, setActiveTab] = useState<TabItem>();
   useEffect(() => {
-    setActiveTab(tabs[0]);
-  }, [timeSlots]);
-  const params = useParams();
-  const [expandedReviews, setExpandedReviews] = useState<Set<string>>(
-    new Set()
-  );
 
-  const toggleReviewExpansion = (reviewId: string) => {
-    const newExpanded = new Set(expandedReviews);
-    if (newExpanded.has(reviewId)) {
-      newExpanded.delete(reviewId);
-    } else {
-      newExpanded.add(reviewId);
-    }
-    setExpandedReviews(newExpanded);
-  };
+    setActiveTab(tabs[0])
+  }, [timeSlots])
 
   if (loading) {
     return (
@@ -81,8 +84,6 @@ const DoctorDetails = ({
       </div>
     );
   }
-  const doctorSlug = params.slug as string;
-  console.log("Slug ", doctorSlug);
 
   const rating = doctor?.avg_rating || 0;
   const specialisation = doctor?.specialisations
@@ -150,8 +151,61 @@ const DoctorDetails = ({
               <div className="mt-4 text-sm sm:text-base text-gray-700">
                 {activeTab?.component}
               </div>
+
+          {/* Calendar Section */}
+          <div className="mb-6">
+            <h4 className="text-[#03182C] font-medium text-lg mb-3">Select Date</h4>
+            <div className="flex justify-center">
+              <Calendar
+                mode="single"
+                selected={selectedDate}
+                onSelect={setSelectedDate}
+                disabled={(date) => date < new Date()}
+                className="rounded-md border"
+              />
             </div>
+            {timeSlotsError && (
+              <div className="mt-2 text-red-600 text-sm">
+                Error loading time slots: {timeSlotsError}
+              </div>
+            )}
           </div>
+
+          {/* Time Slots Section */}
+          {selectedDate && (
+            <div className="rounded-xl">
+              {timeSlotsLoading ? (
+                <div className="flex justify-center items-center py-8">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#1B7C7B]"></div>
+                  <span className="ml-2 text-gray-600">Loading time slots...</span>
+                </div>
+              ) : timeSlots.length > 0 ? (
+                <div className="w-full">
+                  <div className="flex border-b">
+                    {tabs.map((tab) => (
+                      <button
+                        key={tab.id}
+                        className={`relative px-4 py-2 text-sm sm:text-base transition-all duration-300 ${activeTab?.id === tab.id
+                            ? "text-teal-700 font-medium border-b-2 border-teal-600"
+                            : "text-gray-500"
+                          }`}
+                        onClick={() => setActiveTab(tab)}
+                      >
+                        {tab.title}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="mt-4 text-sm sm:text-base text-gray-700">
+                    {activeTab?.component}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  No time slots available for the selected date.
+                </div>
+              )}
+            </div>
+          )}
         </div>
         <div className="space-y-4 rounded-2xl border border-[#E4E4E4] px-4 py-6 gap-6 bg-[#FAFAFA]">
           <h3 className="text-[#03182C] font-semibold text-xl">Reviews</h3>
@@ -273,6 +327,8 @@ const DoctorDetails = ({
           </div>
         </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 };

@@ -47,6 +47,7 @@ export interface TimeSlotI {
   data: TimeSlotDataI[]; // 'data' is an array of TimeSlotDataI objects
   message: string;
   profile_picture: string;
+  time: string
 }
 
 export interface DoctorsResponseI {
