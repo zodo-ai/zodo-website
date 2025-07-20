@@ -1,23 +1,20 @@
 export interface TimeSlotI {
-    id: string;
-    time: string;
-    isAvailable: boolean;
-    doctorId?: string;
-    hospitalId?: string;
-    date?: string;
+  startTime: string;
+  endTime: string;
+  isAvailable: boolean;
 }
 
 export interface TimeSlotsResponseI {
     data: TimeSlotI[];
-    meta?: {
-        total?: number;
-        date?: string;
-        doctorId?: string;
-    };
+    message: string;
+    status: number
 }
 
 export interface FetchTimeSlotsParams {
-    doctorId?: string;
+    doctor_id?: string;
     hospitalId?: string;
-    appointmentDate: string; // Required date parameter
+    date: string; 
 }
+
+
+
