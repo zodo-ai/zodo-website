@@ -44,7 +44,7 @@ export class AppError extends Error {
 }
 
 const Config = {
-    BASE_URL: process.env.NEXT_PUBLIC_BASE_URL || 'https://api.zodoai.com',
+    BASE_URL: process.env.NEXT_PUBLIC_BASE_URL || 'https://api.zodoai.com/api/',
 };
 
 const BASE_URL = Config.BASE_URL;

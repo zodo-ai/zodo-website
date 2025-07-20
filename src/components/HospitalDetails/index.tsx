@@ -2,6 +2,7 @@ import React from 'react'
 import InfoCardPair from '../InfoCardPair'
 import HospitalOne from "~/png/HospitalOne.png"
 import { HospitalsI } from '@/network/hospitals/types'
+import { useParams } from 'next/navigation';
 
 interface HospitalDetailsProps {
     hospital?: HospitalsI | null;
@@ -16,11 +17,16 @@ const HospitalDetails = ({ hospital, loading }: HospitalDetailsProps) => {
             </div>
         );
     }
+
+    console.log("Hospital !!",hospital);
+    const params = useParams();
+      const hospitalSlug = params.slug as string;
+      console.log("Slug ", hospitalSlug);
     return (
         <InfoCardPair
             leftCard={{
                 imageSrc: hospital?.logo && hospital.logo.trim() !== '' ? hospital.logo : HospitalOne,
-                title: hospital?.name || 'Apollos',
+                title: hospital?.name || '',
                 subtitle: 'multi-specialist hospital',
                 rating: {
                     value: parseFloat(hospital?.avg_rating || '0'),

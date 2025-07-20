@@ -7,7 +7,7 @@ const CustomHead = ({ text, highlight }: CustomHeadPropsI) => {
   const parts = text.split(new RegExp(`(${highlight})`, 'i'));
 
   return (
-    <h2 className="text-4xl md:text-6xl font-semibold text-[#004746]">
+    <h2 className="text-4xl md:text-6xl font-semibold text-[#004746] pl-4 md:pl-0">
       {parts.map((part, index) =>
         part.toLowerCase() === highlight.toLowerCase() ? (
           <span key={index} className="text-[#00BC72]">{part}</span>

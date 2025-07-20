@@ -16,7 +16,7 @@ const InfoCardPair: React.FC<InfoCardPairPropsI> = ({ leftCard, rightCard }) => 
     : rightCard.description.slice(0, maxChars)
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 w-full max-w-5xl mx-auto p-4">
+    <div className="flex flex-col md:flex-row gap-4 md:w-7xl mx-auto p-4">
       {/* Left Card */}
       <div className="flex rounded-2xl border border-[#E4E4E4] px-6 py-8 gap-6 bg-[#FAFAFA]">
         <Image

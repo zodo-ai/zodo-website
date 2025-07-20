@@ -13,7 +13,6 @@ import Link from "next/link";
 
 const Footer = () => {
     const socialIcons = [SocialOne, SocialTwo, SocialThree];
-
     return (
         <section className="relative w-full bg-mobile-gradient md:bg-[#004746] overflow-hidden">
 
@@ -35,7 +34,7 @@ const Footer = () => {
                         <p className="font-extralight leading-6 w-3/4 text-[#8CCCCBB8] md:text-black">Launch your SaaS website in minutes. No coding, no hassle—just a
                             sleek, conversion-focused design ready to help you grow. Get started </p>
                     </div>
-                    <Button className="rounded-full p-8 md:p-4 bg-[#004746]">Onboard now</Button>
+                    <Link href ='\onboard' className="rounded-full p-4 bg-[#004746] text-white" >Onboard now</Link>
                 </div>
 
                 <Image

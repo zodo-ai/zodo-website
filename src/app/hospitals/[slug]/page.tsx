@@ -24,7 +24,13 @@ const HospitalDetailed = () => {
         loading: hospitalLoading,
         error: hospitalError
     } = useHospitalDetail(hospitalSlug);
+    const doctorSlug = params.slug as string;
+    console.log("Slug hahah", doctorSlug);
 
+
+    console.log("Individual hospitals ",hospital);
+    
+    
     const {
         doctors: apiDoctors,
         loading,
@@ -105,7 +111,7 @@ const HospitalDetailed = () => {
                     renderItem={(doctor) => (
                         <DoctorCard
                             doctor={doctor}
-                            onBook={() => router.push(`/doctors/${doctor.slug || doctor.id}`)}
+                            onBook={() => router.push(`/doctors/${doctor.id || doctor.slug}`)}
                         />
                     )}
                 />
