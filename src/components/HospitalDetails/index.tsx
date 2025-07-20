@@ -10,6 +10,8 @@ interface HospitalDetailsProps {
 }
 
 const HospitalDetails = ({ hospital, loading }: HospitalDetailsProps) => {
+    const params = useParams();
+
     if (loading) {
         return (
             <div className="flex justify-center items-center py-8">
@@ -19,7 +21,6 @@ const HospitalDetails = ({ hospital, loading }: HospitalDetailsProps) => {
     }
 
     console.log("Hospital !!",hospital);
-    const params = useParams();
       const hospitalSlug = params.slug as string;
       console.log("Slug ", hospitalSlug);
     return (

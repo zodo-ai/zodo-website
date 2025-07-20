@@ -7,7 +7,6 @@ import Screenshot from "~/png/Screenshot.png";
 import Gradient from "~/png/GradientGreen.png";
 import OutlinedHeader from "../OutlinedHeader";
 import Thunder from "~/svg/SuperThunder.svg"
-import { Button } from "../ui/button";
 import links from "@/dummy/links";
 import Link from "next/link";
 

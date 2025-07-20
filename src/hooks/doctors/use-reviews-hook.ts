@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchDoctorsAPI, FetchDoctorsParams, FetchReviewParams, fetchReviewsAPI } from '@/network/doctors/get';
+import {  FetchReviewParams, fetchReviewsAPI } from '@/network/doctors/get';
 import { ReviewI, ReviewsDataI } from '@/network/doctors/types';
 import { showToast } from '@/lib/toast';
-import { UseDoctorListingOptionsI, UseDoctorListingReturnI, UseReviewListingOptionsI, UseReviewListingReturnI } from './types';
-import { doctorFilters } from '@/dummy/filters';
+import {  UseReviewListingOptionsI, UseReviewListingReturnI } from './types';
+// import { doctorFilters } from '@/dummy/filters';
 
 const useReviewListing = (options: UseReviewListingOptionsI = {}): UseReviewListingReturnI => {
     const { initialLimit = 10, autoFetch = true, doctorSlug } = options;
@@ -16,9 +16,9 @@ const useReviewListing = (options: UseReviewListingOptionsI = {}): UseReviewList
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [totalItems, setTotalItems] = useState(0);
-    const [searchQuery, setSearchQuery] = useState<string>('');
-    const [districtFilter, setDistrictFilter] = useState<string>('');
-    const [hospitalFilter, setHospitalFilter] = useState<string>('');
+    // const [searchQuery, setSearchQuery] = useState<string>('');
+    // const [districtFilter, setDistrictFilter] = useState<string>('');
+    // const [hospitalFilter, setHospitalFilter] = useState<string>('');
 
     const fetchReviews = useCallback(async (params: FetchReviewParams, isLoadMore = false) => {
         console.log("Paramssss ",params);

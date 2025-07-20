@@ -3,7 +3,6 @@ import InfoCardPair from "../InfoCardPair";
 import HospitalOne from "~/png/HospitalOne.png";
 import { DoctorI, TimeSlotI } from "@/network/doctors/types";
 import { calculateExperience } from "@/helpers/calculateExperience";
-import useDoctorTimeslot from "@/hooks/doctors/use-timeslot-hook";
 import { useParams } from "next/navigation";
 import { categorizeSlots } from "@/helpers/categoriesTimeSlots";
 import TimeSlots from "./Timeslots";
@@ -16,7 +15,7 @@ interface DoctorDetailsProps {
 interface TabItem {
   id: string;
   title: string;
-  component: React.ReactNode; // Or React.ReactNode if it can be more flexible
+  component: React.ReactNode;
 }
 
 const DoctorDetails = ({ doctor, loading, timeSlots }: DoctorDetailsProps) => {
@@ -46,8 +45,10 @@ const DoctorDetails = ({ doctor, loading, timeSlots }: DoctorDetailsProps) => {
   const [activeTab, setActiveTab] = useState<TabItem>();
   useEffect(() => {
 
-        setActiveTab(tabs[0])
-    }, [timeSlots])
+    setActiveTab(tabs[0])
+  }, [timeSlots])
+  const params = useParams();
+
 
 
   if (loading) {
@@ -57,7 +58,6 @@ const DoctorDetails = ({ doctor, loading, timeSlots }: DoctorDetailsProps) => {
       </div>
     );
   }
-  const params = useParams();
   const doctorSlug = params.slug as string;
   console.log("Slug ", doctorSlug);
 
@@ -70,8 +70,8 @@ const DoctorDetails = ({ doctor, loading, timeSlots }: DoctorDetailsProps) => {
     ? calculateExperience(doctor?.work_start_date)
     : "";
 
-    
-    
+
+
   return (
     <div className="">
       <InfoCardPair
@@ -93,10 +93,8 @@ const DoctorDetails = ({ doctor, loading, timeSlots }: DoctorDetailsProps) => {
           heading: "About Me",
           description:
             doctor?.about ||
-            `${
-              doctor?.name
-            } is a dedicated medical professional providing quality healthcare services. ${
-              doctor?.city ? `Based in ${doctor?.city}, ` : ""
+            `${doctor?.name
+            } is a dedicated medical professional providing quality healthcare services. ${doctor?.city ? `Based in ${doctor?.city}, ` : ""
             }committed to patient care and medical excellence.`,
         }}
       />
@@ -112,11 +110,10 @@ const DoctorDetails = ({ doctor, loading, timeSlots }: DoctorDetailsProps) => {
                 {tabs.map((tab) => (
                   <button
                     key={tab.id}
-                    className={`relative px-4 py-2 text-sm sm:text-base transition-all duration-300 ${
-                      activeTab?.id === tab.id
+                    className={`relative px-4 py-2 text-sm sm:text-base transition-all duration-300 ${activeTab?.id === tab.id
                         ? "text-teal-700 font-medium border-b-2 border-teal-600"
                         : "text-gray-500"
-                    }`}
+                      }`}
                     onClick={() => setActiveTab(tab)}
                   >
                     {tab.title}

@@ -1,5 +1,5 @@
 import { apiCall } from "../api";
-import { DoctorsDataI, DoctorI, TimeSlotI, ReviewResponseI, ReviewsDataI } from "./types";
+import { DoctorsDataI, DoctorI, TimeSlotI, ReviewsDataI } from "./types";
 
 export interface FetchDoctorsParams {
   page?: number;

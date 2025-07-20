@@ -36,7 +36,7 @@ const DoctorDetailed = () => {
     hasMore,
     loadMore,
     search,
-    filterByCity,
+    // filterByCity,
     error,
   } = useDoctorListing({
     initialLimit: 12,
@@ -58,8 +58,8 @@ const DoctorDetailed = () => {
 
   const {
     reviews: reviews,
-    loading: reviewLoading,
-    loadingMore: reviewLoadeMore,
+    // loading: reviewLoading,
+    // loadingMore: reviewLoadeMore,
     // hasMore: hasMoreReview,
     // loadMore: loadMoreReview,
     // search: serchReview,

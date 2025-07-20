@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { fetchDoctorDetailAPI, fetchDoctorTimeslotsAPI } from '@/network/doctors/get';
-import { DoctorI, TimeSlotI } from '@/network/doctors/types';
+import {  fetchDoctorTimeslotsAPI } from '@/network/doctors/get';
+import { TimeSlotI } from '@/network/doctors/types';
 import { showToast } from '@/lib/toast';
 
 export interface UseTimeSlotDetailReturn {

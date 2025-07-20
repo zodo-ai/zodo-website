@@ -25,7 +25,7 @@ const Onboard = () => {
 
   const { createHospital, loading: isSubmitting } = useCreateHospital();
   const accountNumber = watch("accountnumber");
-  const fastTagEnabled = watch("fastTagEnabled");
+  // const fastTagEnabled = watch("fastTagEnabled");
 
   const onSubmit = async (data: HospitalFormInputs) => {
     if (data.accountnumber !== data.verifyAccountnumber) {
