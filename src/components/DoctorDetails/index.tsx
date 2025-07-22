@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import InfoCardPair from "../InfoCardPair";
 import HospitalOne from "~/png/HospitalOne.png";
-import { DoctorI } from "@/network/doctors/types";
+import { DoctorI, TimeSlotI } from "@/network/doctors/types";
 
 import { calculateExperience } from "@/helpers/calculateExperience";
 
@@ -13,6 +13,7 @@ import useTimeSlots from "@/hooks/timeslots/use-hook";
 interface DoctorDetailsProps {
   doctor?: DoctorI | null;
   loading?: boolean;
+  timeSlots?: TimeSlotI | null;
 }
 interface TabItem {
   id: string;
