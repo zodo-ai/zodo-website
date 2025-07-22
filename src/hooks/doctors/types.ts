@@ -22,11 +22,11 @@ export interface UseReviewListingReturnI {
     loading: boolean;
     loadingMore: boolean;
     error: string | null;
-    // hasMore: boolean;
+    hasMore: boolean;
     currentPage: number;
     totalPages: number;
     totalItems: number;
-    // loadMore: () => void;
+    loadMore: () => void;
     // refresh: () => void;
     // search: (query: string) => void;
     // filterByCity: (districtId: string | null) => void;

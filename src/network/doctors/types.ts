@@ -25,6 +25,7 @@ export interface DoctorI {
 export interface UserI {
   first_name: string;
   last_name: string;
+  profile_picture: string | null;
 }
 
 export interface ReviewI {

@@ -82,19 +82,16 @@ const useReviewListing = (options: UseReviewListingOptionsI = {}): UseReviewList
         }
     }, [initialLimit]);
 
-    // const loadMore = useCallback(() => {
-    //     if (loadingMore || currentPage >= totalPages) return;
+    const loadMore = useCallback(() => {
+        if (loadingMore || currentPage >= totalPages) return;
         
-    //     const nextPage = currentPage + 1;
-    //     fetchReviews({
-    //         page: nextPage,
-    //         limit: initialLimit,
-    //         // doctor_id: 
-    //         // name: searchQuery || undefined,
-    //         // district_id: districtFilter || undefined,
-    //         // hospital_id: hospitalFilter || undefined,
-    //     }, true);
-    // }, [currentPage, totalPages, loadingMore, initialLimit, searchQuery, districtFilter, hospitalFilter, fetchReviews]);
+        const nextPage = currentPage + 1;
+        fetchReviews({
+            page: nextPage,
+            limit: initialLimit,
+            doctor_id: doctorSlug
+        }, true);
+    }, [currentPage, totalPages, loadingMore, initialLimit, doctorSlug, fetchReviews]);
 
     // const refresh = useCallback(() => {
     //     setCurrentPage(1);
@@ -164,22 +161,18 @@ const useReviewListing = (options: UseReviewListingOptionsI = {}): UseReviewList
         }
     }, [autoFetch, initialLimit, fetchReviews]);
 
-    // const hasMore = currentPage < totalPages;
+    const hasMore = currentPage < totalPages;
 
     return {
         reviews,
         loading,
         loadingMore,
         error,
-        // hasMore,
+        hasMore,
         currentPage,
         totalPages,
         totalItems,
-        // refresh,
-        // search,
-        // filterByCity,
-        // filterByHospital,
-        // clearFilters,
+        loadMore,
     };
 };
 

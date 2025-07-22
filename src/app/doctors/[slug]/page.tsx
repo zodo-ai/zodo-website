@@ -50,6 +50,8 @@ const DoctorDetailed = () => {
     error: timeslotError,
   } = useDoctorTimeslot(doctorSlug);
 
+ 
+
   const handleSearchChange = (query: string) => {
     search(query);
   };
@@ -58,15 +60,11 @@ const DoctorDetailed = () => {
 
   const {
     reviews: reviews,
-    // loading: reviewLoading,
-    // loadingMore: reviewLoadeMore,
-    // hasMore: hasMoreReview,
-    // loadMore: loadMoreReview,
-    // search: serchReview,
-    // filterByCity,
-    // error
+    hasMore: hasMoreReviews,
+    loadingMore: loadingMoreReviews,
+    loadMore: loadMoreReviews,
   } = useReviewListing({
-    initialLimit: 12,
+    initialLimit: 5, // Start with fewer reviews
     autoFetch: true,
     doctorSlug
   });
@@ -81,6 +79,10 @@ const DoctorDetailed = () => {
               doctor={doctor}
               loading={doctorLoading || timeslotLoading}
               timeSlots={timeSlots}
+              reviews={reviews}
+              hasMoreReviews={hasMoreReviews}
+              loadingMoreReviews={loadingMoreReviews}
+              onLoadMoreReviews={loadMoreReviews}
             />
             {doctorError && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
