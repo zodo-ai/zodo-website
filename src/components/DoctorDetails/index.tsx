@@ -27,7 +27,7 @@ interface TabItem {
   component: React.ReactNode;
 }
 
-const DoctorDetails = ({ doctor, loading, reviews }: DoctorDetailsProps) => {
+const DoctorDetails = ({ doctor, loading, reviews, hasMoreReviews, onLoadMoreReviews, loadingMoreReviews }: DoctorDetailsProps) => {
   const params = useParams();
   const doctorSlug = params.slug as string;
 
@@ -68,6 +68,20 @@ const DoctorDetails = ({ doctor, loading, reviews }: DoctorDetailsProps) => {
 
     setActiveTab(tabs[0])
   }, [timeSlots])
+
+  const [expandedReviews, setExpandedReviews] = useState<Set<string>>(
+    new Set()
+  );
+
+  const toggleReviewExpansion = (reviewId: string) => {
+    const newExpanded = new Set(expandedReviews);
+    if (newExpanded.has(reviewId)) {
+      newExpanded.delete(reviewId);
+    } else {
+      newExpanded.add(reviewId);
+    }
+    setExpandedReviews(newExpanded);
+  };
 
   if (loading) {
     return (
@@ -291,9 +305,6 @@ const DoctorDetails = ({ doctor, loading, reviews }: DoctorDetailsProps) => {
                 </div>
                 <p className="text-gray-500 text-sm font-medium">
                   No reviews yet
-                </p>
-                <p className="text-gray-400 text-xs mt-1">
-                  Be the first to leave a review
                 </p>
               </div>
             )}

@@ -12,7 +12,14 @@ import FastTagSection from "@/components/onboard/FastTagSection";
 import AddressSection from "@/components/onboard/AddressSection";
 import BankDetailsSection from "@/components/onboard/BankDetailsSection";
 import BillingAddressSection from "@/components/onboard/BillingAddressSection";
-
+import DocumentsUpload from "@/components/onboard/DocumentsUpload";
+import { useState } from "react";
+import toast from "react-hot-toast";
+interface FileDetailsI {
+  url: string;
+  filename: string;
+  key: string;
+}
 const Onboard = () => {
   const {
     register,
@@ -26,7 +33,8 @@ const Onboard = () => {
   const { createHospital, loading: isSubmitting } = useCreateHospital();
   const accountNumber = watch("accountnumber");
   // const fastTagEnabled = watch("fastTagEnabled");
-
+  const [document1, setDocument1] = useState<FileDetailsI>();
+  const [document2, setDocument2] = useState<FileDetailsI>();
   const onSubmit = async (data: HospitalFormInputs) => {
     if (data.accountnumber !== data.verifyAccountnumber) {
       showToast({
@@ -53,6 +61,23 @@ const Onboard = () => {
         return;
       }
     }
+
+    if (!document1?.key || !document2?.key) {
+      showToast({
+        type: "error",
+        message: "Please upload required documents",
+      });
+    }
+    const file1Details = {
+      name: document1?.filename,
+      file: document1?.key,
+    };
+    const file2Details = {
+      name: document2?.filename,
+      file: document2?.key,
+    };
+
+    const documents = [file1Details, file2Details];
 
     const hospital = {
       name: data.hospitalname,
@@ -99,37 +124,64 @@ const Onboard = () => {
         website: data.website || "",
       },
       gst: data.gstNumber || "",
-      documents: [],
+      documents: documents,
       status: "active",
       from_web: true,
     };
 
     const success = await createHospital(hospital);
-    
+
     if (success) {
       reset();
     }
+  };
+
+  const handleDocument1 = (data: object) => {
+    setDocument1(data);
+  };
+
+  const handleDocument2 = (data: object) => {
+    setDocument2(data);
   };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Hospital Onboarding</h1>
-          <p className="text-gray-600">Please fill in all the required information to register your hospital</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Hospital Onboarding
+          </h1>
+          <p className="text-gray-600">
+            Please fill in all the required information to register your
+            hospital
+          </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <HospitalInfoSection register={register} errors={errors} />
           <AdminDetailsSection register={register} errors={errors} />
-          <FastTagSection register={register} errors={errors} control={control} />
+          <FastTagSection
+            register={register}
+            errors={errors}
+            control={control}
+          />
           <AddressSection register={register} errors={errors} />
-          <BankDetailsSection register={register} errors={errors} accountNumber={accountNumber} />
+          <BankDetailsSection
+            register={register}
+            errors={errors}
+            accountNumber={accountNumber}
+          />
           <BillingAddressSection register={register} errors={errors} />
+          <DocumentsUpload
+            document1={document1}
+            handleDocument1={handleDocument1}
+            document2={document2}
+            handleDocument2={handleDocument2}
+          />
 
           <div className="flex justify-center pt-6">
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={isSubmitting}
               className="w-full md:w-auto px-12 py-3"
             >

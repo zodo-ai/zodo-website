@@ -1,3 +1,5 @@
+
+
 export type HospitalFormInputs = {
   // Hospital Details
   hospitalname: string;
