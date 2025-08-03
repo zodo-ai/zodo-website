@@ -50,8 +50,6 @@ const DoctorDetailed = () => {
     error: timeslotError,
   } = useDoctorTimeslot(doctor?.id || "");
 
- 
-
   const handleSearchChange = (query: string) => {
     search(query);
   };
