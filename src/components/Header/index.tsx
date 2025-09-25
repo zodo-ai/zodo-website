@@ -1,7 +1,4 @@
 'use client'
-import { ArrowRight, Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { BrandLogo } from "../Logo";
 import Navigation from "../Navigation";
 import { SidebarTrigger } from "../ui/sidebar";

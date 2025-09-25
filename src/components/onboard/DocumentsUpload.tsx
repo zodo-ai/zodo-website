@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { apiCall } from "@/network/api";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -25,7 +24,7 @@ function DocumentsUpload({
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState("");
-  const apiURL = "file-upload";
+  // const apiURL = "file-upload";
   const onChangeDocumen1 = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setError("");
     const selected = e.target.files?.[0];
@@ -103,7 +102,7 @@ function DocumentsUpload({
     // setFile(selected);
   };
 
-  console.log("Docyment 1", document1);
+  console.log("Docyment 1", file);
 
   return (
     <Card>

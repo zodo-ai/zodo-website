@@ -7,7 +7,6 @@ import { calculateExperience } from "@/helpers/calculateExperience";
 import { categorizeSlots } from "@/helpers/categoriesTimeSlots";
 import TimeSlots from "./Timeslots";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Calendar } from "@/components/ui/calendar";
 import { DatePicker } from "@/components/ui/date-picker";
 import useTimeSlots from "@/hooks/timeslots/use-hook";
 import { useParams } from "next/navigation";
@@ -29,7 +28,7 @@ interface TabItem {
 
 const DoctorDetails = ({ doctor, loading, reviews, hasMoreReviews, onLoadMoreReviews, loadingMoreReviews }: DoctorDetailsProps) => {
   const params = useParams();
-  const doctorSlug = params.slug as string;
+  // const doctorSlug = params.slug as string;
 
 
   const {

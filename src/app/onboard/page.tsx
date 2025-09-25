@@ -14,7 +14,6 @@ import BankDetailsSection from "@/components/onboard/BankDetailsSection";
 import BillingAddressSection from "@/components/onboard/BillingAddressSection";
 import DocumentsUpload from "@/components/onboard/DocumentsUpload";
 import { useState } from "react";
-import toast from "react-hot-toast";
 interface FileDetailsI {
   url: string;
   filename: string;
