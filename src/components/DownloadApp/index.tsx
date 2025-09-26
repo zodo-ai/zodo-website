@@ -15,7 +15,7 @@ const DownloadApp = () => {
         />
         <div className="z-10 w-full text-start md:text-left">
           <p className="text-white text-xl leading-5 font-extralight mb-2">Book Hospital Appointments In 2 Minutes</p>
-          <h2 className="text-5xl font-bold text-white mb-6">Download Zodo.ai Now</h2>
+          <h2 className="text-5xl font-bold text-white mb-6">Download Zodo AI Now</h2>
 
           <div className="flex flex-col sm:flex-row items-start md:items-center gap-4">
             <Image className="hidden md:flex" src={QRCode} alt="QR Code" width={100} height={100} />

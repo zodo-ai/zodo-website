@@ -9,7 +9,7 @@ import TimeSlots from "./Timeslots";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { DatePicker } from "@/components/ui/date-picker";
 import useTimeSlots from "@/hooks/timeslots/use-hook";
-import { useParams } from "next/navigation";
+// import { useParams } from "next/navigation";
 
 interface DoctorDetailsProps {
   doctor?: DoctorI | null;
@@ -27,7 +27,7 @@ interface TabItem {
 }
 
 const DoctorDetails = ({ doctor, loading, reviews, hasMoreReviews, onLoadMoreReviews, loadingMoreReviews }: DoctorDetailsProps) => {
-  const params = useParams();
+  // const params = useParams();
   // const doctorSlug = params.slug as string;
 
 
@@ -61,10 +61,10 @@ const DoctorDetails = ({ doctor, loading, reviews, hasMoreReviews, onLoadMoreRev
       component: <TimeSlots timeSlots={evening} />,
     },
   ];
+  
   console.log(morning, evening, afternoon);
   const [activeTab, setActiveTab] = useState<TabItem>();
   useEffect(() => {
-
     setActiveTab(tabs[0])
   }, [timeSlots])
 
