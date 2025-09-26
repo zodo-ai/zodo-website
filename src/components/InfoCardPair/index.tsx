@@ -7,7 +7,7 @@ import Image from 'next/image'
 const InfoCardPair: React.FC<InfoCardPairPropsI> = ({ leftCard, rightCard }) => {
   const [showFullText, setShowFullText] = useState(false)
 
-  const maxChars = 200
+  const maxChars = 300
   const isLong = rightCard.description.length > maxChars
   const shouldShowToggle = isLong 
 

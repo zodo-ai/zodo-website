@@ -10,10 +10,10 @@ interface FileDetailsI {
 }
 
 interface DocumentDetails {
-  document1: FileDetailsI;
-  handleDocument1: Function;
-  document2: FileDetailsI;
-  handleDocument2: Function;
+  document1: FileDetailsI | undefined;
+  handleDocument1: (file: FileDetailsI) => void;
+  document2: FileDetailsI | undefined;
+  handleDocument2: (file: FileDetailsI) => void;
 }
 function DocumentsUpload({
   document1,

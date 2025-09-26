@@ -135,11 +135,11 @@ const Onboard = () => {
     }
   };
 
-  const handleDocument1 = (data: object) => {
+  const handleDocument1 = (data: FileDetailsI) => {
     setDocument1(data);
   };
 
-  const handleDocument2 = (data: object) => {
+  const handleDocument2 = (data: FileDetailsI) => {
     setDocument2(data);
   };
 

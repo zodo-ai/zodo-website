@@ -37,6 +37,7 @@ const useHospitalDetail = (hospitalId: string): UseHospitalDetailReturn => {
 
     useEffect(() => {
         fetchHospitalDetail();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hospitalId]);
 
     return {

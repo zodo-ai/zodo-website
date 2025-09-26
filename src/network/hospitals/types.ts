@@ -44,6 +44,7 @@ export type HospitalsI = {
   avg_rating: string;
   rating_count: number;
   created_at: string;
+  about: string;
 };
 
 // Hospital detail response type

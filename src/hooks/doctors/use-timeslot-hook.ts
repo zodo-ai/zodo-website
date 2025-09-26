@@ -41,6 +41,7 @@ const useDoctorTimeslot = (doctorId: string): UseTimeSlotDetailReturn => {
 
     useEffect(() => {
         fetchTimeslotDetail();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [doctorId]);
 
     return {

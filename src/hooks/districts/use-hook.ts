@@ -22,7 +22,7 @@ const useDistricts = (): UseDistrictsReturn => {
             const response = await fetchDistrictsAPI();
             const districtsWithDefault = [
                 { id: null, name: 'Choose' },
-                ...(response.data || (response as any))
+                ...(response.data)
             ];
             
             setDistricts(districtsWithDefault); 

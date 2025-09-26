@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { UseFormRegister, FieldErrors, FieldPath } from "react-hook-form";
 
-interface FormFieldProps<T extends Record<string, any>> {
+interface FormFieldProps<T extends Record<string, unknown>> {
   id: FieldPath<T>;
   label: string;
   placeholder: string;
@@ -13,7 +13,7 @@ interface FormFieldProps<T extends Record<string, any>> {
   className?: string;
 }
 
-const FormField = <T extends Record<string, any>>({
+const FormField = <T extends Record<string, unknown>>({
   id,
   label,
   placeholder,

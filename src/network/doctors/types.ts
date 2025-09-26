@@ -9,10 +9,10 @@ export interface DoctorI {
   name: string;
   email: string;
   city: string | null;
-  registration_details: any | null;
-  address: any | null;
-  bank_details: any | null;
-  documents: any | null;
+  registration_details: unknown | null;
+  address: unknown | null;
+  bank_details: unknown | null;
+  documents: unknown | null;
   hospital_id: string | null;
   user_id: string;
   phone_number: string;
@@ -40,7 +40,7 @@ interface TimeSlotDataI {
   startTime: string;
   endTime: string;
   isAvailable: boolean;
-  // Add any other properties that each individual time slot object has
+  // Add unknown other properties that each individual time slot object has
 }
 
 export interface TimeSlotI {

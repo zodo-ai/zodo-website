@@ -28,7 +28,7 @@ export interface GenerateUrlOptions {
 export class APIResError extends Error {
     constructor(
         public status: number,
-        public response: any,
+        public response: unknown,
         message?: string
     ) {
         super(message || `API Error: ${status}`);
@@ -49,7 +49,7 @@ const Config = {
 
 const BASE_URL = Config.BASE_URL;
 
-const isFilled = (value: any): boolean => {
+const isFilled = (value: unknown): boolean => {
     return value !== null && value !== undefined && value !== '';
 };
 

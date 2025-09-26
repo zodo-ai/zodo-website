@@ -42,6 +42,7 @@ const useDoctorDetail = (doctorId: string): UseDoctorDetailReturn => {
 
     useEffect(() => {
         fetchDoctorDetail();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [doctorId]);
 
     return {

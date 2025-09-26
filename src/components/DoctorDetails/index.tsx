@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import InfoCardPair from "../InfoCardPair";
 import HospitalOne from "~/png/HospitalOne.png";
 import { DoctorI, ReviewI, TimeSlotI } from "@/network/doctors/types";
@@ -26,47 +26,74 @@ interface TabItem {
   component: React.ReactNode;
 }
 
-const DoctorDetails = ({ doctor, loading, reviews, hasMoreReviews, onLoadMoreReviews, loadingMoreReviews }: DoctorDetailsProps) => {
+const DoctorDetails = ({
+  doctor,
+  loading,
+  reviews,
+  hasMoreReviews,
+  onLoadMoreReviews,
+  loadingMoreReviews,
+}: DoctorDetailsProps) => {
   // const params = useParams();
   // const doctorSlug = params.slug as string;
-
 
   const {
     timeSlots,
     loading: timeSlotsLoading,
     error: timeSlotsError,
     selectedDate,
-    setSelectedDate
+    setSelectedDate,
   } = useTimeSlots({
     doctor_id: doctor?.id,
-    autoFetch: true
+    autoFetch: true,
   });
 
   const { morning, evening, afternoon } = categorizeSlots(timeSlots || []);
 
-  const tabs = [
-    {
-      id: "1",
-      title: "Morning",
-      component: <TimeSlots timeSlots={morning} />,
-    },
-    {
-      id: "2",
-      title: "Afternoon",
-      component: <TimeSlots timeSlots={afternoon} />,
-    },
-    {
-      id: "3",
-      title: "Evening",
-      component: <TimeSlots timeSlots={evening} />,
-    },
-  ];
-  
+  // const tabs = [
+  //   {
+  //     id: "1",
+  //     title: "Morning",
+  //     component: <TimeSlots timeSlots={morning} />,
+  //   },
+  //   {
+  //     id: "2",
+  //     title: "Afternoon",
+  //     component: <TimeSlots timeSlots={afternoon} />,
+  //   },
+  //   {
+  //     id: "3",
+  //     title: "Evening",
+  //     component: <TimeSlots timeSlots={evening} />,
+  //   },
+  // ];
+  const tabs = useMemo(
+    () => [
+      {
+        id: "1",
+        title: "Morning",
+        component: <TimeSlots timeSlots={morning} />,
+      },
+      {
+        id: "2",
+        title: "Afternoon",
+        component: <TimeSlots timeSlots={afternoon} />,
+      },
+      {
+        id: "3",
+        title: "Evening",
+        component: <TimeSlots timeSlots={evening} />,
+      },
+    ],
+    [morning, afternoon, evening]
+  );
+
   console.log(morning, evening, afternoon);
   const [activeTab, setActiveTab] = useState<TabItem>();
   useEffect(() => {
-    setActiveTab(tabs[0])
-  }, [timeSlots])
+      setActiveTab(tabs[0]); // always reset when timeSlots change
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeSlots]);
 
   const [expandedReviews, setExpandedReviews] = useState<Set<string>>(
     new Set()
@@ -100,7 +127,6 @@ const DoctorDetails = ({ doctor, loading, reviews, hasMoreReviews, onLoadMoreRev
     : "";
 
   console.log("Reviews ", reviews);
-  
 
   return (
     <div>
@@ -160,7 +186,9 @@ const DoctorDetails = ({ doctor, loading, reviews, hasMoreReviews, onLoadMoreRev
             {timeSlotsLoading ? (
               <div className="flex justify-center items-center py-8">
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#1B7C7B]"></div>
-                <span className="ml-2 text-gray-600">Loading time slots...</span>
+                <span className="ml-2 text-gray-600">
+                  Loading time slots...
+                </span>
               </div>
             ) : timeSlots.length > 0 ? (
               <div className="w-full">
@@ -168,10 +196,11 @@ const DoctorDetails = ({ doctor, loading, reviews, hasMoreReviews, onLoadMoreRev
                   {tabs.map((tab) => (
                     <button
                       key={tab.id}
-                      className={`relative px-4 py-2 text-sm sm:text-base transition-all duration-300 ${activeTab?.id === tab.id
+                      className={`relative px-4 py-2 text-sm sm:text-base transition-all duration-300 ${
+                        activeTab?.id === tab.id
                           ? "text-teal-700 font-medium border-b-2 border-teal-600"
                           : "text-gray-500"
-                        }`}
+                      }`}
                       onClick={() => setActiveTab(tab)}
                     >
                       {tab.title}
@@ -201,7 +230,8 @@ const DoctorDetails = ({ doctor, loading, reviews, hasMoreReviews, onLoadMoreRev
                 {reviews.map((review, index) => {
                   const reviewId = review.id || index.toString();
                   const isExpanded = expandedReviews.has(reviewId);
-                  const reviewText = review.review_note || "No review text available";
+                  const reviewText =
+                    review.review_note || "No review text available";
                   const shouldShowToggle = reviewText.length > 50; // Test with shorter threshold
 
                   return (
@@ -212,18 +242,33 @@ const DoctorDetails = ({ doctor, loading, reviews, hasMoreReviews, onLoadMoreRev
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2 gap-2">
                         <div className="flex items-center space-x-2">
                           <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
-                            <AvatarImage 
-                              src={review.user?.profile_picture || `https://ui-avatars.com/api/?name=${review.user?.first_name}+${review.user?.last_name ?? ""}&background=0d9488&color=fff`} 
-                              alt={review.user ? `${review.user.first_name} ${review.user.last_name}` : 'Anonymous'} 
+                            <AvatarImage
+                              src={
+                                review.user?.profile_picture ||
+                                `https://ui-avatars.com/api/?name=${
+                                  review.user?.first_name
+                                }+${
+                                  review.user?.last_name ?? ""
+                                }&background=0d9488&color=fff`
+                              }
+                              alt={
+                                review.user
+                                  ? `${review.user.first_name} ${review.user.last_name}`
+                                  : "Anonymous"
+                              }
                             />
                             <AvatarFallback className="bg-teal-100 text-teal-700 text-xs sm:text-sm font-medium">
-                              {review.user?.first_name?.charAt(0).toUpperCase() || "A"}
+                              {review.user?.first_name
+                                ?.charAt(0)
+                                .toUpperCase() || "A"}
                             </AvatarFallback>
                           </Avatar>
                           <div className="min-w-0 flex-1">
                             <p className="font-medium text-gray-900 text-sm truncate">
                               {review.user
-                                ? `${review.user.first_name ?? ""} ${review.user.last_name ?? ""}`
+                                ? `${review.user.first_name ?? ""} ${
+                                    review.user.last_name ?? ""
+                                  }`
                                 : "Anonymous"}
                             </p>
                             <div className="flex items-center space-x-0.5">
@@ -231,7 +276,8 @@ const DoctorDetails = ({ doctor, loading, reviews, hasMoreReviews, onLoadMoreRev
                                 <span
                                   key={i}
                                   className={`text-sm ${
-                                    i < Math.round(parseInt(review.rating || "0"))
+                                    i <
+                                    Math.round(parseInt(review.rating || "0"))
                                       ? "text-yellow-400"
                                       : "text-gray-300"
                                   }`}
@@ -264,7 +310,7 @@ const DoctorDetails = ({ doctor, loading, reviews, hasMoreReviews, onLoadMoreRev
                     </div>
                   );
                 })}
-                
+
                 {/* Load More Button */}
                 {hasMoreReviews && (
                   <div className="flex justify-center pt-4">
@@ -279,7 +325,7 @@ const DoctorDetails = ({ doctor, loading, reviews, hasMoreReviews, onLoadMoreRev
                           <span>Loading...</span>
                         </div>
                       ) : (
-                        'Load More Reviews'
+                        "Load More Reviews"
                       )}
                     </button>
                   </div>

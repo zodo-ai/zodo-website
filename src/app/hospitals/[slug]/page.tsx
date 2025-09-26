@@ -55,6 +55,9 @@ const HospitalDetailed = () => {
         search(query);
     };
 
+    console.log("API doctors",apiDoctors);
+    
+
     return (
         <div>
             <div className="flex flex-col items-center justify-center">

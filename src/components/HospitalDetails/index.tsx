@@ -22,12 +22,14 @@ const HospitalDetails = ({ hospital, loading }: HospitalDetailsProps) => {
 
       const hospitalSlug = params.slug as string;
       console.log("Slug ", hospitalSlug);
+      console.log("Hospital",hospital);
+      
     return (
         <InfoCardPair
             leftCard={{
                 imageSrc: hospital?.logo && hospital.logo.trim() !== '' ? hospital.logo : HospitalOne,
                 title: hospital?.name || '',
-                subtitle: 'multi-specialist hospital',
+                subtitle: '',
                 rating: {
                     value: parseFloat(hospital?.avg_rating || '0'),
                     count: hospital?.rating_count || 0
@@ -38,7 +40,7 @@ const HospitalDetails = ({ hospital, loading }: HospitalDetailsProps) => {
             }}
             rightCard={{
                 heading: 'About Hospital',
-                description: `${hospital?.name || 'This hospital'} is a multi-specialist hospital providing comprehensive healthcare services. We are committed to delivering quality medical care with state-of-the-art facilities and experienced medical professionals.`,
+                description: hospital?.about ? hospital.about :`${hospital?.name || 'This hospital'} is a multi-specialist hospital providing comprehensive healthcare services. We are committed to delivering quality medical care with state-of-the-art facilities and experienced medical professionals.`,
                 readMoreLink: '#',
             }}
         />

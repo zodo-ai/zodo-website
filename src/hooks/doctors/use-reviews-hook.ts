@@ -159,7 +159,7 @@ const useReviewListing = (options: UseReviewListingOptionsI = {}): UseReviewList
                 doctor_id:doctorSlug
             });
         }
-    }, [autoFetch, initialLimit, fetchReviews]);
+    }, [autoFetch, initialLimit, fetchReviews, doctorSlug]);
 
     const hasMore = currentPage < totalPages;
 

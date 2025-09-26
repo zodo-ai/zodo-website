@@ -45,14 +45,14 @@ export interface CreateHospitalPayload {
     website: string;
   };
   gst: string;
-  documents: any[];
+  documents: unknown[];
   status: string;
   from_web: boolean;
 }
 
 export interface CreateHospitalResponse {
   message: string;
-  data?: any;
+  data?: unknown;
 }
 
 export const createHospitalAPI = async (
