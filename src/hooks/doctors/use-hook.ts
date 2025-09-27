@@ -17,10 +17,8 @@ const useDoctorListing = (options: UseDoctorListingOptionsI = {}): UseDoctorList
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [districtFilter, setDistrictFilter] = useState<string>('');
     const [hospitalFilter, setHospitalFilter] = useState<string>('');
-    console.log("Hospital filter",hospitalFilter);
     
     const fetchDoctors = useCallback(async (params: FetchDoctorsParams, isLoadMore = false) => {
-        console.log("Doctors params ",params);
         
         try {
             if (isLoadMore) {
@@ -130,7 +128,6 @@ const useDoctorListing = (options: UseDoctorListingOptionsI = {}): UseDoctorList
     }, [initialLimit, searchQuery, hospitalFilter, fetchDoctors]);
 
     const filterByHospital = useCallback((hospitalId: string) => {
-        console.log("Hospital Id ",hospitalId);
         
         setHospitalFilter(hospitalId);
         setCurrentPage(1);

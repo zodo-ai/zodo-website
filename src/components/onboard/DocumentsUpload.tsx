@@ -25,6 +25,7 @@ function DocumentsUpload({
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState("");
   // const apiURL = "file-upload";
+  console.log(file);
   const onChangeDocumen1 = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setError("");
     const selected = e.target.files?.[0];
@@ -46,7 +47,6 @@ function DocumentsUpload({
         formData
       );
       const message = response?.data?.message;
-      console.log(message);
 
       if (message) {
         const url = response?.data?.data?.url;
@@ -57,8 +57,8 @@ function DocumentsUpload({
         toast.success(message);
       }
     } catch (error) {
-      console.log(error);
       toast.error("Unable to upload file");
+      throw(error);
     }
 
     // setFile(selected);
@@ -95,14 +95,13 @@ function DocumentsUpload({
         toast.success(message);
       }
     } catch (error) {
-      console.log(error);
       toast.error("Unable to upload file");
+      throw(error);
     }
 
     // setFile(selected);
   };
 
-  console.log("Docyment 1", file);
 
   return (
     <Card>

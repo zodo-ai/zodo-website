@@ -88,7 +88,6 @@ const DoctorDetails = ({
     [morning, afternoon, evening]
   );
 
-  console.log(morning, evening, afternoon);
   const [activeTab, setActiveTab] = useState<TabItem>();
   useEffect(() => {
       setActiveTab(tabs[0]); // always reset when timeSlots change
@@ -126,7 +125,6 @@ const DoctorDetails = ({
     ? calculateExperience(doctor?.work_start_date)
     : "";
 
-  console.log("Reviews ", reviews);
 
   return (
     <div>

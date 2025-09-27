@@ -7,7 +7,6 @@ import {  UseReviewListingOptionsI, UseReviewListingReturnI } from './types';
 
 const useReviewListing = (options: UseReviewListingOptionsI = {}): UseReviewListingReturnI => {
     const { initialLimit = 10, autoFetch = true, doctorSlug } = options;
-    console.log("SLUGGGG ",doctorSlug);
     
     const [reviews, setReviews] = useState<ReviewI[]>([]);
     const [loading, setLoading] = useState(false);
@@ -21,7 +20,6 @@ const useReviewListing = (options: UseReviewListingOptionsI = {}): UseReviewList
     // const [hospitalFilter, setHospitalFilter] = useState<string>('');
 
     const fetchReviews = useCallback(async (params: FetchReviewParams, isLoadMore = false) => {
-        console.log("Paramssss ",params);
         
         try {
             if (isLoadMore) {

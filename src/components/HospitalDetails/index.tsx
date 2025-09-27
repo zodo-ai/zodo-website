@@ -1,8 +1,6 @@
-import React from 'react'
-import InfoCardPair from '../InfoCardPair'
-import HospitalOne from "~/png/HospitalOne.png"
-import { HospitalsI } from '@/network/hospitals/types'
-import { useParams } from 'next/navigation';
+import InfoCardPair from '../InfoCardPair';
+import HospitalOne from "~/png/HospitalOne.png";
+import { HospitalsI } from '@/network/hospitals/types';
 
 interface HospitalDetailsProps {
     hospital?: HospitalsI | null;
@@ -10,7 +8,6 @@ interface HospitalDetailsProps {
 }
 
 const HospitalDetails = ({ hospital, loading }: HospitalDetailsProps) => {
-    const params = useParams();
 
     if (loading) {
         return (
@@ -20,9 +17,6 @@ const HospitalDetails = ({ hospital, loading }: HospitalDetailsProps) => {
         );
     }
 
-      const hospitalSlug = params.slug as string;
-      console.log("Slug ", hospitalSlug);
-      console.log("Hospital",hospital);
       
     return (
         <InfoCardPair

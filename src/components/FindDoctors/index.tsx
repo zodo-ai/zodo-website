@@ -151,8 +151,6 @@ const FindDoctors = ({
                 specialty={doctor.specialty}
                 image={doctor.image}
                 onBook={() => {
-                  console.log(doctor);
-
                   router.push(`/doctors/${doctor.name}`);
                 }}
               />

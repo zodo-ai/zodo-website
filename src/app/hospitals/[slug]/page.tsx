@@ -23,13 +23,7 @@ const HospitalDetailed = () => {
         hospital,
         loading: hospitalLoading,
         error: hospitalError
-    } = useHospitalDetail(hospitalSlug);
-    const doctorSlug = params.slug as string;
-    console.log("Slug hahah", doctorSlug);
-
-
-    console.log("Individual hospitals ",hospital);
-    
+    } = useHospitalDetail(hospitalSlug);        
     
     const {
         doctors: apiDoctors,
@@ -46,16 +40,15 @@ const HospitalDetailed = () => {
     });
 
     React.useEffect(() => {
-        if (hospitalSlug) {
-            filterByHospital(hospitalSlug);
-        }
-    }, [hospitalSlug, filterByHospital]);
+        // if (hospital?.id) {
+            filterByHospital(hospital?.id ?? '');
+        // }
+    }, [ hospital?.id,filterByHospital, hospitalSlug]);
 
     const handleSearchChange = (query: string) => {
         search(query);
     };
 
-    console.log("API doctors",apiDoctors);
     
 
     return (
