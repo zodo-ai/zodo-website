@@ -22,8 +22,8 @@ const Home = () => {
       <div className="mt-12 lg:mt-36">
         <Mugshots />
       </div>
-      <FindDoctors />
       <FindHospitals />
+      <FindDoctors />
       <Services />
       <Privacy />
       <AboutUs />

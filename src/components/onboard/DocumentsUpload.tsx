@@ -22,20 +22,17 @@ function DocumentsUpload({
   handleDocument2,
 }: DocumentDetails) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState("");
   // const apiURL = "file-upload";
-  console.log(file);
   const onChangeDocumen1 = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setError("");
     const selected = e.target.files?.[0];
     if (!selected) {
-      setFile(null);
       return;
     }
     if (selected.type !== "application/pdf") {
       setError("Only PDF files are allowed.");
-      setFile(null);
+      // setFile(null);
       return;
     }
     const formData = new FormData();
@@ -68,12 +65,12 @@ function DocumentsUpload({
     setError("");
     const selected = e.target.files?.[0];
     if (!selected) {
-      setFile(null);
+      // setFile(null);
       return;
     }
     if (selected.type !== "application/pdf") {
       setError("Only PDF files are allowed.");
-      setFile(null);
+      // setFile(null);
       return;
     }
     const formData = new FormData();
