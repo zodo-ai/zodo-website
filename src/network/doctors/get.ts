@@ -36,7 +36,7 @@ export const fetchDoctorsAPI = async (
     query.hospital_id = hospital_id;
   }
 
-  return await apiCall("doctors", "GET", {
+  return await apiCall("doctors/open", "GET", {
     query,
   });
 };

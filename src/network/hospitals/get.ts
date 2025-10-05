@@ -31,7 +31,7 @@ export const fetchHospitalsAPI = async (
     query.district_id = district_id;
   }
 
-  return await apiCall("hospitals", "GET", {
+  return await apiCall("hospitals/open", "GET", {
     query,
   });
 };
@@ -46,7 +46,7 @@ export const fetchHospitalsAPI = async (
 
 export const fetchHospitalDetailAPI = async (
   hospitalId: string
-): Promise<HospitalsI> => {
+): Promise<HospitalsI> => {  
   const url = `hospitals/slug/${encodeURIComponent(hospitalId)}`;
   return await apiCall(url, "GET");
 };
