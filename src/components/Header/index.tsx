@@ -22,9 +22,10 @@ const headerLinks = [
   },
   {
     label: "Contact",
-    link: '/'
-  }
+    link: "/contact",   // ✅ Correct path
+  },
 ];
+
 
 const Header = () => {
   return (

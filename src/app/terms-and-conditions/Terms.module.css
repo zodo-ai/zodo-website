@@ -1,0 +1,47 @@
+.container {
+  min-height: 100vh;
+  padding: 80px 20px;
+  display: flex;
+  justify-content: center;
+  background: #f9fafb;
+}
+
+.content {
+  max-width: 900px;
+  line-height: 1.8;
+  color: #1f2937;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #0f766e; /* ZODO green */
+}
+
+.updated {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  color: #111827;
+}
+
+.paragraph {
+  margin-bottom: 18px;
+}
+
+.list {
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
+.list li {
+  margin-bottom: 10px;
+}
