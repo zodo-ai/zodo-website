@@ -1,0 +1,42 @@
+.container {
+  padding: 80px 20px;
+  display: flex;
+  justify-content: center;
+  background: #f9fafb;
+  min-height: 100vh;
+}
+
+.content {
+  max-width: 900px;
+  line-height: 1.8;
+  color: #1f2937;
+}
+
+.title {
+  font-size: 36px;
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: #0f766e; /* match your green theme */
+}
+
+.updated {
+  color: #6b7280;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.content h2 {
+  margin-top: 30px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.content ul {
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.content li {
+  margin-bottom: 8px;
+}
