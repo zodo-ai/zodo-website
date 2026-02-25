@@ -9,16 +9,14 @@ const links = [
   },
   {
     label: "Contact",
-    link: "/"
+    link: "/contact", // this matches your new contact page
   },
   {
     label: "Terms & Conditions",
     link: "/terms-and-conditions"
   },
-  {
-    label: "Privacy Policy",
-    link: "/"
-  }
+  { label: "Privacy Policy", 
+    link: "/privacy-policy" },
 ];
 
 export default links;

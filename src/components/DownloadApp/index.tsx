@@ -6,7 +6,8 @@ import PlayStore from "~/svg/GoogleDownloadWhite.svg";
 
 const DownloadApp = () => {
   return (
-    <div className="bg-white px-4 py-16 flex justify-center">
+    <div id="download-app" className="download-section">
+      <div className="bg-white px-4 py-16 flex justify-center">
       <div className="relative w-full max-w-[85%] bg-[#255952] rounded-2xl px-8 py-12 flex flex-col md:flex-row items-center justify-between overflow-hidden">
         <Image
           src={TransparentIconLarge}
@@ -27,6 +28,8 @@ const DownloadApp = () => {
         </div>
       </div>
     </div>
+    </div>
+
   );
 };
 

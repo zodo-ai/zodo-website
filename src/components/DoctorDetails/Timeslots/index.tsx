@@ -3,10 +3,19 @@ import { Slot, TimeSlotProps } from "./types";
 import { formatDisplayTime } from "@/helpers/formatDisplayTime";
 
 const TimeSlots: React.FC<TimeSlotProps> = ({ timeSlots }) => {
+
+  const handleScrollToDownload = () => {
+    const section = document.getElementById("download-app");
+    if(section) {
+      section.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   return (
     <div className="md:gap-5 gap-1 flex flex-wrap pt-3">
       {timeSlots.map((item: Slot) => (
         <button
+          onClick={ item.isAvailable? handleScrollToDownload : undefined }
           key={item.startTime}
           disabled={!item.isAvailable}
           className={`
