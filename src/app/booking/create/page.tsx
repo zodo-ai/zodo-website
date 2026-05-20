@@ -293,18 +293,19 @@ const CreateBookingContent = () => {
           type: "success",
         });
 
-        const checkoutUrl = response.data.paymentOrder?.checkout_url;
+        const paymentUrl = response.data.paymentOrder?.payment_link;
 
-        if (checkoutUrl) {
-          window.location.href = checkoutUrl;
+        if (!paymentUrl) {
+          showToast({
+            message: "Payment link missing",
+            description: "Unable to start payment",
+            type: "error",
+          });
           return;
         }
 
-        router.push(
-          `/booking/success?bookingId=${encodeURIComponent(
-            response.data.booking.booking_id
-          )}`
-        );
+        window.location.href = paymentUrl;
+        return;
       }
     } catch (error) {
       showToast({
