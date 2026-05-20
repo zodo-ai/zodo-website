@@ -165,7 +165,7 @@ const DoctorDetails = ({
               Ready to schedule your consultation?
             </p>
             <p className="mt-1 text-lg font-semibold text-[#173F3A]">
-              Book an online appointment with Dr. {doctor.name}
+              Book an appointment with Dr. {doctor.name}
             </p>
           </div>
           <Button

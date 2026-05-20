@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -8,26 +8,20 @@ import {
   BadgePercent,
   CalendarDays,
   CheckCircle2,
-  Clock,
   CreditCard,
   IndianRupee,
   Loader2,
   Stethoscope,
   TicketPercent,
-  Video,
 } from "lucide-react";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/use-auth";
-import useTimeSlots from "@/hooks/timeslots/use-hook";
-import { categorizeSlots } from "@/helpers/categoriesTimeSlots";
-import { formatDisplayTime } from "@/helpers/formatDisplayTime";
 import { fetchCurrentUserProfileAPI } from "@/network/auth";
 import { fetchDoctorDetailAPI } from "@/network/doctors/get";
 import { DoctorI } from "@/network/doctors/types";
-import { TimeSlotI } from "@/network/timeslots/types";
 import { UserProfile } from "@/types/auth";
 import { showToast } from "@/lib/toast";
 import {
@@ -77,50 +71,7 @@ const getErrorMessage = (error: unknown, fallback: string): string => {
   return error instanceof Error ? error.message : fallback;
 };
 
-const SlotGroup = ({
-  title,
-  slots,
-  selectedSlot,
-  onSelect,
-}: {
-  title: string;
-  slots: TimeSlotI[];
-  selectedSlot: string;
-  onSelect: (slot: string) => void;
-}) => {
-  if (slots.length === 0) {
-    return null;
-  }
 
-  return (
-    <div>
-      <p className="mb-3 text-sm font-semibold text-[#173F3A]">{title}</p>
-      <div className="flex flex-wrap gap-2">
-        {slots.map((slot) => {
-          const isSelected = selectedSlot === slot.startTime;
-
-          return (
-            <button
-              key={slot.startTime}
-              type="button"
-              disabled={!slot.isAvailable}
-              onClick={() => onSelect(slot.startTime)}
-              className={`h-10 min-w-[96px] rounded-md border px-3 text-sm font-semibold transition ${
-                isSelected
-                  ? "border-[#1D453F] bg-[#1D453F] text-white"
-                  : slot.isAvailable
-                  ? "border-[#C9DCD8] bg-white text-[#173F3A] hover:border-[#347D73]"
-                  : "cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400 line-through"
-              }`}
-            >
-              {formatDisplayTime(slot.startTime)}
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
 
 const CreateBookingContent = () => {
   const router = useRouter();
@@ -138,25 +89,10 @@ const CreateBookingContent = () => {
   const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<CouponI | null>(null);
   const [couponLoading, setCouponLoading] = useState(false);
-  const [selectedSlot, setSelectedSlot] = useState("");
   const [reason, setReason] = useState("");
   const [creating, setCreating] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date>();
 
-  const {
-    timeSlots,
-    loading: slotsLoading,
-    error: slotsError,
-    selectedDate,
-    setSelectedDate,
-  } = useTimeSlots({
-    doctor_id: doctorId,
-    autoFetch: Boolean(doctorId),
-  });
-
-  const { morning, afternoon, evening } = useMemo(
-    () => categorizeSlots(timeSlots || []),
-    [timeSlots]
-  );
 
   const loadAmount = useCallback(
     async (couponId?: string) => {
@@ -232,9 +168,6 @@ const CreateBookingContent = () => {
     router,
   ]);
 
-  useEffect(() => {
-    setSelectedSlot("");
-  }, [selectedDate]);
 
   const applyCoupon = async () => {
     const normalizedCoupon = couponCode.trim().toUpperCase();
@@ -300,10 +233,10 @@ const CreateBookingContent = () => {
   };
 
   const createBooking = async () => {
-    if (!profile || !amountDetails || !selectedDate || !selectedSlot) {
+    if (!profile || !amountDetails || !selectedDate) {
       showToast({
         message: "Missing details",
-        description: "Please select appointment date and time slot.",
+        description: "Please select appointment date",
         type: "error",
       });
       return;
@@ -335,15 +268,15 @@ const CreateBookingContent = () => {
       const origin = window.location.origin;
       const response = await createBookingAPI({
         doctor_id: doctorId,
+        hospital_id: doctor?.hospital_id || null,
         user_details: {
           name: profileName,
           age: profile.age,
           gender: profile.gender,
         },
         appointmentDate: formatDateForApi(selectedDate),
-        timeSlot: selectedSlot,
         reason: reason.trim(),
-        is_online: true,
+        is_online: false,
         is_service: false,
         amount: String(amountDetails.total),
         coupon_id: amountDetails.coupon_id || appliedCoupon?.id || null,
@@ -433,110 +366,52 @@ const CreateBookingContent = () => {
               <div>
                 <p className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-[#347D73]">
                   <Stethoscope size={16} />
-                  Online consultation
+                  Clinic Appointment
                 </p>
                 <h1 className="mt-2 text-2xl font-bold text-[#173F3A]">
                   Book appointment with Dr. {doctor?.name || "Doctor"}
                 </h1>
                 <p className="mt-2 text-sm text-[#6B7C80]">
-                  Choose a date, available time slot, and enter your concern.
+                  Choose an appointment date and enter your concern.
                 </p>
               </div>
               <div className="flex w-fit items-center gap-2 rounded-md bg-[#EAF5F2] px-3 py-2 text-sm font-semibold text-[#1D453F]">
-                <Video size={16} />
-                Online
+                <Stethoscope size={16} />
+                  Offline Consultation
               </div>
             </div>
 
-            <div className="grid gap-5 md:grid-cols-2">
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-[#344C50]">
-                  Appointment Date
-                </label>
-                <DatePicker
-                  date={selectedDate}
-                  onDateChange={setSelectedDate}
-                  placeholder="Select appointment date"
-                  disabled={(date) => {
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    return date < today;
-                  }}
-                  className="w-full"
-                />
-              </div>
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-[#344C50]">
+                Appointment Date
+              </label>
+              <DatePicker
+                date={selectedDate}
+                onDateChange={setSelectedDate}
+                placeholder="Select appointment date"
+                disabled={(date) => {
+                  const today = new Date();
+                  today.setHours(0, 0, 0, 0);
+                  return date < today;
+                }}
+                className="w-full"
+              />
+            </div>
+            
 
-              <div className="rounded-lg border border-[#E6EEEC] bg-[#F8FBFA] p-4">
-                <p className="text-xs font-semibold uppercase text-[#7B8E92]">
-                  Selected
-                </p>
-                <p className="mt-1 flex items-center gap-2 font-semibold text-[#173F3A]">
-                  <CalendarDays size={16} />
-                  {formatDateLabel(selectedDate)}
-                </p>
-                <p className="mt-2 flex items-center gap-2 text-sm text-[#5C7074]">
-                  <Clock size={16} />
-                  {selectedSlot
-                    ? formatDisplayTime(selectedSlot)
-                    : "Choose a time slot"}
-                </p>
-              </div>
+            <div className="rounded-lg border border-[#E6EEEC] bg-[#F8FBFA] p-4">
+              <p className="text-xs font-semibold uppercase text-[#7B8E92]">
+                Selected
+              </p>
+              <p className="mt-1 flex items-center gap-2 font-semibold text-[#173F3A]">
+                <CalendarDays size={16} />
+                {formatDateLabel(selectedDate)}
+              </p>
+              <p className="mt-2 text-sm text-[#5C7074]">
+                Appointment date selected
+              </p>
             </div>
 
-            <div className="rounded-lg border border-[#E6EEEC] bg-[#FAFCFB] p-4">
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <div>
-                  <h2 className="text-lg font-semibold text-[#173F3A]">
-                    Available Time Slots
-                  </h2>
-                  <p className="text-sm text-[#6B7C80]">
-                    Times are shown for your selected appointment date.
-                  </p>
-                </div>
-                {slotsLoading && (
-                  <Loader2 className="h-5 w-5 animate-spin text-[#347D73]" />
-                )}
-              </div>
-
-              {slotsError && (
-                <div className="mb-4 rounded-md border border-red-100 bg-red-50 p-3 text-sm text-red-700">
-                  {slotsError}
-                </div>
-              )}
-
-              {slotsLoading ? (
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <Skeleton className="h-10 rounded-md" />
-                  <Skeleton className="h-10 rounded-md" />
-                  <Skeleton className="h-10 rounded-md" />
-                </div>
-              ) : timeSlots.length > 0 ? (
-                <div className="space-y-5">
-                  <SlotGroup
-                    title="Morning"
-                    slots={morning}
-                    selectedSlot={selectedSlot}
-                    onSelect={setSelectedSlot}
-                  />
-                  <SlotGroup
-                    title="Afternoon"
-                    slots={afternoon}
-                    selectedSlot={selectedSlot}
-                    onSelect={setSelectedSlot}
-                  />
-                  <SlotGroup
-                    title="Evening"
-                    slots={evening}
-                    selectedSlot={selectedSlot}
-                    onSelect={setSelectedSlot}
-                  />
-                </div>
-              ) : (
-                <div className="rounded-md border border-dashed border-[#C9DCD8] bg-white p-6 text-center text-sm text-[#6B7C80]">
-                  No time slots available for this date.
-                </div>
-              )}
-            </div>
 
             <div className="space-y-2">
               <label
@@ -662,7 +537,7 @@ const CreateBookingContent = () => {
               type="button"
               className="h-11 w-full rounded-full bg-[#1D453F] font-semibold hover:bg-[#173A35]"
               onClick={createBooking}
-              disabled={creating || amountLoading || slotsLoading}
+              disabled={creating || amountLoading}
             >
               {creating ? (
                 <>
