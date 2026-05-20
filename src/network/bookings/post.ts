@@ -61,11 +61,10 @@ export interface CreateBookingResponse {
     transaction_id: string;
     booking: BookingI;
     paymentOrder?: {
-      checkout_url?: string;
-      payment_session_id?: string;
+      payment_link?: string;
+      link_status?: string;
+      mode?: string;
       order_id?: string;
-      order_amount?: number;
-      order_currency?: string;
     };
   };
 }
