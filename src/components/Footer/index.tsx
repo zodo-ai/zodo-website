@@ -1,4 +1,7 @@
+'use client'
+
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import Logo from "~/svg/DetailedLogo.svg";
 import SocialOne from "~/svg/SocialOne.svg";
 import SocialTwo from "~/svg/SocialTwo.svg";
@@ -12,6 +15,13 @@ import Link from "next/link";
 
 const Footer = () => {
     const socialIcons = [SocialOne, SocialTwo, SocialThree];
+    const pathname = usePathname();
+
+    // Don't show footer on auth pages
+    if (pathname.startsWith("/auth")) {
+        return null;
+    }
+
     return (
         <section className="relative w-full bg-mobile-gradient md:bg-[#004746] overflow-hidden">
 
