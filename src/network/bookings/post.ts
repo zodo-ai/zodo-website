@@ -36,15 +36,15 @@ export type CalculateBookingAmountResponse = Required<
 
 export interface CreateBookingPayload {
   doctor_id: string;
+  hospital_id?: string | null;
   user_details: {
     name: string;
     age: number;
     gender: string;
   };
   appointmentDate: string;
-  timeSlot: string;
   reason: string;
-  is_online: true;
+  is_online: false;
   is_service: false;
   amount: string;
   coupon_id?: string | null;
