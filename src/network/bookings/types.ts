@@ -42,6 +42,22 @@ export interface BookingDoctorI {
   from_web?: boolean;
 }
 
+export interface BookingHospitalServiceI {
+  id: string;
+
+  name?: string | null;
+
+  description?: string | null;
+
+  image?: string | null;
+
+  price?: string | null;
+
+  strike_through_price?: string | null;
+
+  hospital_id?: string | null;
+}
+
 export interface BookingI {
   id: string;
   booking_id: string;
@@ -70,7 +86,7 @@ export interface BookingI {
   payment_type?: string | null;
   hospital?: unknown;
   doctor?: BookingDoctorI | null;
-  hospitalService?: unknown;
+  hospitalService?: BookingHospitalServiceI | null;
 }
 
 export interface BookingsMetaI {

@@ -7,7 +7,9 @@ import {
   ReceiptText,
   Stethoscope,
   Video,
+  ScanLine,
 } from "lucide-react";
+
 import { BookingI } from "@/network/bookings/types";
 import { formatDisplayTime } from "@/helpers/formatDisplayTime";
 import { cn } from "@/lib/utils";
@@ -59,10 +61,25 @@ const normalizeLabel = (value?: string | null): string =>
         .join(" ")
     : "Not available";
 
-const BookingCard = ({ booking, compact = false }: BookingCardProps) => {
+const BookingCard = ({
+  booking,
+  compact = false,
+}: BookingCardProps) => {
   const status = booking.status || "pending";
-  const doctorName = booking.doctor?.name || "Doctor unavailable";
-  const qualification = booking.doctor?.registration_details?.qualification;
+
+  const isServiceBooking = booking.type === "service";
+
+  const doctorName =
+    booking.doctor?.name || "Doctor unavailable";
+
+  const qualification =
+    booking.doctor?.registration_details?.qualification;
+
+  const serviceName =
+    booking.hospitalService?.name || "Service unavailable";
+
+  const serviceDescription =
+    booking.hospitalService?.description;
 
   return (
     <article className="rounded-lg border border-[#E6EEEC] bg-white p-4 shadow-sm transition hover:border-[#B7D5D0]">
@@ -72,26 +89,56 @@ const BookingCard = ({ booking, compact = false }: BookingCardProps) => {
             <span className="text-sm font-semibold text-[#1D453F]">
               {booking.booking_id}
             </span>
+
             <span
               className={cn(
                 "rounded-full border px-2.5 py-1 text-xs font-semibold",
-                statusStyles[status] || "bg-gray-50 text-gray-700 border-gray-100"
+                statusStyles[status] ||
+                  "bg-gray-50 text-gray-700 border-gray-100"
               )}
             >
               {normalizeLabel(status)}
+            </span>
+
+            <span className="rounded-full bg-[#EAF5F2] px-2.5 py-1 text-xs font-medium text-[#1D453F]">
+              {normalizeLabel(booking.type)}
             </span>
           </div>
 
           <div className="mt-3 flex items-start gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#EAF5F2] text-[#1D453F]">
-              <Stethoscope size={20} />
+              {isServiceBooking ? (
+                <ScanLine size={20} />
+              ) : (
+                <Stethoscope size={20} />
+              )}
             </div>
+
             <div className="min-w-0">
-              <h3 className="truncate text-base font-semibold text-[#173F3A]">
-                Dr. {doctorName}
-              </h3>
-              {qualification && (
-                <p className="text-sm text-[#6B7C80]">{qualification}</p>
+              {isServiceBooking ? (
+                <>
+                  <h3 className="truncate text-base font-semibold text-[#173F3A]">
+                    {serviceName}
+                  </h3>
+
+                  {serviceDescription && (
+                    <p className="text-sm text-[#6B7C80]">
+                      {serviceDescription}
+                    </p>
+                  )}
+                </>
+              ) : (
+                <>
+                  <h3 className="truncate text-base font-semibold text-[#173F3A]">
+                    Dr. {doctorName}
+                  </h3>
+
+                  {qualification && (
+                    <p className="text-sm text-[#6B7C80]">
+                      {qualification}
+                    </p>
+                  )}
+                </>
               )}
             </div>
           </div>
@@ -99,32 +146,77 @@ const BookingCard = ({ booking, compact = false }: BookingCardProps) => {
 
         <div className="flex shrink-0 items-center gap-2 rounded-md bg-[#F4F8F7] px-3 py-2 text-sm font-semibold text-[#1D453F]">
           <IndianRupee size={16} />
-          <span>{formatCurrency(booking).replace("INR ", "")}</span>
+          <span>
+            {formatCurrency(booking).replace("INR ", "")}
+          </span>
         </div>
       </div>
 
       <div
         className={cn(
           "mt-4 grid gap-3 text-sm text-[#4F6064]",
-          compact ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+          compact
+            ? "grid-cols-1"
+            : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
         )}
       >
         <div className="flex items-center gap-2">
-          <CalendarDays size={16} className="text-[#347D73]" />
-          <span>{formatAppointmentDate(booking.appointmentDate)}</span>
+          <CalendarDays
+            size={16}
+            className="text-[#347D73]"
+          />
+          <span>
+            {formatAppointmentDate(
+              booking.appointmentDate
+            )}
+          </span>
         </div>
+
+        {isServiceBooking ? (
+          <div className="flex items-center gap-2">
+            <ReceiptText
+              size={16}
+              className="text-[#347D73]"
+            />
+            <span>
+              Token #{booking.token_number ?? "-"}
+            </span>
+          </div>
+        ) : (
+          !!booking.timeSlot && (
+            <div className="flex items-center gap-2">
+              <Clock
+                size={16}
+                className="text-[#347D73]"
+              />
+              <span>
+                {formatDisplayTime(booking.timeSlot)}
+              </span>
+            </div>
+          )
+        )}
+
         <div className="flex items-center gap-2">
-          <Clock size={16} className="text-[#347D73]" />
-          <span>{formatDisplayTime(booking.timeSlot)}</span>
+          <Video
+            size={16}
+            className="text-[#347D73]"
+          />
+          <span>
+            {booking.is_online
+              ? "Online"
+              : "In person"}
+          </span>
         </div>
-        <div className="flex items-center gap-2">
-          <Video size={16} className="text-[#347D73]" />
-          <span>{booking.is_online ? "Online" : "In person"}</span>
-        </div>
+
         {!compact && (
           <div className="flex items-center gap-2">
-            <ReceiptText size={16} className="text-[#347D73]" />
-            <span>{normalizeLabel(booking.payment_type)}</span>
+            <ReceiptText
+              size={16}
+              className="text-[#347D73]"
+            />
+            <span>
+              {normalizeLabel(booking.payment_type)}
+            </span>
           </div>
         )}
       </div>

@@ -115,7 +115,19 @@ export const apiCall = async <PayloadT = unknown, ResponseT = unknown>(
         };
 
         if (isFilled(payload)) {
-            options.body = JSON.stringify(payload);
+
+            // Handle FormData separately
+            if (payload instanceof FormData) {
+
+                options.body = payload;
+
+                // Remove JSON content type for FormData
+                delete (baseHeaders as Partial<HeadersI>)["Content-Type"];
+
+            } else {
+
+                options.body = JSON.stringify(payload);
+            }
         }
 
         const response = await fetch(url, options);

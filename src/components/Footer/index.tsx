@@ -21,6 +21,12 @@ const Footer = () => {
     if (pathname.startsWith("/auth")) {
         return null;
     }
+    if (pathname.startsWith("/profile")) {
+        return null;
+    }
+    if (pathname.startsWith("/booking/create")) {
+        return null;
+    }
 
     return (
         <section className="relative w-full bg-mobile-gradient md:bg-[#004746] overflow-hidden">
@@ -43,7 +49,7 @@ const Footer = () => {
                         <p className="font-extralight leading-6 w-3/4 text-[#8CCCCBB8] md:text-black">Launch your SaaS website in minutes. No coding, no hassle—just a
                             sleek, conversion-focused design ready to help you grow. Get started </p>
                     </div>
-                    <Link href ='\onboard' className="rounded-full p-4 bg-[#004746] text-white" >Onboard now</Link>
+                    <Link href='\onboard' className="rounded-full p-4 bg-[#004746] text-white" >Onboard now</Link>
                 </div>
 
                 <Image
