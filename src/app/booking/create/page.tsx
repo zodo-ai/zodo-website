@@ -1,16 +1,18 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
+  ArrowRightLeft,
   BadgePercent,
   CalendarDays,
   CheckCircle2,
   CreditCard,
   IndianRupee,
   Loader2,
+  BriefcaseMedical,
   Stethoscope,
   TicketPercent,
 } from "lucide-react";
@@ -28,10 +30,17 @@ import {
   calculateBookingAmountAPI,
   CalculateBookingAmountResponse,
   createBookingAPI,
+  CreateDoctorBookingPayload,
+  createHospitalServiceBookingAPI,
+  CreateHospitalServiceBookingPayload,
 } from "@/network/bookings/post";
 import { validateCouponAPI } from "@/network/coupons/post";
 import { CouponI } from "@/network/coupons/types";
 import { APIResError } from "@/network/api";
+import { HospitalServiceI } from "@/network/hospital-services/types";
+import { fetchHospitalServiceDetailAPI } from "@/network/hospital-services/get";
+import useChildUsers from "@/hooks/child-users/use-child-users";
+import SwitchPatientModal, { PatientOption } from "@/components/SwitchPatientModal";
 
 const formatDateForApi = (date: Date): string => {
   const year = date.getFullYear();
@@ -44,10 +53,10 @@ const formatDateForApi = (date: Date): string => {
 const formatDateLabel = (date?: Date): string =>
   date
     ? new Intl.DateTimeFormat("en-IN", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      }).format(date)
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }).format(date)
     : "Select date";
 
 const formatAmount = (amount?: number | null): string =>
@@ -76,6 +85,12 @@ const getErrorMessage = (error: unknown, fallback: string): string => {
 const CreateBookingContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const bookingType = searchParams.get("type") || "doctor";
+
+  const serviceId = searchParams.get("serviceId") || "";
+  const [service, setService] = useState<HospitalServiceI | null>(null);
+
   const doctorId = searchParams.get("doctorId") || "";
   const doctorSlug = searchParams.get("doctorSlug") || doctorId;
   const { isAuthenticated, isHydrated } = useAuth();
@@ -93,32 +108,97 @@ const CreateBookingContent = () => {
   const [creating, setCreating] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>();
 
+  const { childUsers, loading: loadingChildUsers } = useChildUsers({ userId: profile?.id });
+  const [selectedPatient, setSelectedPatient] = useState<PatientOption | null>(null);
+  const [showSwitchPatient, setShowSwitchPatient] = useState(false);
+
+  const patients = useMemo(() => {
+    const list: PatientOption[] = [];
+    if (profile) {
+      list.push({
+        id: profile.id,
+        name: getProfileName(profile),
+        age: profile.age || 0,
+        gender: profile.gender || "",
+        relation: "Self",
+        profile_picture: profile.profile_picture || "",
+      });
+    }
+    childUsers.forEach((child) => {
+      list.push({
+        id: child.id,
+        name: child.fullname,
+        age: child.age,
+        gender: child.gender,
+        relation: child.relation || "Family",
+        profile_picture: child.profile_picture || "",
+      });
+    });
+    return list;
+  }, [profile, childUsers]);
+
 
   const loadAmount = useCallback(
     async (couponId?: string) => {
-      if (!doctorId) {
+
+      const bookingId =
+        bookingType === "doctor"
+          ? doctorId
+          : serviceId;
+
+      if (!bookingId) {
         return;
       }
 
       try {
+
         setAmountLoading(true);
-        const response = await calculateBookingAmountAPI({
-          doctor_id: doctorId,
-          is_fast_tag: false,
-          ...(couponId ? { coupon_id: couponId } : {}),
-        });
+
+        const response =
+          await calculateBookingAmountAPI({
+
+            ...(bookingType === "doctor"
+              ? {
+                doctor_id: doctorId,
+              }
+              : {
+                hospital_service_id:
+                  serviceId,
+              }),
+
+            is_fast_tag: false,
+
+            ...(couponId
+              ? {
+                coupon_id: couponId,
+              }
+              : {}),
+          });
+
         setAmountDetails(response);
+
       } catch (error) {
+
         showToast({
           message: "Error",
-          description: getErrorMessage(error, "Failed to calculate amount"),
+          description:
+            getErrorMessage(
+              error,
+              "Failed to calculate amount"
+            ),
           type: "error",
         });
+
       } finally {
+
         setAmountLoading(false);
       }
     },
-    [doctorId]
+    [
+      bookingType,
+      doctorId,
+      serviceId,
+    ]
   );
 
   useEffect(() => {
@@ -131,7 +211,11 @@ const CreateBookingContent = () => {
       return;
     }
 
-    if (!doctorId) {
+    if (
+      bookingType === "doctor"
+        ? !doctorId
+        : !serviceId
+    ) {
       setLoadingPage(false);
       return;
     }
@@ -139,14 +223,60 @@ const CreateBookingContent = () => {
     const loadBookingContext = async () => {
       try {
         setLoadingPage(true);
-        const [doctorResponse, profileResponse] = await Promise.all([
-          fetchDoctorDetailAPI(doctorSlug),
-          fetchCurrentUserProfileAPI(),
-        ]);
 
-        setDoctor(doctorResponse);
+        let profileResponse:
+          UserProfile;
+
+        if (bookingType === "doctor") {
+
+          const [
+            doctorData,
+            profileData,
+          ] = await Promise.all([
+            fetchDoctorDetailAPI(
+              doctorSlug
+            ),
+            fetchCurrentUserProfileAPI(),
+          ]);
+
+          profileResponse =
+            profileData;
+
+          setDoctor(doctorData);
+
+        } else {
+
+          const [
+            serviceData,
+            profileData,
+          ] = await Promise.all([
+            fetchHospitalServiceDetailAPI(
+              serviceId
+            ),
+            fetchCurrentUserProfileAPI(),
+          ]);
+
+          profileResponse =
+            profileData;
+
+          setService(serviceData);
+        }
+
         setProfile(profileResponse);
+        setSelectedPatient((prev) => {
+          if (prev) return prev;
+          return {
+            id: profileResponse.id,
+            name: getProfileName(profileResponse),
+            age: profileResponse.age || 0,
+            gender: profileResponse.gender || "",
+            relation: "Self",
+            profile_picture: profileResponse.profile_picture || "",
+          };
+        });
+
         await loadAmount();
+
       } catch (error) {
         showToast({
           message: "Error",
@@ -160,8 +290,10 @@ const CreateBookingContent = () => {
 
     loadBookingContext();
   }, [
+    bookingType,
     doctorId,
     doctorSlug,
+    serviceId,
     isAuthenticated,
     isHydrated,
     loadAmount,
@@ -203,9 +335,19 @@ const CreateBookingContent = () => {
       }
 
       const recalculatedAmount = await calculateBookingAmountAPI({
-        doctor_id: doctorId,
+        ...(bookingType === "doctor"
+          ? {
+            doctor_id: doctorId,
+          }
+          : {
+            hospital_service_id:
+              serviceId,
+          }),
+
         is_fast_tag: false,
-        coupon_id: validation.coupon.id,
+
+        coupon_id:
+          validation.coupon.id,
       });
 
       setAppliedCoupon(validation.coupon);
@@ -233,24 +375,28 @@ const CreateBookingContent = () => {
   };
 
   const createBooking = async () => {
-    if (!profile || !amountDetails || !selectedDate) {
+    if (!selectedPatient || !amountDetails || !selectedDate) {
       showToast({
         message: "Missing details",
-        description: "Please select appointment date",
+        description: "Please select patient and appointment date",
         type: "error",
       });
       return;
     }
 
-    const profileName = getProfileName(profile);
+    const profileName = selectedPatient.name;
 
-    if (!profileName || !profile.age || !profile.gender) {
+    if (!profileName || !selectedPatient.age || !selectedPatient.gender) {
       showToast({
-        message: "Complete your profile",
-        description: "Name, age and gender are required to create a booking.",
+        message: "Complete patient profile",
+        description:
+          "Name, age and gender are required to create a booking.",
         type: "error",
       });
-      router.push("/profile");
+
+      if (selectedPatient.relation === "Self") {
+        router.push("/profile");
+      }
       return;
     }
 
@@ -265,52 +411,126 @@ const CreateBookingContent = () => {
 
     try {
       setCreating(true);
+
       const origin = window.location.origin;
-      const response = await createBookingAPI({
+
+      const doctorPayload: CreateDoctorBookingPayload = {
         doctor_id: doctorId,
-        hospital_id: doctor?.hospital_id || null,
+
+        hospital_id:
+          doctor?.hospital_id || null,
+
         user_details: {
           name: profileName,
-          age: profile.age,
-          gender: profile.gender,
+          age: selectedPatient.age,
+          gender: selectedPatient.gender,
         },
-        appointmentDate: formatDateForApi(selectedDate),
+
+        appointmentDate:
+          formatDateForApi(selectedDate),
+
         reason: reason.trim(),
+
         is_online: false,
+
         is_service: false,
+
         amount: String(amountDetails.total),
-        coupon_id: amountDetails.coupon_id || appliedCoupon?.id || null,
+
+        coupon_id:
+          amountDetails.coupon_id ||
+          appliedCoupon?.id ||
+          null,
+
         meta_data: amountDetails,
+
         isWeb: true,
-        successCallback: `${origin}/booking/success`,
-        errorCallback: `${origin}/booking/cancel`,
-      });
+
+        successCallback:
+          `${origin}/booking/success?type=${bookingType}`,
+
+        errorCallback:
+          `${origin}/booking/cancel?type=${bookingType}`,
+      };
+
+      const servicePayload: CreateHospitalServiceBookingPayload = {
+        hospital_service_id: serviceId,
+
+        hospital_id:
+          service?.hospital_id || null,
+
+        user_details: {
+          name: profileName,
+          age: selectedPatient.age,
+          gender: selectedPatient.gender,
+        },
+
+        appointmentDate:
+          formatDateForApi(selectedDate),
+
+        reason: reason.trim(),
+
+        is_service: true,
+
+        amount: String(amountDetails.total),
+
+        coupon_id:
+          amountDetails.coupon_id ||
+          appliedCoupon?.id ||
+          null,
+
+        meta_data: amountDetails,
+
+        isWeb: true,
+
+        successCallback:
+          `${origin}/booking/success?type=${bookingType}`,
+
+        errorCallback:
+          `${origin}/booking/cancel?type=${bookingType}`,
+      };
+
+
+      const response =
+        bookingType === "doctor"
+          ? await createBookingAPI(
+            doctorPayload
+          )
+          : await createHospitalServiceBookingAPI(
+            servicePayload
+          );
 
       if (response.status) {
         showToast({
           message: "Booking created",
-          description: "Redirecting to checkout...",
+          description:
+            "Redirecting to checkout...",
           type: "success",
         });
 
-        const paymentUrl = response.data.paymentOrder?.payment_link;
+        const paymentUrl =
+          response.data.paymentOrder?.payment_link;
 
         if (!paymentUrl) {
           showToast({
             message: "Payment link missing",
-            description: "Unable to start payment",
+            description:
+              "Unable to start payment",
             type: "error",
           });
+
           return;
         }
 
         window.location.href = paymentUrl;
-        return;
       }
     } catch (error) {
       showToast({
         message: "Booking failed",
-        description: getErrorMessage(error, "Failed to create booking"),
+        description: getErrorMessage(
+          error,
+          "Failed to create booking"
+        ),
         type: "error",
       });
     } finally {
@@ -336,15 +556,37 @@ const CreateBookingContent = () => {
     return null;
   }
 
-  if (!doctorId) {
+  if (
+    (bookingType === "doctor" &&
+      !doctorId) ||
+
+    (bookingType === "service" &&
+      !serviceId)
+  ) {
     return (
       <main className="min-h-screen bg-[#F6FAF9] px-4 py-10">
         <div className="mx-auto max-w-3xl rounded-lg border border-red-100 bg-white p-8 text-center">
           <p className="text-lg font-semibold text-red-700">
-            Doctor details are missing.
+            {bookingType === "doctor"
+              ? "Doctor details are missing."
+              : "Service details are missing."}
           </p>
-          <Button asChild className="mt-5 bg-[#1D453F] hover:bg-[#173A35]">
-            <Link href="/doctors">Find Doctors</Link>
+
+          <Button
+            asChild
+            className="mt-5 bg-[#1D453F] hover:bg-[#173A35]"
+          >
+            <Link
+              href={
+                bookingType === "doctor"
+                  ? "/doctors"
+                  : "/hospitals"
+              }
+            >
+              {bookingType === "doctor"
+                ? "Find Doctors"
+                : "Browse Hospitals"}
+            </Link>
           </Button>
         </div>
       </main>
@@ -355,9 +597,19 @@ const CreateBookingContent = () => {
     <main className="min-h-screen bg-[#F6FAF9] px-4 py-10 lg:px-8">
       <div className="mx-auto max-w-6xl space-y-6">
         <Button variant="outline" asChild className="gap-2">
-          <Link href={doctor?.slug ? `/doctors/${doctor.slug}` : "/doctors"}>
+          <Link
+            href={
+              bookingType === "doctor"
+                ? doctor?.slug
+                  ? `/doctors/${doctor.slug}`
+                  : "/doctors"
+                : "/hospitals"
+            }
+          >
             <ArrowLeft size={18} />
-            Back to Doctor
+            {bookingType === "doctor"
+              ? "Back to Doctor"
+              : "Back to Hospital"}
           </Link>
         </Button>
 
@@ -366,19 +618,41 @@ const CreateBookingContent = () => {
             <div className="flex flex-col gap-4 border-b border-[#E6EEEC] pb-5 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-[#347D73]">
-                  <Stethoscope size={16} />
-                  Clinic Appointment
+                  {
+                    bookingType === "doctor" ? (
+                      <Stethoscope size={16} />
+                    ) : (
+                      <BriefcaseMedical size={16} />
+                    )
+                  }
+                  {bookingType === "doctor"
+                    ? "Clinic Appointment"
+                    : "Hospital Service"}
                 </p>
                 <h1 className="mt-2 text-2xl font-bold text-[#173F3A]">
-                  Book appointment with Dr. {doctor?.name || "Doctor"}
+                  {bookingType === "doctor"
+                    ? `Book appointment with Dr. ${doctor?.name || "Doctor"
+                    }`
+                    : `Book ${service?.name || "Service"
+                    }`}
                 </h1>
                 <p className="mt-2 text-sm text-[#6B7C80]">
-                  Choose an appointment date and enter your concern.
+                  {bookingType === "doctor"
+                    ? "Choose an appointment date and enter your concern."
+                    : "Choose your preferred booking date for this service."}
                 </p>
               </div>
               <div className="flex w-fit items-center gap-2 rounded-md bg-[#EAF5F2] px-3 py-2 text-sm font-semibold text-[#1D453F]">
-                <Stethoscope size={16} />
-                  Offline Consultation
+                {
+                  bookingType === "doctor" ? (
+                    <Stethoscope size={16} />
+                  ) : (
+                    <BriefcaseMedical size={16} />
+                  )
+                }
+                {bookingType === "doctor"
+                  ? "Offline Consultation"
+                  : "Service Booking"}
               </div>
             </div>
 
@@ -395,10 +669,10 @@ const CreateBookingContent = () => {
                   today.setHours(0, 0, 0, 0);
                   return date < today;
                 }}
-                className="w-full"
+                className="w-full cursor-pointer"
               />
             </div>
-            
+
 
             <div className="rounded-lg border border-[#E6EEEC] bg-[#F8FBFA] p-4">
               <p className="text-xs font-semibold uppercase text-[#7B8E92]">
@@ -419,13 +693,19 @@ const CreateBookingContent = () => {
                 htmlFor="reason"
                 className="text-sm font-semibold text-[#344C50]"
               >
-                Reason for consultation
+                {bookingType === "doctor"
+                  ? "Reason for consultation"
+                  : "Booking notes"}
               </label>
               <textarea
                 id="reason"
                 value={reason}
                 onChange={(event) => setReason(event.target.value)}
-                placeholder="Example: Headache, fever, follow-up consultation"
+                placeholder={
+                  bookingType === "doctor"
+                    ? "Example: Headache, fever, follow-up consultation"
+                    : "Example: Scan requirement, health checkup, diagnostic request"
+                }
                 className="min-h-28 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none transition-[color,box-shadow] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
               />
             </div>
@@ -444,7 +724,11 @@ const CreateBookingContent = () => {
 
             <div className="space-y-3 rounded-lg bg-[#F8FBFA] p-4 text-sm">
               <div className="flex items-center justify-between">
-                <span className="text-[#6B7C80]">Consultation fee</span>
+                <span className="text-[#6B7C80]">
+                  {bookingType === "doctor"
+                    ? "Consultation fee"
+                    : "Service fee"}
+                </span>
                 <span className="font-semibold text-[#173F3A]">
                   {amountDetails?.currency || "INR"}{" "}
                   {formatAmount(amountDetails?.fee)}
@@ -499,6 +783,7 @@ const CreateBookingContent = () => {
                     variant="outline"
                     onClick={removeCoupon}
                     disabled={amountLoading}
+                    className="cursor-pointer h-10"
                   >
                     Remove
                   </Button>
@@ -507,7 +792,7 @@ const CreateBookingContent = () => {
                     type="button"
                     onClick={applyCoupon}
                     disabled={couponLoading || amountLoading}
-                    className="bg-[#1D453F] hover:bg-[#173A35]"
+                    className="bg-[#1D453F] hover:bg-[#173A35] cursor-pointer h-10"
                   >
                     {couponLoading ? "..." : "Apply"}
                   </Button>
@@ -521,22 +806,39 @@ const CreateBookingContent = () => {
               )}
             </div>
 
-            <div className="rounded-lg border border-[#E6EEEC] p-4">
-              <p className="text-xs font-semibold uppercase text-[#7B8E92]">
-                Patient
-              </p>
-              <p className="mt-1 font-semibold text-[#173F3A]">
-                {getProfileName(profile) || "Profile incomplete"}
-              </p>
+            <div className="rounded-lg border border-[#E6EEEC] p-4 relative">
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-xs font-semibold uppercase text-[#7B8E92]">
+                  Patient
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setShowSwitchPatient(true)}
+                  className="flex items-center gap-1 text-xs font-semibold text-[#1B7C7B] hover:text-[#1D453F] transition-colors cursor-pointer"
+                >
+                  <ArrowRightLeft size={14} />
+                  Switch User
+                </button>
+              </div>
+              <div className="flex items-center gap-2 mt-1">
+                <p className="font-semibold text-[#173F3A]">
+                  {selectedPatient?.name || "Profile incomplete"}
+                </p>
+                {selectedPatient?.relation && (
+                  <span className="inline-flex items-center rounded-sm bg-[#EAF5F2] px-2 py-1 text-xs font-semibold uppercase tracking-wider text-[#1D453F]">
+                    {selectedPatient.relation}
+                  </span>
+                )}
+              </div>
               <p className="mt-1 text-sm text-[#6B7C80]">
-                {profile?.age ? `${profile.age} years` : "Age missing"} ·{" "}
-                {profile?.gender || "Gender missing"}
+                {selectedPatient?.age ? `${selectedPatient.age} years` : "Age missing"} ·{" "}
+                <span className="capitalize">{selectedPatient?.gender || "Gender missing"}</span>
               </p>
             </div>
 
             <Button
               type="button"
-              className="h-11 w-full rounded-full bg-[#1D453F] font-semibold hover:bg-[#173A35]"
+              className="h-11 w-full rounded-full bg-[#1D453F] font-semibold hover:bg-[#173A35] cursor-pointer"
               onClick={createBooking}
               disabled={creating || amountLoading}
             >
@@ -555,6 +857,20 @@ const CreateBookingContent = () => {
           </aside>
         </div>
       </div>
+
+      {showSwitchPatient && (
+        <SwitchPatientModal
+          open={showSwitchPatient}
+          onClose={() => setShowSwitchPatient(false)}
+          patients={patients}
+          selectedPatientId={selectedPatient?.id}
+          onSelect={(patient) => {
+            setSelectedPatient(patient);
+            setShowSwitchPatient(false);
+          }}
+          loading={loadingChildUsers}
+        />
+      )}
     </main>
   );
 };

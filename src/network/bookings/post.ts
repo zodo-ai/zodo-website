@@ -16,7 +16,8 @@ const getAuthHeaders = (): Record<string, string> => {
 };
 
 export interface CalculateBookingAmountPayload {
-  doctor_id: string;
+  doctor_id?: string;
+  hospital_service_id?: string;
   is_fast_tag: boolean;
   coupon_id?: string;
 }
@@ -34,24 +35,48 @@ export type CalculateBookingAmountResponse = Required<
   >
 >;
 
-export interface CreateBookingPayload {
-  doctor_id: string;
+export interface BaseBookingPayload {
   hospital_id?: string | null;
+
   user_details: {
     name: string;
     age: number;
     gender: string;
   };
+
   appointmentDate: string;
+
   reason: string;
-  is_online: false;
-  is_service: false;
+
+  is_service: boolean;
+
   amount: string;
+
   coupon_id?: string | null;
+
   meta_data: CalculateBookingAmountResponse;
+
   isWeb: true;
+
   successCallback: string;
+
   errorCallback: string;
+}
+
+/* Doctor Booking Payload */
+export interface CreateDoctorBookingPayload
+  extends BaseBookingPayload {
+
+  doctor_id: string;
+
+  is_online: false;
+}
+
+/* Hospital Service Booking Payload */
+export interface CreateHospitalServiceBookingPayload
+  extends BaseBookingPayload {
+
+  hospital_service_id: string;
 }
 
 export interface CreateBookingResponse {
@@ -79,10 +104,23 @@ export const calculateBookingAmountAPI = async (
 };
 
 export const createBookingAPI = async (
-  payload: CreateBookingPayload
+  payload: CreateDoctorBookingPayload
 ): Promise<CreateBookingResponse> => {
   return await apiCall("bookings", "POST", {
     payload,
     headers: getAuthHeaders(),
   });
+};
+
+export const createHospitalServiceBookingAPI = async (
+  payload: CreateHospitalServiceBookingPayload
+): Promise<CreateBookingResponse> => {
+  return await apiCall(
+    "bookings/hospital-service",
+    "POST",
+    {
+      payload,
+      headers: getAuthHeaders(),
+    }
+  );
 };
