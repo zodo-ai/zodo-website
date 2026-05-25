@@ -659,6 +659,7 @@ const CreateBookingContent = () => {
             <div className="space-y-2">
               <label className="text-sm font-semibold text-[#344C50]">
                 Appointment Date
+                <span className="text-red-500">*</span>
               </label>
               <DatePicker
                 date={selectedDate}
@@ -696,6 +697,7 @@ const CreateBookingContent = () => {
                 {bookingType === "doctor"
                   ? "Reason for consultation"
                   : "Booking notes"}
+                <span className="text-red-500">*</span>
               </label>
               <textarea
                 id="reason"
