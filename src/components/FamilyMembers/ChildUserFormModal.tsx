@@ -154,7 +154,7 @@ const ChildUserFormModal = ({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[999] overflow-y-auto bg-black/45">
+    <div className="fixed inset-0 z-[990] overflow-y-auto bg-black/45">
       <div className="min-h-screen flex items-start sm:items-center justify-center p-8">
         <div
           role="dialog"
@@ -284,7 +284,7 @@ const ChildUserFormModal = ({
                   <SelectTrigger id="child-gender">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
-                  <SelectContent className="z-[110]">
+                  <SelectContent className="z-[999]">
                     {genderOptions.map((gender) => (
                       <SelectItem key={gender} value={gender}>
                         {gender.charAt(0).toUpperCase() + gender.slice(1)}
@@ -315,7 +315,7 @@ const ChildUserFormModal = ({
                 <SelectTrigger id="child-relation">
                   <SelectValue placeholder="Select relation" />
                 </SelectTrigger>
-                <SelectContent className="z-[110]">
+                <SelectContent className="z-[999]">
                   {relationOptions.map((relation) => (
                     <SelectItem key={relation} value={relation.toLowerCase()}>
                       {relation}

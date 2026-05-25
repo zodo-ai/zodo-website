@@ -9,8 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ArrowLeft,
   CalendarDays,
-  Edit3,
-  LogOut,
+  Edit,
   MapPin,
   Save,
   User,
@@ -52,7 +51,7 @@ const genderOptions: Gender[] = ["male", "female", "other"];
 
 const profileSchema = z.object({
   first_name: z.string().trim().min(1, "First name is required"),
-  last_name: z.string().trim().min(1, "Last name is required"),
+  last_name: z.string().optional(),
   age: z.coerce
     .number()
     .min(1, "Age must be at least 1")
@@ -114,14 +113,12 @@ export default function ProfilePage() {
     isAuthenticated,
     isHydrated,
     setAuthData,
-    logout,
   } = useAuth();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [districts, setDistricts] = useState<DistrictI[]>([]);
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [saving, setSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showEditConfirm, setShowEditConfirm] = useState(false);
   const [pendingProfileData, setPendingProfileData] =
     useState<ProfileFormData | null>(null);
@@ -202,11 +199,6 @@ export default function ProfilePage() {
 
   const userPhone = profile?.phone || user?.phone_number || user?.phone || "";
 
-  const handleLogout = () => {
-    setShowLogoutConfirm(false);
-    logout();
-    router.push("/");
-  };
 
   const handleCancelEdit = () => {
 
@@ -240,7 +232,7 @@ export default function ProfilePage() {
       setSaving(true);
       const response = await updateUserProfileAPI(profile.id, {
         first_name: data.first_name,
-        last_name: data.last_name,
+        last_name: data.last_name || "",
         age: data.age,
         gender: data.gender,
         district_id: data.district_id,
@@ -307,15 +299,6 @@ export default function ProfilePage() {
                 Back to Home
               </Link>
             </Button>
-
-            <Button
-              variant="outline"
-              className="w-fit gap-2 border-red-100 text-red-600 hover:bg-red-50 hover:text-red-700"
-              onClick={() => setShowLogoutConfirm(true)}
-            >
-              <LogOut size={18} />
-              Logout
-            </Button>
           </div>
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,420px)_1fr]">
@@ -339,7 +322,7 @@ export default function ProfilePage() {
                         className="gap-2 bg-[#1D453F] hover:bg-[#173A35]"
                         onClick={() => setIsEditing(true)}
                       >
-                        <Edit3 size={16} />
+                        <Edit size={16} />
                         Edit
                       </Button>
                     )}
@@ -425,6 +408,7 @@ export default function ProfilePage() {
                             className="text-sm font-medium text-[#344C50]"
                           >
                             First Name
+                            <span className="text-red-500">*</span>
                           </label>
                           <Input id="first_name" {...register("first_name")} />
                           {errors.first_name && (
@@ -456,6 +440,7 @@ export default function ProfilePage() {
                             className="text-sm font-medium text-[#344C50]"
                           >
                             Age
+                            <span className="text-red-500">*</span>
                           </label>
                           <Input
                             id="age"
@@ -476,6 +461,7 @@ export default function ProfilePage() {
                             className="text-sm font-medium text-[#344C50]"
                           >
                             Gender
+                            <span className="text-red-500">*</span>
                           </label>
                           <Select
                             value={selectedGender}
@@ -510,6 +496,7 @@ export default function ProfilePage() {
                           className="text-sm font-medium text-[#344C50]"
                         >
                           District
+                          <span className="text-red-500">*</span>
                         </label>
                         <Select
                           value={selectedDistrictId}
@@ -671,15 +658,6 @@ export default function ProfilePage() {
           </div>
         </div>
       </main>
-      <ConfirmModal
-        open={showLogoutConfirm}
-        title="Logout?"
-        description="You will need to verify your phone number again to access your profile and bookings."
-        confirmText="Logout"
-        destructive
-        onCancel={() => setShowLogoutConfirm(false)}
-        onConfirm={handleLogout}
-      />
       <ConfirmModal
         open={showEditConfirm}
         title="Save profile changes?"

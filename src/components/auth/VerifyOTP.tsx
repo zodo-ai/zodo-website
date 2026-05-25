@@ -110,15 +110,18 @@ const VerifyOTPComponent = ({
           response.data.user
         );
       }
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Failed to verify OTP";
-      showToast({
-        message: "Error",
-        description: errorMessage,
-        type: "error",
-      });
-    } finally {
+    } catch (error: any) {
+        const errorMessage =
+          error?.response?.message ||
+          error?.message ||
+          "Failed to verify OTP";
+
+        showToast({
+          message: "Error",
+          description: errorMessage,
+          type: "error",
+        });
+      } finally {
       setIsLoading(false);
     }
   };
@@ -182,14 +185,6 @@ const VerifyOTPComponent = ({
           </Button>
 
           <div className="text-center">
-            <Button
-              type="button"
-              variant="link"
-              disabled={timeLeft > 0}
-              className="h-auto p-0 text-[#1D453F] underline"
-            >
-              Resend OTP {timeLeft > 0 && `(${timeLeft}s)`}
-            </Button>
             <p className="mt-2 text-xs text-[#7B8E92]">
               Your information is safe with us.
             </p>

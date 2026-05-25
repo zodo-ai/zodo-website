@@ -33,7 +33,7 @@ import {
 
 const profileSchema = z.object({
   first_name: z.string().min(1, "First name is required"),
-  last_name: z.string().min(1, "Last name is required"),
+  last_name: z.string().optional(),
   age: z.coerce
     .number()
     .min(1, "Age must be at least 1")
@@ -100,7 +100,7 @@ const CompleteProfileComponent = ({
       setIsLoading(true);
       const response = await updateUserProfileAPI(userId, {
         first_name: data.first_name,
-        last_name: data.last_name,
+        last_name: data.last_name || "",
         age: data.age,
         gender: data.gender,
         district_id: data.district_id,
@@ -171,7 +171,7 @@ const CompleteProfileComponent = ({
                 className="flex items-center gap-2 text-sm font-medium text-[#344C50]"
               >
                 <UserRound size={15} />
-                Last Name <span className="text-red-500">*</span>
+                Last Name
               </label>
               <Input
                 id="last_name"
