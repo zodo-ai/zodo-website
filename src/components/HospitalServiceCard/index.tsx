@@ -46,7 +46,7 @@ const HospitalServiceCard = ({
         </h3>
 
         {service?.daily_booking_count > 0 && (
-            <span className="rounded-full bg-[#1B7C7B] px-3 py-1 text-xs font-semibold text-[#1B7C7B] shadow-sm">
+            <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#1B7C7B] shadow-sm">
             {service.daily_booking_count}+ booked
             </span>
         )}
