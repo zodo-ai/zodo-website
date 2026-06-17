@@ -19,12 +19,38 @@ interface BookingCardProps {
   compact?: boolean;
 }
 
-const statusStyles: Record<string, string> = {
-  started: "bg-blue-50 text-blue-700 border-blue-100",
-  completed: "bg-emerald-50 text-emerald-700 border-emerald-100",
-  cancelled: "bg-red-50 text-red-700 border-red-100",
-  pending: "bg-amber-50 text-amber-700 border-amber-100",
-};
+const statusStyles = {
+  started: {
+    backgroundColor: "#DBEAFE",
+    color: "#1D4ED8",
+    borderColor: "#93C5FD",
+  },
+  pending: {
+    backgroundColor: "#FEF3C7",
+    color: "#B45309",
+    borderColor: "#FCD34D",
+  },
+  accepted: {
+    backgroundColor: "#DCFCE7",
+    color: "#15803D",
+    borderColor: "#86EFAC",
+  },
+  rejected: {
+    backgroundColor: "#FEE2E2",
+    color: "#DC2626",
+    borderColor: "#FCA5A5",
+  },
+  completed: {
+    backgroundColor: "#D1FAE5",
+    color: "#047857",
+    borderColor: "#6EE7B7",
+  },
+  cancelled: {
+    backgroundColor: "#FEE2E2",
+    color: "#DC2626",
+    borderColor: "#FCA5A5",
+  },
+} as const;
 
 const formatAppointmentDate = (dateValue: string): string => {
   const [year, month, day] = dateValue.slice(0, 10).split("-").map(Number);
@@ -91,11 +117,8 @@ const BookingCard = ({
             </span>
 
             <span
-              className={cn(
-                "rounded-full border px-2.5 py-1 text-xs font-semibold",
-                statusStyles[status] ||
-                  "bg-gray-50 text-gray-700 border-gray-100"
-              )}
+              style={statusStyles[status as keyof typeof statusStyles]}
+              className="rounded-full border px-2.5 py-1 text-xs font-semibold"
             >
               {normalizeLabel(status)}
             </span>

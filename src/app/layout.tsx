@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import BottomBar from "@/components/BottomBar";
+import { ConditionalHeader, ConditionalFooter } from "@/components/ConditionalLayoutElements";
 import { Toaster } from 'react-hot-toast';
 
 const geistSans = Geist({
@@ -35,11 +33,10 @@ export default function RootLayout({
       >
 
         <SidebarProvider className="flex-col" defaultOpen={false}>
-          <Header />
+          <ConditionalHeader />
 
           {children}
-          <Footer />
-          <BottomBar />
+          <ConditionalFooter />
 
         </SidebarProvider>
         <Toaster position="top-right" toastOptions={{ duration: 2000 }} />

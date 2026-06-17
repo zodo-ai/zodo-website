@@ -1,0 +1,131 @@
+.section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  background-color: #F6FAF9;
+}
+
+.container {
+  max-width: 82rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid #E0ECE9;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .card {
+    flex-direction: row;
+  }
+}
+
+.imageWrapper {
+  width: 100%;
+  height: 18.75rem;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .imageWrapper {
+    width: 40%;
+    height: 25rem;
+  }
+}
+
+.image {
+  object-fit: cover;
+  object-position: top;
+}
+
+.content {
+  width: 100%;
+  padding: 2rem;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .content {
+    width: 60%;
+    padding: 3rem;
+  }
+}
+
+.quoteIcon {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  color: #E0ECE9;
+  opacity: 0.5;
+}
+
+.subtitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #347D73;
+  margin: 0 0 0.5rem 0;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #173F3A;
+  margin: 0 0 1.5rem 0;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 1.875rem;
+  }
+}
+
+.description {
+  color: #5C7074;
+  line-height: 1.625;
+  margin: 0 0 2rem 0;
+  position: relative;
+  z-index: 10;
+}
+
+.authorSection {
+  margin-top: 2rem;
+}
+
+.signature {
+  font-family: serif;
+  font-size: 1.5rem;
+  color: #173F3A;
+  margin-bottom: 0.5rem;
+  font-style: italic;
+}
+
+.authorName {
+  font-weight: 700;
+  color: #173F3A;
+  margin: 0;
+}
+
+.authorRole {
+  font-size: 0.875rem;
+  color: #5C7074;
+  margin: 0;
+}

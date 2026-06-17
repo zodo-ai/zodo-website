@@ -46,7 +46,14 @@ export const fetchHospitalsAPI = async (
 
 export const fetchHospitalDetailAPI = async (
   hospitalId: string
-): Promise<HospitalsI> => {  
+): Promise<HospitalsI> => {
+  const url = `hospitals/slug/${encodeURIComponent(hospitalId)}`;
+  return await apiCall(url, "GET");
+};
+
+export const fetchHospitalByIdAPI = async (
+  hospitalId: string
+): Promise<HospitalsI> => {
   const url = `hospitals/slug/${encodeURIComponent(hospitalId)}`;
   return await apiCall(url, "GET");
 };

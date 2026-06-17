@@ -1,0 +1,173 @@
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding: 3rem 0;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.backgroundContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.backgroundImage {
+  object-fit: cover;
+  object-position: right center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.backgroundImage.active {
+  opacity: 1;
+}
+
+.gradientOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.85) 35%, rgba(255, 255, 255, 0) 60%);
+}
+
+@media (max-width: 1023px) {
+  .gradientOverlay {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0.4) 100%);
+  }
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 90rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.textContent {
+  max-width: 42rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  background-color: #e2f6ed;
+  padding: 0.375rem 1rem;
+  margin-bottom: 2rem;
+}
+
+.badgeText {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1a8b5e;
+}
+
+.heading {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #111827;
+  margin: 0 0 1.5rem 0;
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+@media (min-width: 640px) {
+  .heading {
+    font-size: 2.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heading {
+    font-size: 3.25rem;
+  }
+}
+
+.headingMedium {
+  color: #111827;
+}
+
+.headingPrimary {
+  color: #1a8b5e;
+}
+
+.description {
+  font-size: 1.125rem;
+  color: #4b5563;
+  margin-bottom: 2.5rem;
+  max-width: 36rem;
+  line-height: 1.75;
+}
+
+.featuresGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.featureIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a8b5e;
+}
+
+.featureText {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  line-height: 1.25;
+}
+
+.indicators {
+  position: absolute;
+  bottom: 2rem;
+  right: 50%;
+  transform: translateX(50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .indicators {
+    right: 5rem;
+    transform: none;
+  }
+}
+
+.indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  padding: 0;
+}
+
+.indicatorActive {
+  background-color: #1a8b5e;
+  border-color: #1a8b5e;
+  transform: scale(1.2);
+}

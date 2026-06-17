@@ -168,19 +168,34 @@ const DoctorDetails = ({
               Book an appointment with Dr. {doctor.name}
             </p>
           </div>
-          <Button
-            asChild
-            className="h-11 rounded-full bg-[#1D453F] px-6 font-semibold text-white hover:bg-[#173A35]"
-          >
-            <Link
-              href={`/booking/create?doctorId=${encodeURIComponent(
-                doctor.id
-              )}&doctorSlug=${encodeURIComponent(doctor.slug || doctor.id)}`}
+          <div className="flex gap-3">
+            <Button
+              asChild
+              variant="outline"
+              className="h-11 rounded-full border-[#1D453F] text-[#1D453F] px-6 font-semibold hover:bg-[#EAF5F2]"
             >
-              <CalendarCheck size={18} />
-              Book Now
-            </Link>
-          </Button>
+              <Link
+                href={`/enquiry/create?type=doctor&doctorId=${encodeURIComponent(
+                  doctor.id
+                )}&doctorSlug=${encodeURIComponent(doctor.slug || doctor.id)}`}
+              >
+                Enquiry Now
+              </Link>
+            </Button>
+            <Button
+              asChild
+              className="h-11 rounded-full bg-[#1D453F] px-6 font-semibold text-white hover:bg-[#173A35]"
+            >
+              <Link
+                href={`/booking/create?doctorId=${encodeURIComponent(
+                  doctor.id
+                )}&doctorSlug=${encodeURIComponent(doctor.slug || doctor.id)}`}
+              >
+                <CalendarCheck size={18} />
+                Book Now
+              </Link>
+            </Button>
+          </div>
         </div>
       )}
 
