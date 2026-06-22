@@ -1,0 +1,476 @@
+/* ===========================================================================
+   SERVICE DETAIL PAGE
+=========================================================================== */
+
+.page {
+    background-color: #f8fafc;
+    width: 100%;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ===========================================================================
+   BREADCRUMB
+=========================================================================== */
+
+.breadcrumbBar {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 20px 24px;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.breadcrumb a {
+    color: #6b7280;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb a:hover {
+    color: var(--primary-color, #0b8a53);
+}
+
+.breadcrumbCurrent {
+    color: #102a43;
+    font-weight: 500;
+}
+
+/* ===========================================================================
+   HERO CARD — Image left + Info right
+=========================================================================== */
+
+.heroCard {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.heroCardInner {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    box-shadow: 0 4px 24px rgba(16, 42, 67, 0.06);
+}
+
+/* Image side */
+.heroImageWrap {
+    position: relative;
+    flex: 0 0 52%;
+    min-height: 380px;
+    background-color: #e8ecf1;
+}
+
+.heroImage {
+    object-fit: cover;
+}
+
+.heroImagePlaceholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: color-mix(in srgb, var(--primary-color) 10%, white);
+}
+
+/* Info side */
+.heroInfo {
+    flex: 1 1 auto;
+    padding: 40px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}
+
+.serviceName {
+    font-size: 36px;
+    font-weight: 700;
+    color: #102a43;
+    margin: 0 0 6px;
+    line-height: 1.2;
+}
+
+.serviceDesc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #6b7280;
+    margin: 0 0 20px;
+}
+
+/* Price block */
+.priceRow {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+
+.price {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary-color, #0b8a53);
+    line-height: 1.2;
+}
+
+.strikePrice {
+    font-size: 18px;
+    font-weight: 500;
+    color: #9ca3af;
+    text-decoration: line-through;
+}
+
+.discountBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border: 1px solid color-mix(in srgb, var(--primary-color) 30%, white);
+    border-radius: 6px;
+    background-color: color-mix(in srgb, var(--primary-color) 8%, white);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--primary-color, #0b8a53);
+    letter-spacing: 0.3px;
+}
+
+/* Daily booking info */
+.bookingInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 16px 0 24px;
+    padding: 12px 16px;
+    background-color: #f8fafc;
+    border-radius: 10px;
+    border: 1px solid #f0f2f5;
+}
+
+.bookingInfoIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color, #0b8a53);
+    flex-shrink: 0;
+}
+
+.bookingInfoText {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.bookingInfoLabel {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.2;
+}
+
+.bookingInfoValue {
+    font-size: 15px;
+    font-weight: 600;
+    color: #102a43;
+    line-height: 1.3;
+}
+
+/* Book now button */
+.bookNowBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 52px;
+    border: none;
+    border-radius: 14px;
+    background-color: var(--primary-color, #0b8a53);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.bookNowBtn:hover {
+    background-color: color-mix(in srgb, var(--primary-color) 80%, black);
+}
+
+.bookNowBtn:active {
+    transform: scale(0.97);
+}
+
+/* ===========================================================================
+   HOSPITAL INFO STRIP
+=========================================================================== */
+
+.hospitalStrip {
+    max-width: 1320px;
+    margin: 24px auto 0;
+    padding: 0 24px;
+}
+
+.hospitalStripInner {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 24px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 12px rgba(16, 42, 67, 0.04);
+}
+
+.hospitalStripItem {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.hospitalStripIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--primary-color) 10%, white);
+    color: var(--primary-color, #0b8a53);
+}
+
+.hospitalStripText {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.hospitalStripLabel {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.2;
+}
+
+.hospitalStripValue {
+    font-size: 15px;
+    font-weight: 600;
+    color: #102a43;
+    line-height: 1.3;
+}
+
+.hospitalStripSubValue {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.2;
+}
+
+.hospitalStripDivider {
+    width: 1px;
+    height: 48px;
+    background-color: #e5e7eb;
+    flex-shrink: 0;
+}
+
+/* ===========================================================================
+   ABOUT SECTION
+=========================================================================== */
+
+.aboutSection {
+    max-width: 1320px;
+    margin: 24px auto 48px;
+    padding: 0 24px;
+}
+
+.aboutCard {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 32px 36px;
+    box-shadow: 0 2px 12px rgba(16, 42, 67, 0.04);
+}
+
+.aboutTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #102a43;
+    margin: 0 0 12px;
+}
+
+.aboutDivider {
+    height: 1px;
+    background-color: #e5e7eb;
+    margin-bottom: 16px;
+}
+
+.aboutText {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* ===========================================================================
+   RESPONSIVE BREAKPOINTS
+=========================================================================== */
+
+@media (min-width: 1440px) {
+    .breadcrumbBar,
+    .heroCard,
+    .hospitalStrip,
+    .aboutSection {
+        max-width: 1360px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .heroInfo {
+        padding: 32px 36px;
+    }
+
+    .serviceName {
+        font-size: 30px;
+    }
+
+    .price {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 992px) {
+    .heroCardInner {
+        flex-direction: column;
+    }
+
+    .heroImageWrap {
+        flex: none;
+        width: 100%;
+        min-height: 300px;
+        max-height: 400px;
+    }
+
+    .heroInfo {
+        padding: 28px 32px;
+    }
+
+    .hospitalStripInner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px 28px;
+        gap: 16px;
+    }
+
+    .hospitalStripDivider {
+        width: 100%;
+        height: 1px;
+    }
+}
+
+@media (max-width: 768px) {
+    .breadcrumbBar {
+        padding: 16px 20px;
+    }
+
+    .heroCard {
+        padding: 0 20px;
+    }
+
+    .heroImageWrap {
+        min-height: 240px;
+    }
+
+    .heroInfo {
+        padding: 24px;
+    }
+
+    .serviceName {
+        font-size: 26px;
+    }
+
+    .price {
+        font-size: 26px;
+    }
+
+    .strikePrice {
+        font-size: 16px;
+    }
+
+    .hospitalStrip {
+        padding: 0 20px;
+    }
+
+    .hospitalStripInner {
+        padding: 20px 22px;
+    }
+
+    .aboutSection {
+        padding: 0 20px;
+    }
+
+    .aboutCard {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 576px) {
+    .breadcrumbBar {
+        padding: 12px 16px;
+    }
+
+    .heroCard {
+        padding: 0 16px;
+    }
+
+    .heroImageWrap {
+        min-height: 200px;
+    }
+
+    .heroInfo {
+        padding: 20px;
+    }
+
+    .serviceName {
+        font-size: 22px;
+    }
+
+    .price {
+        font-size: 24px;
+    }
+
+    .bookNowBtn {
+        height: 48px;
+        font-size: 15px;
+    }
+
+    .hospitalStrip {
+        padding: 0 16px;
+    }
+
+    .hospitalStripInner {
+        padding: 16px 18px;
+    }
+
+    .aboutSection {
+        padding: 0 16px;
+        margin-bottom: 32px;
+    }
+
+    .aboutCard {
+        padding: 20px;
+    }
+
+    .aboutTitle {
+        font-size: 18px;
+    }
+}

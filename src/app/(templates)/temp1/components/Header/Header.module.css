@@ -3,7 +3,7 @@
   top: 0;
   z-index: 50;
   width: 100%;
-  border-bottom: 1px solid #E0ECE9;
+  border-bottom: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
   background-color: #ffffff;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
@@ -47,7 +47,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 0.5rem;
-  background-color: #1D453F;
+  background-color: color-mix(in srgb, var(--primary-color) 40%, black);
   color: #ffffff;
 }
 
@@ -65,7 +65,7 @@
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.25;
-  color: #173F3A;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   margin: 0;
 }
 
@@ -74,18 +74,18 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #347D73;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   margin: 0;
 }
 
 .practiceNamePill {
   display: none;
   border-radius: 9999px;
-  background-color: #E0ECE9;
+  background-color: color-mix(in srgb, var(--primary-color) 20%, transparent);
   padding: 0.375rem 1rem;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #173F3A;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
 }
 
 @media (min-width: 768px) {
@@ -109,13 +109,13 @@
 .navLink {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #344C50;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   text-decoration: none;
   transition: color 0.15s ease-in-out;
 }
 
 .navLink:hover {
-  color: #1D453F;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
 }
 
 .actions {
@@ -135,7 +135,7 @@
   height: 2.75rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  background-color: #008A5E;
+  background-color: var(--primary-color, #1a8b5e);
   color: #ffffff;
   border: none;
   cursor: pointer;
@@ -143,7 +143,7 @@
 }
 
 .bookButton:hover {
-  background-color: #00704C;
+  background-color: color-mix(in srgb, var(--primary-color) 80%, black);
 }
 
 .bookTextDesktop {

@@ -1,4 +1,3 @@
-import { Header } from "../components/Header";
 import { HeroSection } from "../components/HeroSection";
 import { SearchSection } from "../components/SearchSection";
 import { StatsSection } from "../components/StatsSection";
@@ -8,7 +7,6 @@ import { DirectorMessage } from "../components/DirectorMessage";
 import { DepartmentsSection } from "../components/DepartmentsSection";
 import { ServicesSection } from "../components/ServicesSection";
 import { TestimonialsSection } from "../components/TestimonialsSection";
-import { Footer } from "../components/Footer";
 
 import { fetchHospitalWebFull } from "@/network/hospital-web/get";
 import { fetchDoctorsAPI } from "@/network/doctors/get";
@@ -71,29 +69,28 @@ export default async function HospitalPage({ params }: PageProps) {
     hospitalDetail?.name ?? settings?.title ?? "Hospital";
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#ffffff" }}>
-      <Header hospitalName={hospitalName} />
-
-      <main>
-        <HeroSection
-          title={settings?.title ?? "Welcome"}
-          description={settings?.description ?? ""}
-          banners={banners}
-        />
-        <SearchSection />
-        <StatsSection />
-        <AboutSection
-          hospitalName={hospitalName}
-          aboutUs={settings?.about_us ?? ""}
-        />
-        <DoctorsSection doctors={doctors} />
-        <DirectorMessage />
-        <DepartmentsSection departments={departments} />
-        <ServicesSection services={services} />
-        <TestimonialsSection testimonials={testimonials} />
-      </main>
-
-      <Footer settings={settings ?? null} hospitalName={hospitalName} />
-    </div>
+    <main>
+      <HeroSection
+        title={settings?.title ?? "Welcome"}
+        description={settings?.description ?? ""}
+        banners={banners}
+      />
+      <SearchSection />
+      <StatsSection />
+      <AboutSection
+        hospitalName={hospitalName}
+        aboutUs={settings?.about_us ?? ""}
+        aboutUsImage={settings?.about_us_image ?? ""}
+      />
+      <DoctorsSection doctors={doctors} hospitalId={hospital_id} />
+      <DirectorMessage
+        directorName={settings?.director_name}
+        directorTitle={settings?.director_title}
+        directorMessage={settings?.director_message}
+      />
+      <DepartmentsSection departments={departments} hospitalId={hospital_id} />
+      <ServicesSection services={services} hospitalId={hospital_id} />
+      <TestimonialsSection testimonials={testimonials} />
+    </main>
   );
 }

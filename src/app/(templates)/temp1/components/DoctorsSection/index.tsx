@@ -5,6 +5,7 @@ import { DoctorI } from "@/network/doctors/types";
 
 interface DoctorsSectionProps {
   doctors?: DoctorI[];
+  hospitalId?: string;
 }
 
 function getExperience(workStartDate: string | ""): string {
@@ -18,7 +19,7 @@ function getExperience(workStartDate: string | ""): string {
   return `${years}+ Years Experience`;
 }
 
-export function DoctorsSection({ doctors = [] }: DoctorsSectionProps) {
+export function DoctorsSection({ doctors = [], hospitalId = "" }: DoctorsSectionProps) {
   if (doctors.length === 0) return null;
 
   return (
@@ -26,7 +27,7 @@ export function DoctorsSection({ doctors = [] }: DoctorsSectionProps) {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Our Available Doctors</h2>
-          <Link href="#doctors" className={styles.viewAll}>
+          <Link href={hospitalId ? `/temp1/${hospitalId}/our-doctors` : "our-doctors"} className={styles.viewAll}>
             View All Doctors
           </Link>
         </div>

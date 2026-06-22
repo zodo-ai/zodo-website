@@ -4,6 +4,12 @@ export interface HospitalWebSettings {
   title: string;
   description: string;
   about_us: string;
+  about_us_image?: string;
+  director_name?: string;
+  director_title?: string;
+  director_message?: string;
+  primary_color?: string;
+  logo_image?: string;
   contact_email: string;
   contact_phone: string;
   contact_address: string;

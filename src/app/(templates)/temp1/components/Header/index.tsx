@@ -1,25 +1,33 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CalendarDays, Stethoscope } from "lucide-react";
 import styles from "./Header.module.css";
 
 interface HeaderProps {
   hospitalName?: string;
+  logoImage?: string;
 }
 
-export function Header({ hospitalName = "Apollo" }: HeaderProps) {
+export function Header({ hospitalName = "Apollo", logoImage }: HeaderProps) {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.logoGroup}>
           {/* Logo Section */}
           <Link href="#" className={styles.logoLink}>
-            <div className={styles.logoIcon}>
-              <Stethoscope size={24} />
-            </div>
-            <div className={styles.logoTextWrapper}>
-              <h1 className={styles.logoTitle}>{hospitalName}</h1>
-              <p className={styles.logoSubtitle}>Hospital</p>
-            </div>
+            {logoImage ? (
+              <Image 
+                src={logoImage} 
+                alt={hospitalName || "Logo"} 
+                width={150} 
+                height={50} 
+                style={{ objectFit: "contain", maxHeight: "50px" }}
+              />
+            ) : (
+              <div className={styles.logoIcon}>
+                <Stethoscope size={24} />
+              </div>
+            )}
           </Link>
         </div>
 
