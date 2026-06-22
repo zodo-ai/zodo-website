@@ -54,14 +54,14 @@
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background-color: #F6FAF9;
-  color: #347D73;
+  background-color: color-mix(in srgb, var(--primary-color) 4%, white);
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
 }
 
 .value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #173F3A;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   margin: 0;
   line-height: 1.2;
 }

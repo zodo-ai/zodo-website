@@ -1,5 +1,37 @@
 export interface SpecialisationI {
+  id?: string;
   name: string;
+  image?: string | null;
+  description?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface DoctorHospitalI {
+  id: string;
+  name: string;
+  logo: string;
+  location: string;
+  address?: {
+    city?: string;
+    state?: string;
+    street?: string;
+    lineOne?: string;
+    lineTwo?: string;
+    pincode?: string;
+    district?: string;
+  } | null;
+  contact_details?: {
+    email?: string;
+    mobile?: string;
+    website?: string;
+  } | null;
+  slug?: string | null;
+  about?: string;
+  status?: string;
+  total_rating?: string;
+  avg_rating?: string;
+  rating_count?: number;
 }
 
 export interface DoctorI {
@@ -18,9 +50,15 @@ export interface DoctorI {
   phone_number: string;
   pricing: string | null;
   avg_rating: number | 0;
+  total_rating?: string;
+  rating_count?: number;
   specialisations: SpecialisationI[];
   about: string | null;
   work_start_date: string | "";
+  status?: string;
+  consultation_duration?: number | null;
+  auto_booking_enabled?: boolean;
+  hospital?: DoctorHospitalI | null;
 }
 export interface UserI {
   first_name: string;

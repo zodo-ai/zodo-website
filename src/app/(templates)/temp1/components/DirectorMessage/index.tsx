@@ -2,7 +2,19 @@ import Image from "next/image";
 import { Quote } from "lucide-react";
 import styles from "./DirectorMessage.module.css";
 
-export function DirectorMessage() {
+interface DirectorMessageProps {
+  directorName?: string;
+  directorTitle?: string;
+  directorMessage?: string;
+}
+
+export function DirectorMessage({
+  directorName,
+  directorTitle,
+  directorMessage,
+}: DirectorMessageProps) {
+  if (!directorName && !directorMessage && !directorTitle) return null;
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -26,20 +38,18 @@ export function DirectorMessage() {
               Director&apos;s Message
             </h4>
             <h2 className={styles.title}>
-              A Personal Commitment to Your Smile
+              {directorTitle || "A Personal Commitment to Your Smile"}
             </h2>
-            <p className={styles.description}>
-              At Dr Sahila&apos;s Dental Hub, our mission is to provide world-class dental care
-              with compassion, integrity, and excellence. We strive to make every patient&apos;s
-              experience comfortable and memorable.
-            </p>
+            <div className={styles.description}>
+              {directorMessage || "At Dr Sahila's Dental Hub, our mission is to provide world-class dental care with compassion, integrity, and excellence. We strive to make every patient's experience comfortable and memorable."}
+            </div>
             
             <div className={styles.authorSection}>
               {/* Fake signature using a cursive font or styled text */}
               <div className={styles.signature}>
-                Dr. Sahila Khan
+                {directorName || "Dr. Sahila Khan"}
               </div>
-              <h3 className={styles.authorName}>Dr. Sahila Khan</h3>
+              <h3 className={styles.authorName}>{directorName || "Dr. Sahila Khan"}</h3>
               <p className={styles.authorRole}>Hospital Director</p>
             </div>
           </div>

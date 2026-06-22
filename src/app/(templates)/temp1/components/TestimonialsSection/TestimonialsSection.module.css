@@ -57,7 +57,7 @@
   font-size: 1.875rem;
   line-height: 2.25rem;
   font-weight: 700;
-  color: #173F3A;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   margin: 0 0 2.5rem 0;
 }
 
@@ -77,9 +77,9 @@
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  border: 1px solid #E0ECE9;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
   background-color: #ffffff;
-  color: #344C50;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   cursor: pointer;
   transition: background-color 0.15s ease-in-out;
@@ -97,9 +97,9 @@
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  border: 1px solid #E0ECE9;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
   background-color: #ffffff;
-  color: #344C50;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   cursor: pointer;
   transition: background-color 0.15s ease-in-out;
@@ -123,7 +123,7 @@
   border-radius: 1rem;
   padding: 2rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border: 1px solid #E0ECE9;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
   max-width: 42rem;
   margin-left: auto;
   margin-right: auto;
@@ -143,14 +143,14 @@
 }
 
 .starIcon {
-  fill: #008A5E;
-  color: #008A5E;
+  fill: var(--primary-color, #1a8b5e);
+  color: var(--primary-color, #1a8b5e);
 }
 
 .quoteText {
   font-size: 1.125rem;
   font-weight: 500;
-  color: #173F3A;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   font-style: italic;
   margin-bottom: 1.5rem;
   line-height: 1.625;
@@ -166,7 +166,7 @@
 .quoteMarkLeft {
   font-size: 2.25rem;
   line-height: 2.5rem;
-  color: #008A5E;
+  color: var(--primary-color, #1a8b5e);
   opacity: 0.3;
   position: absolute;
   top: -1rem;
@@ -176,7 +176,7 @@
 .quoteMarkRight {
   font-size: 2.25rem;
   line-height: 2.5rem;
-  color: #008A5E;
+  color: var(--primary-color, #1a8b5e);
   opacity: 0.3;
   position: absolute;
   bottom: -1.5rem;
@@ -185,7 +185,7 @@
 
 .author {
   font-weight: 700;
-  color: #347D73;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   margin: 0;
 }
 
@@ -200,12 +200,12 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 9999px;
-  background-color: #008A5E;
+  background-color: var(--primary-color, #1a8b5e);
 }
 
 .dot {
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 9999px;
-  background-color: #E0ECE9;
+  background-color: color-mix(in srgb, var(--primary-color) 20%, transparent);
 }

@@ -5,10 +5,12 @@ import { DepartmentI } from "@/network/departments/types";
 
 interface DepartmentsSectionProps {
   departments?: DepartmentI[];
+  hospitalId?: string;
 }
 
 export function DepartmentsSection({
   departments = [],
+  hospitalId = "",
 }: DepartmentsSectionProps) {
   if (departments.length === 0) return null;
 
@@ -29,7 +31,7 @@ export function DepartmentsSection({
         </div>
 
         <div className={styles.footer}>
-          <Link href="#departments" className={styles.viewAll}>
+          <Link href={hospitalId ? `/temp1/${hospitalId}/our-departments` : "our-departments"} className={styles.viewAll}>
             View All Departments <ArrowRight size={16} />
           </Link>
         </div>

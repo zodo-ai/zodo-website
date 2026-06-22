@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { BadgeCheck, Stethoscope, Users, HeartHandshake } from "lucide-react";
 import { useState, useEffect } from "react";
 import styles from "./HeroSection.module.css";
 import { HospitalWebBanner } from "@/network/hospital-web/types";
@@ -17,7 +16,7 @@ export function HeroSection({
   description = "",
   banners = [],
 }: HeroSectionProps) {
-  const images = banners.filter((b) => b.is_active).map((b) => b.image);
+  const images = banners.filter((b) => b.is_active).map((b) => b.image).filter(Boolean);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -44,73 +43,8 @@ export function HeroSection({
               priority={index === 0}
             />
           ))}
-          {/* Gradient Overlay */}
-          <div className={styles.gradientOverlay}></div>
         </div>
       )}
-
-      <div className={styles.container}>
-        <div className={styles.textContent}>
-          <div className={styles.badge}>
-            <span className={styles.badgeText}>
-              Trusted Care. Beautiful Smiles.
-            </span>
-          </div>
-
-          <h1 className={styles.heading}>
-            {title}
-            {description && (
-              <>
-                <br />
-                <span className={styles.description}>{description}</span>
-              </>
-            )}
-          </h1>
-
-          {/* Features */}
-          <div className={styles.featuresGrid}>
-            <div className={styles.feature}>
-              <div className={styles.featureIcon}>
-                <BadgeCheck size={24} />
-              </div>
-              <span className={styles.featureText}>
-                Advanced
-                <br />
-                Technology
-              </span>
-            </div>
-            <div className={styles.feature}>
-              <div className={styles.featureIcon}>
-                <Stethoscope size={24} />
-              </div>
-              <span className={styles.featureText}>
-                Experienced
-                <br />
-                Doctors
-              </span>
-            </div>
-            <div className={styles.feature}>
-              <div className={styles.featureIcon}>
-                <HeartHandshake size={24} />
-              </div>
-              <span className={styles.featureText}>
-                Patient-Centered
-                <br />
-                Care
-              </span>
-            </div>
-            <div className={styles.feature}>
-              <div className={styles.featureIcon}>
-                <Users size={24} />
-              </div>
-              <span className={styles.featureText}>
-                Affordable &<br />
-                Transparent
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Carousel Indicators */}
       {images.length > 1 && (

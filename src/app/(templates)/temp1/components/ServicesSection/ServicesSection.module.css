@@ -1,7 +1,7 @@
 .section {
   padding-top: 5rem;
   padding-bottom: 5rem;
-  background-color: #F6FAF9;
+  background-color: color-mix(in srgb, var(--primary-color) 4%, white);
 }
 
 .container {
@@ -44,7 +44,7 @@
 .viewAll {
   font-size: 1rem;
   font-weight: 600;
-  color: #1a8b5e;
+  color: var(--primary-color, #1a8b5e);
   text-decoration: none;
 }
 
@@ -95,7 +95,7 @@
   position: relative;
   height: 10rem;
   width: 100%;
-  background-color: #e2f6ed;
+  background-color: color-mix(in srgb, var(--primary-color) 15%, white);
   border-radius: 0.75rem;
   margin-bottom: 1.25rem;
 }
@@ -104,7 +104,7 @@
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
-  background-color: #006b4d;
+  background-color: color-mix(in srgb, var(--primary-color) 80%, black);
   color: #ffffff;
   font-size: 0.75rem;
   font-weight: 600;

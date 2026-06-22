@@ -50,7 +50,7 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #1a8b5e;
+  color: var(--primary-color, #1a8b5e);
   margin: 0 0 1rem 0;
 }
 
@@ -85,7 +85,7 @@
   height: 3rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  background-color: #1a8b5e;
+  background-color: var(--primary-color, #1a8b5e);
   color: #ffffff;
   border: none;
   cursor: pointer;
@@ -94,7 +94,7 @@
 }
 
 .button:hover {
-  background-color: #136a46;
+  background-color: color-mix(in srgb, var(--primary-color) 80%, black);
 }
 
 .imageContent {

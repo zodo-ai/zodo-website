@@ -24,7 +24,7 @@
   font-size: 1.875rem;
   line-height: 2.25rem;
   font-weight: 700;
-  color: #173F3A;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   margin: 0 0 3rem 0;
 }
 
@@ -52,7 +52,7 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  border: 1px solid #E0ECE9;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
   border-radius: 0.75rem;
   transition: box-shadow 0.15s ease-in-out;
   cursor: pointer;
@@ -69,14 +69,14 @@
   width: 3rem;
   align-items: center;
   justify-content: center;
-  color: #347D73;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   margin-bottom: 0.75rem;
 }
 
 .name {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #173F3A;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   line-height: 1.25;
   margin: 0;
 }
@@ -93,11 +93,11 @@
   gap: 0.25rem;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #008A5E;
+  color: var(--primary-color, #1a8b5e);
   text-decoration: none;
   transition: color 0.15s ease-in-out;
 }
 
 .viewAll:hover {
-  color: #00704C;
+  color: color-mix(in srgb, var(--primary-color) 80%, black);
 }

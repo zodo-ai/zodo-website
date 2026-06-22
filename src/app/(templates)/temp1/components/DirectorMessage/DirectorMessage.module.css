@@ -1,7 +1,7 @@
 .section {
   padding-top: 4rem;
   padding-bottom: 4rem;
-  background-color: #F6FAF9;
+  background-color: color-mix(in srgb, var(--primary-color) 4%, white);
 }
 
 .container {
@@ -27,7 +27,7 @@
   background-color: #ffffff;
   border-radius: 1rem;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  border: 1px solid #E0ECE9;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
   overflow: hidden;
 }
 
@@ -72,7 +72,7 @@
   position: absolute;
   top: 1.5rem;
   right: 2rem;
-  color: #E0ECE9;
+  color: color-mix(in srgb, var(--primary-color) 20%, transparent);
   opacity: 0.5;
 }
 
@@ -81,14 +81,14 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #347D73;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   margin: 0 0 0.5rem 0;
 }
 
 .title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #173F3A;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   margin: 0 0 1.5rem 0;
 }
 
@@ -113,14 +113,14 @@
 .signature {
   font-family: serif;
   font-size: 1.5rem;
-  color: #173F3A;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   margin-bottom: 0.5rem;
   font-style: italic;
 }
 
 .authorName {
   font-weight: 700;
-  color: #173F3A;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
   margin: 0;
 }
 

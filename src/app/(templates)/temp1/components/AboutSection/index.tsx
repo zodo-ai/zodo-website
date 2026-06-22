@@ -5,11 +5,13 @@ import styles from "./AboutSection.module.css";
 interface AboutSectionProps {
   hospitalName?: string;
   aboutUs?: string;
+  aboutUsImage?: string;
 }
 
 export function AboutSection({
   hospitalName = "",
   aboutUs = "",
+  aboutUsImage = "",
 }: AboutSectionProps) {
   return (
     <section id="about-us" className={styles.section}>
@@ -21,9 +23,10 @@ export function AboutSection({
             <h2 className={styles.title}>
               {hospitalName ? `About ${hospitalName}` : "About Us"}
             </h2>
-            <p className={styles.description}>
-              {aboutUs || "Welcome to our hospital."}
-            </p>
+            <div
+              className={styles.description}
+              dangerouslySetInnerHTML={{ __html: aboutUs || "Welcome to our hospital" }}
+            />
             <button className={styles.button}>
               Learn More About Us
               <ArrowRight size={16} />
@@ -33,7 +36,7 @@ export function AboutSection({
           {/* Image */}
           <div className={styles.imageContent}>
             <Image
-              src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=1974&auto=format&fit=crop"
+              src={aboutUsImage || "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=1974&auto=format&fit=crop"}
               alt="Hospital"
               fill
               className={styles.image}
