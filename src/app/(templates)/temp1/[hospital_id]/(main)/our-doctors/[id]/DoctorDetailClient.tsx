@@ -484,22 +484,24 @@ export default function DoctorDetailClient({
                         </div>
                     </div>
                     <div className={styles.bookingCtaButtons}>
-                        <button type="button" className={styles.bookAppointmentBtn}>
-                            <CalendarDays
-                                size={18}
-                                strokeWidth={2}
-                                aria-hidden="true"
-                            />
-                            Book Appointment
-                        </button>
-                        <button type="button" className={styles.enquiryBtn}>
+                        {doctor.appointment_type !== "enquiry" && (
+                            <Link href={`/temp1/${hospitalSlug}/booking/create?type=doctor&doctorId=${doctor.id}`} className={styles.bookAppointmentBtn}>
+                                <CalendarDays
+                                    size={18}
+                                    strokeWidth={2}
+                                    aria-hidden="true"
+                                />
+                                Book Appointment
+                            </Link>
+                        )}
+                        <Link href={`/temp1/${hospitalSlug}/enquiry/create?type=doctor&doctorId=${doctor.id}`} className={styles.enquiryBtn}>
                             <MessageSquare
                                 size={18}
                                 strokeWidth={2}
                                 aria-hidden="true"
                             />
                             Enquiry Now
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </section>

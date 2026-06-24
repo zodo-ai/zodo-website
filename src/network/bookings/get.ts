@@ -32,3 +32,24 @@ export const fetchMyBookingsAPI = async ({
     headers: getAuthHeaders(),
   });
 };
+
+export interface FetchTemp1MyBookingsParams extends FetchMyBookingsParams {
+  hospitalId: string;
+}
+
+export const fetchTemp1MyBookingsAPI = async ({
+  page = 1,
+  limit = 10,
+  hospitalId,
+}: FetchTemp1MyBookingsParams): Promise<MyBookingsResponseI> => {
+  return await apiCall("bookings/my-bookings", "GET", {
+    query: {
+      page,
+      limit,
+    },
+    headers: {
+      ...getAuthHeaders(),
+      "HOSPITAL-ID": hospitalId,
+    },
+  });
+};

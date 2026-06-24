@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -16,9 +16,11 @@ import {
     ChevronLeft,
     ChevronRight,
     Phone,
+    Loader2,
 } from "lucide-react";
 import styles from "./page.module.css";
-import { HospitalServiceI } from "@/network/hospital-services/types";
+import { HospitalServiceI, HospitalServicesResponseI } from "@/network/hospital-services/types";
+import { fetchHospitalServicesAPI } from "@/network/hospital-services/get";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -32,8 +34,16 @@ interface FeatureItem {
 }
 
 interface ServicesListingClientProps {
-    services: HospitalServiceI[];
+    initialServices: HospitalServiceI[];
+    initialMeta?: {
+        itemsPerPage?: number;
+        totalItems?: number;
+        currentPage?: number;
+        totalPages?: number;
+        sortBy?: string[][];
+    };
     hospitalSlug?: string;
+    hospitalId?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -61,68 +71,74 @@ const FEATURES: FeatureItem[] = [
     },
 ];
 
-const CATEGORY_OPTIONS = [
-    "All Categories",
-    "CT Scan",
-    "MRI Scan",
-    "Blood Test",
-    "X-Ray",
-    "Ultrasound",
-];
-
-const SORT_OPTIONS = ["Newest First", "Price: Low to High", "Price: High to Low"];
-
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 10;
 
 // ---------------------------------------------------------------------------
 // Page Component
 // ---------------------------------------------------------------------------
 
-export default function ServicesListingClient({ services, hospitalSlug }: ServicesListingClientProps) {
+export default function ServicesListingClient({
+    initialServices,
+    initialMeta,
+    hospitalSlug,
+    hospitalId,
+}: ServicesListingClientProps) {
+    // Filter state
     const [searchTerm, setSearchTerm] = useState("");
-    const [category, setCategory] = useState(CATEGORY_OPTIONS[0]);
-    const [sortBy, setSortBy] = useState(SORT_OPTIONS[0]);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(initialMeta?.currentPage ?? 1);
+
+    // Data state
+    const [services, setServices] = useState<HospitalServiceI[]>(initialServices);
+    const [totalItems, setTotalItems] = useState(initialMeta?.totalItems ?? initialServices.length);
+    const [totalPages, setTotalPages] = useState(initialMeta?.totalPages ?? 1);
+    const [loading, setLoading] = useState(false);
     const [wishlist, setWishlist] = useState<Set<string>>(new Set());
 
-    const filteredServices = useMemo(() => {
-        let result = services.filter((service) => {
-            const matchesSearch = service.name
-                .toLowerCase()
-                .includes(searchTerm.trim().toLowerCase());
-                
-            // Using name or description to match category loosely since category isn't in HospitalServiceI
-            const serviceText = (service.name + " " + service.description).toLowerCase();
-            const matchesCategory =
-                category === "All Categories" || serviceText.includes(category.toLowerCase());
+    const [isInitial, setIsInitial] = useState(true);
 
-            return matchesSearch && matchesCategory;
-        });
+    const fetchServices = useCallback(async (page: number, search: string) => {
+        setLoading(true);
+        try {
+            const result = await fetchHospitalServicesAPI({
+                hospital_id: hospitalId,
+                page,
+                limit: ITEMS_PER_PAGE,
+                search: search || undefined,
+            });
 
-        if (sortBy === "Price: Low to High") {
-            result = [...result].sort((a, b) => Number(a.price) - Number(b.price));
-        } else if (sortBy === "Price: High to Low") {
-            result = [...result].sort((a, b) => Number(b.price) - Number(a.price));
-        } else {
-            // result = [...result].sort((a, b) => b.id - a.id);
+            if (Array.isArray(result)) {
+                setServices(result);
+                setTotalItems(result.length);
+                setTotalPages(1);
+            } else {
+                const response = result as HospitalServicesResponseI;
+                setServices(response.data ?? []);
+                setTotalItems(response.meta?.totalItems ?? 0);
+                setTotalPages(response.meta?.totalPages ?? 1);
+            }
+        } catch {
+            setServices([]);
+            setTotalItems(0);
+            setTotalPages(1);
+        } finally {
+            setLoading(false);
         }
+    }, [hospitalId]);
 
-        return result;
-    }, [services, searchTerm, category, sortBy]);
-
-    const totalPages = Math.max(
-        1,
-        Math.ceil(filteredServices.length / ITEMS_PER_PAGE)
-    );
-
-    const paginatedServices = filteredServices.slice(
-        (currentPage - 1) * ITEMS_PER_PAGE,
-        currentPage * ITEMS_PER_PAGE
-    );
+    // Trigger fetch on filter or page change
+    useEffect(() => {
+        if (isInitial) {
+            setIsInitial(false);
+            return;
+        }
+        fetchServices(currentPage, searchTerm);
+    }, [currentPage, searchTerm, fetchServices, isInitial]);
 
     const handleSearchSubmit = (event: FormEvent) => {
         event.preventDefault();
         setCurrentPage(1);
+        setIsInitial(false);
+        fetchServices(1, searchTerm);
     };
 
     const toggleWishlist = (id: string) => {
@@ -140,7 +156,12 @@ export default function ServicesListingClient({ services, hospitalSlug }: Servic
     const goToPage = (page: number) => {
         if (page < 1 || page > totalPages) return;
         setCurrentPage(page);
+        setIsInitial(false);
     };
+
+    // Compute showing range
+    const startItem = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+    const endItem = Math.min(currentPage * ITEMS_PER_PAGE, totalItems);
 
     return (
         <main className={styles.page}>
@@ -187,16 +208,7 @@ export default function ServicesListingClient({ services, hospitalSlug }: Servic
                         </ul>
                     </div>
 
-                    <div className={styles.heroImage}>
-                        <Image
-                            src="/images/services/hero.jpg"
-                            alt="Doctor preparing a patient for a CT scan"
-                            fill
-                            priority
-                            sizes="(max-width: 768px) 100vw, 50vw"
-                            className={styles.heroImageEl}
-                        />
-                    </div>
+
                 </div>
             </section>
 
@@ -205,8 +217,8 @@ export default function ServicesListingClient({ services, hospitalSlug }: Servic
             {/* ----------------------------------------------------------------- */}
             <section className={styles.filterSection}>
                 <form className={styles.filterCard} onSubmit={handleSearchSubmit}>
-                    <div className={styles.filterGrid}>
-                        <div className={styles.searchField}>
+                    <div className={styles.filterGrid} style={{ gridTemplateColumns: '1fr auto' }}>
+                        <div className={styles.searchField} style={{ flex: 1 }}>
                             <Search
                                 size={18}
                                 strokeWidth={2}
@@ -220,33 +232,11 @@ export default function ServicesListingClient({ services, hospitalSlug }: Servic
                                 value={searchTerm}
                                 onChange={(event) => {
                                     setSearchTerm(event.target.value);
-                                    setCurrentPage(1);
                                 }}
                                 className={styles.searchInput}
                                 aria-label="Search services"
                             />
                         </div>
-
-                        <select
-                            className={styles.selectField}
-                            value={category}
-                            onChange={(event) => {
-                                setCategory(event.target.value);
-                                setCurrentPage(1);
-                            }}
-                            aria-label="Filter by category"
-                        >
-                            {CATEGORY_OPTIONS.map((option) => (
-                                <option key={option} value={option}>
-                                    {option}
-                                </option>
-                            ))}
-                        </select>
-
-                        <button type="submit" className={styles.searchButton}>
-                            <Search size={18} strokeWidth={2} aria-hidden="true" />
-                            Search
-                        </button>
                     </div>
                 </form>
             </section>
@@ -257,37 +247,23 @@ export default function ServicesListingClient({ services, hospitalSlug }: Servic
             <section className={styles.servicesSection}>
                 <div className={styles.resultsBar}>
                     <p className={styles.resultsCount}>
-                        Showing {paginatedServices.length} of {filteredServices.length}{" "}
-                        services
+                        {totalItems > 0
+                            ? `Showing ${startItem}–${endItem} of ${totalItems} services`
+                            : "No services found"}
                     </p>
-
-                    <label className={styles.sortLabel}>
-                        Sort by:
-                        <select
-                            className={styles.sortSelect}
-                            value={sortBy}
-                            onChange={(event) => {
-                                setSortBy(event.target.value);
-                                setCurrentPage(1);
-                            }}
-                            aria-label="Sort services"
-                        >
-                            {SORT_OPTIONS.map((option) => (
-                                <option key={option} value={option}>
-                                    {option}
-                                </option>
-                            ))}
-                        </select>
-                    </label>
                 </div>
 
-                {paginatedServices.length === 0 ? (
+                {loading ? (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '4rem 0' }}>
+                        <Loader2 size={32} className={styles.spinner} style={{ animation: 'spin 1s linear infinite' }} />
+                    </div>
+                ) : services.length === 0 ? (
                     <p className={styles.emptyState}>
                         No services match your search. Try a different keyword or filter.
                     </p>
                 ) : (
                     <div className={styles.servicesGrid}>
-                        {paginatedServices.map((service) => {
+                        {services.map((service) => {
                             const isWishlisted = wishlist.has(service.id);
                             return (
                                 <article key={service.id} className={styles.serviceCard}>
@@ -305,24 +281,6 @@ export default function ServicesListingClient({ services, hospitalSlug }: Servic
                                                 <ShieldPlus size={48} color="#0b8a53" opacity={0.5} />
                                             </div>
                                         )}
-                                        <button
-                                            type="button"
-                                            className={styles.wishlistButton}
-                                            aria-pressed={isWishlisted}
-                                            aria-label={
-                                                isWishlisted
-                                                    ? "Remove from wishlist"
-                                                    : "Add to wishlist"
-                                            }
-                                            onClick={() => toggleWishlist(service.id)}
-                                        >
-                                            <Heart
-                                                size={18}
-                                                strokeWidth={2}
-                                                fill={isWishlisted ? "#0B8A53" : "none"}
-                                                color={isWishlisted ? "#0B8A53" : "#1E2A3B"}
-                                            />
-                                        </button>
                                         <span className={styles.serviceBadge}>
                                             <ShieldPlus
                                                 size={22}
@@ -375,22 +333,6 @@ export default function ServicesListingClient({ services, hospitalSlug }: Servic
                                                     </span>
                                                 </span>
                                             </div>
-                                            <div className={styles.infoBox}>
-                                                <MapPin
-                                                    size={16}
-                                                    strokeWidth={2}
-                                                    className={styles.infoIcon}
-                                                    aria-hidden="true"
-                                                />
-                                                <span>
-                                                    <span className={styles.infoLabel}>
-                                                        Hospital Location
-                                                    </span>
-                                                    <span className={styles.infoValue}>
-                                                        View Map
-                                                    </span>
-                                                </span>
-                                            </div>
                                         </div>
 
                                         <Link
@@ -410,43 +352,45 @@ export default function ServicesListingClient({ services, hospitalSlug }: Servic
                 {/* ------------------------------------------------------------- */}
                 {/* PAGINATION */}
                 {/* ------------------------------------------------------------- */}
-                <nav className={styles.pagination} aria-label="Services pagination">
-                    <button
-                        type="button"
-                        className={styles.paginationArrow}
-                        onClick={() => goToPage(currentPage - 1)}
-                        disabled={currentPage === 1}
-                        aria-label="Previous page"
-                    >
-                        <ChevronLeft size={18} strokeWidth={2} aria-hidden="true" />
-                    </button>
+                {totalPages > 1 && (
+                    <nav className={styles.pagination} aria-label="Services pagination">
+                        <button
+                            type="button"
+                            className={styles.paginationArrow}
+                            onClick={() => goToPage(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            aria-label="Previous page"
+                        >
+                            <ChevronLeft size={18} strokeWidth={2} aria-hidden="true" />
+                        </button>
 
-                    {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-                        (page) => (
-                            <button
-                                key={page}
-                                type="button"
-                                className={`${styles.paginationButton} ${page === currentPage ? styles.paginationButtonActive : ""
-                                    }`}
-                                onClick={() => goToPage(page)}
-                                aria-current={page === currentPage ? "page" : undefined}
-                                aria-label={`Page ${page}`}
-                            >
-                                {page}
-                            </button>
-                        )
-                    )}
+                        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                            (page) => (
+                                <button
+                                    key={page}
+                                    type="button"
+                                    className={`${styles.paginationButton} ${page === currentPage ? styles.paginationButtonActive : ""
+                                        }`}
+                                    onClick={() => goToPage(page)}
+                                    aria-current={page === currentPage ? "page" : undefined}
+                                    aria-label={`Page ${page}`}
+                                >
+                                    {page}
+                                </button>
+                            )
+                        )}
 
-                    <button
-                        type="button"
-                        className={styles.paginationArrow}
-                        onClick={() => goToPage(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                        aria-label="Next page"
-                    >
-                        <ChevronRight size={18} strokeWidth={2} aria-hidden="true" />
-                    </button>
-                </nav>
+                        <button
+                            type="button"
+                            className={styles.paginationArrow}
+                            onClick={() => goToPage(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            aria-label="Next page"
+                        >
+                            <ChevronRight size={18} strokeWidth={2} aria-hidden="true" />
+                        </button>
+                    </nav>
+                )}
             </section>
 
             {/* ----------------------------------------------------------------- */}

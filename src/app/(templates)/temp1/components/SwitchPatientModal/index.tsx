@@ -55,7 +55,7 @@ const SwitchPatientModal = ({
           display: "flex",
           flexDirection: "column",
           borderRadius: "12px",
-          border: "1px solid #DCE9E6",
+          border: "1px solid color-mix(in srgb, var(--primary-color) 20%, white)",
           backgroundColor: "white",
           boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
           overflow: "hidden",
@@ -68,7 +68,7 @@ const SwitchPatientModal = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            borderBottom: "1px solid #E6EEEC",
+            borderBottom: "1px solid color-mix(in srgb, var(--primary-color) 15%, white)",
             backgroundColor: "white",
             padding: "16px 24px",
           }}
@@ -76,11 +76,11 @@ const SwitchPatientModal = ({
           <div>
             <h2
               id="switch-patient-title"
-              style={{ fontSize: "18px", fontWeight: 600, color: "#173F3A", margin: 0 }}
+              style={{ fontSize: "18px", fontWeight: 600, color: "color-mix(in srgb, var(--primary-color) 80%, black)", margin: 0 }}
             >
               Switch Patient
             </h2>
-            <p style={{ fontSize: "12px", color: "#7B8E92", marginTop: "2px" }}>
+            <p style={{ fontSize: "12px", color: "#6b7280", marginTop: "2px" }}>
               Select who you are booking for
             </p>
           </div>
@@ -96,7 +96,7 @@ const SwitchPatientModal = ({
               border: "none",
               background: "transparent",
               cursor: "pointer",
-              color: "#6B7C80",
+              color: "#6b7280",
             }}
           >
             <X size={20} />
@@ -114,14 +114,14 @@ const SwitchPatientModal = ({
         >
           {loading ? (
             <div style={{ display: "flex", justifyContent: "center", padding: "48px 0" }}>
-              <Loader2 size={28} className="animate-spin text-[#347D73]" />
+              <Loader2 size={28} className="animate-spin text-[var(--primary-color)]" />
             </div>
           ) : patients.length === 0 ? (
             <div
               style={{
                 borderRadius: "8px",
-                border: "1px dashed #C9DCD8",
-                backgroundColor: "#F8FBFA",
+                border: "1px dashed color-mix(in srgb, var(--primary-color) 25%, white)",
+                backgroundColor: "color-mix(in srgb, var(--primary-color) 5%, white)",
                 padding: "32px",
                 textAlign: "center",
               }}
@@ -135,12 +135,12 @@ const SwitchPatientModal = ({
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: "50%",
-                  backgroundColor: "#EAF5F2",
+                  backgroundColor: "color-mix(in srgb, var(--primary-color) 10%, white)",
                 }}
               >
-                <UserRound size={24} color="#347D73" />
+                <UserRound size={24} color="var(--primary-color)" />
               </div>
-              <p style={{ fontWeight: 600, color: "#173F3A" }}>No patients found</p>
+              <p style={{ fontWeight: 600, color: "color-mix(in srgb, var(--primary-color) 80%, black)" }}>No patients found</p>
             </div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
@@ -155,18 +155,18 @@ const SwitchPatientModal = ({
                       alignItems: "center",
                       gap: "12px",
                       borderRadius: "12px",
-                      border: `1px solid ${isSelected ? "#1B7C7B" : "#E6EEEC"}`,
-                      backgroundColor: isSelected ? "#F4F8F7" : "white",
+                      border: `1px solid ${isSelected ? "var(--primary-color)" : "color-mix(in srgb, var(--primary-color) 15%, white)"}`,
+                      backgroundColor: isSelected ? "color-mix(in srgb, var(--primary-color) 8%, white)" : "white",
                       padding: "12px",
                       cursor: "pointer",
                       transition: "all 0.15s ease",
                     }}
                   >
-                    <Avatar className="h-12 w-12 shrink-0 border border-[#DCE9E6]">
+                    <Avatar className="h-12 w-12 shrink-0 border border-[color-mix(in srgb, var(--primary-color) 20%, white)]">
                       {patient.profile_picture && (
                         <AvatarImage src={patient.profile_picture} alt={patient.name} />
                       )}
-                      <AvatarFallback className="bg-[#EAF5F2] text-[#1D453F] text-sm font-semibold">
+                      <AvatarFallback className="bg-[color-mix(in srgb, var(--primary-color) 10%, white)] text-[var(--primary-color)] text-sm font-semibold">
                         {patient.name
                           ? patient.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
                           : <UserRound size={18} />}
@@ -175,16 +175,16 @@ const SwitchPatientModal = ({
 
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                        <p style={{ fontSize: "14px", fontWeight: 600, color: "#173F3A", margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        <p style={{ fontSize: "14px", fontWeight: 600, color: "color-mix(in srgb, var(--primary-color) 80%, black)", margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                           {patient.name}
                         </p>
-                        <span style={{ fontSize: "11px", fontWeight: 500, color: "#1D453F", backgroundColor: "#EAF5F2", borderRadius: "4px", padding: "1px 4px" }}>
+                        <span style={{ fontSize: "11px", fontWeight: 500, color: "var(--primary-color)", backgroundColor: "color-mix(in srgb, var(--primary-color) 10%, white)", borderRadius: "4px", padding: "1px 4px" }}>
                           {patient.relation}
                         </span>
                       </div>
                       <div style={{ marginTop: "4px", display: "flex", gap: "6px" }}>
-                        <span style={{ fontSize: "12px", color: "#7B8E92" }}>{patient.age} yrs</span>
-                        <span style={{ fontSize: "12px", color: "#7B8E92", textTransform: "capitalize" }}>{patient.gender}</span>
+                        <span style={{ fontSize: "12px", color: "#6b7280" }}>{patient.age} yrs</span>
+                        <span style={{ fontSize: "12px", color: "#6b7280", textTransform: "capitalize" }}>{patient.gender}</span>
                       </div>
                     </div>
 
@@ -194,8 +194,8 @@ const SwitchPatientModal = ({
                           height: "24px",
                           width: "24px",
                           borderRadius: "50%",
-                          border: `2px solid ${isSelected ? "#1B7C7B" : "#C9DCD8"}`,
-                          backgroundColor: isSelected ? "#1B7C7B" : "transparent",
+                          border: `2px solid ${isSelected ? "var(--primary-color)" : "color-mix(in srgb, var(--primary-color) 25%, white)"}`,
+                          backgroundColor: isSelected ? "var(--primary-color)" : "transparent",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",

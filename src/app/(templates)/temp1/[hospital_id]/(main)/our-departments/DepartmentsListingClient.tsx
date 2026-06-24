@@ -192,16 +192,7 @@ export default function DepartmentsListingClient({ departments }: DepartmentsLis
                         </div>
                     </div>
 
-                    <div className={styles.heroImage}>
-                        <Image
-                            src="/images/departments/hero.jpg"
-                            alt="Two specialists from Apollo Dental Hospital"
-                            fill
-                            priority
-                            sizes="(max-width: 768px) 100vw, 50vw"
-                            className={styles.heroImageEl}
-                        />
-                    </div>
+
                 </div>
             </section>
 
@@ -254,7 +245,7 @@ export default function DepartmentsListingClient({ departments }: DepartmentsLis
                         Showing {filteredDepartments.length} departments
                     </p>
 
-                    <div className={styles.viewToggle}>
+                    {/* <div className={styles.viewToggle}>
                         <button
                             type="button"
                             className={`${styles.viewToggleButton} ${viewMode === "grid" ? styles.viewToggleButtonActive : ""
@@ -275,7 +266,7 @@ export default function DepartmentsListingClient({ departments }: DepartmentsLis
                             <List size={16} strokeWidth={2} aria-hidden="true" />
                             List View
                         </button>
-                    </div>
+                    </div> */}
                 </div>
 
                 {filteredDepartments.length === 0 ? (

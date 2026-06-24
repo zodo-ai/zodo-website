@@ -58,9 +58,9 @@ export function DoctorsSection({ doctors = [], hospitalId = "" }: DoctorsSection
                 <p className={styles.experience}>
                   {getExperience(doctor.work_start_date ?? "")}
                 </p>
-                <button className={styles.profileButton}>
+                <Link href={hospitalId ? `/temp1/${hospitalId}/our-doctors/${doctor.id}` : `/our-doctors/${doctor.id}`} className={styles.profileButton}>
                   View Profile
-                </button>
+                </Link>
               </div>
             </div>
           ))}

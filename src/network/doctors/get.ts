@@ -5,8 +5,11 @@ export interface FetchDoctorsParams {
   page?: number;
   limit?: number;
   name?: string;
+  search?: string;
   district_id?: string | null;
   hospital_id?: string;
+  specialisation_ids?: string;
+  experience?: number;
 }
 
 export interface FetchReviewParams {
@@ -18,7 +21,7 @@ export interface FetchReviewParams {
 export const fetchDoctorsAPI = async (
   params: FetchDoctorsParams = {}
 ): Promise<DoctorsDataI> => {
-  const { page = 1, limit = 10, name, district_id, hospital_id } = params;
+  const { page = 1, limit = 10, name, search, district_id, hospital_id, specialisation_ids, experience } = params;
 
   const query: Record<string, string | number> = {
     page,
@@ -28,12 +31,23 @@ export const fetchDoctorsAPI = async (
   if (name) {
     query.name = name;
   }
+  if (search) {
+    query.search = search;
+  }
   if (district_id && district_id !== "null") {
     query.district_id = district_id;
   }
 
   if (hospital_id) {
     query.hospital_id = hospital_id;
+  }
+
+  if (specialisation_ids) {
+    query.specialisation_ids = specialisation_ids;
+  }
+
+  if (experience !== undefined && experience > 0) {
+    query.experience = experience;
   }
 
   return await apiCall("doctors/open", "GET", {

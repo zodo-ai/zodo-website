@@ -59,6 +59,7 @@ export interface DoctorI {
   consultation_duration?: number | null;
   auto_booking_enabled?: boolean;
   hospital?: DoctorHospitalI | null;
+  appointment_type?: string;
 }
 export interface UserI {
   first_name: string;

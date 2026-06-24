@@ -16,7 +16,7 @@ export function ServicesSection({ services = [], hospitalId = "" }: ServicesSect
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Our Services</h2>
-          <Link href={hospitalId ? `/temp1/${hospitalId}/our-services` : "our-services"} className={styles.viewAllBtn}>
+          <Link href={hospitalId ? `/temp1/${hospitalId}/our-services` : "our-services"} className={styles.viewAll}>
             View All Services
           </Link>
         </div>
