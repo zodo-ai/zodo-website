@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -13,9 +13,12 @@ import {
     ChevronRight,
     Phone,
     Calendar,
+    Loader2,
 } from "lucide-react";
 import styles from "./page.module.css";
-import { DoctorI } from "@/network/doctors/types";
+import { DoctorI, DoctorsResponseI, SpecialisationI } from "@/network/doctors/types";
+import { HospitalStatsResponse } from "@/network/hospital-web/types";
+import { fetchDoctorsAPI } from "@/network/doctors/get";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -29,12 +32,22 @@ interface StatItem {
 }
 
 interface DoctorsListingClientProps {
-    doctors: DoctorI[];
+    initialDoctors: DoctorI[];
+    initialMeta?: {
+        itemsPerPage?: number;
+        totalItems?: number;
+        currentPage?: number;
+        totalPages?: number;
+        sortBy?: string[][];
+    };
     hospitalSlug?: string;
+    hospitalId?: string;
+    specialisations: SpecialisationI[];
+    stats?: HospitalStatsResponse;
 }
 
 // ---------------------------------------------------------------------------
-// Mock Data for UI (Stats, Options)
+// Mock Data for UI (Stats fallback)
 // ---------------------------------------------------------------------------
 
 const STATS: StatItem[] = [
@@ -43,94 +56,109 @@ const STATS: StatItem[] = [
     { id: 3, icon: Clock3, value: "Online", label: "Appointments" },
 ];
 
-const SPECIALIZATION_OPTIONS = [
-    "All Specializations",
-    "Psychiatry",
-    "Dentistry",
-    "Orthodontics",
-    "Root Canal",
-    "Implants",
+const EXPERIENCE_OPTIONS = [
+    { label: "All Experience", value: 0 },
+    { label: "1+ Years", value: 1 },
+    { label: "2+ Years", value: 2 },
+    { label: "3+ Years", value: 3 },
+    { label: "4+ Years", value: 4 },
+    { label: "5+ Years", value: 5 },
 ];
 
-const DEPARTMENT_OPTIONS = [
-    "All Departments",
-    "Psychiatry",
-    "Dental Care",
-    "Cosmetic Dentistry",
-    "Surgery",
-];
-
-const SORT_OPTIONS = ["Name A-Z", "Name Z-A", "Newest First", "Oldest First"];
-
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 10;
 
 // ---------------------------------------------------------------------------
 // Page Component
 // ---------------------------------------------------------------------------
 
-export default function DoctorsListingClient({ doctors, hospitalSlug }: DoctorsListingClientProps) {
+export default function DoctorsListingClient({
+    initialDoctors,
+    initialMeta,
+    hospitalSlug,
+    hospitalId,
+    specialisations,
+    stats,
+}: DoctorsListingClientProps) {
+    // Filter state
     const [searchTerm, setSearchTerm] = useState("");
-    const [specialization, setSpecialization] = useState(
-        SPECIALIZATION_OPTIONS[0]
-    );
-    const [department, setDepartment] = useState(DEPARTMENT_OPTIONS[0]);
-    const [sortBy, setSortBy] = useState(SORT_OPTIONS[0]);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [selectedSpecialisation, setSelectedSpecialisation] = useState("");
+    const [selectedExperience, setSelectedExperience] = useState(0);
+    const [currentPage, setCurrentPage] = useState(initialMeta?.currentPage ?? 1);
 
-    const filteredDoctors = useMemo(() => {
-        let result = doctors.filter((doctor) => {
-            const matchesSearch = doctor.name
-                .toLowerCase()
-                .includes(searchTerm.trim().toLowerCase());
+    // Data state
+    const [doctors, setDoctors] = useState<DoctorI[]>(initialDoctors);
+    const [totalItems, setTotalItems] = useState(initialMeta?.totalItems ?? initialDoctors.length);
+    const [totalPages, setTotalPages] = useState(initialMeta?.totalPages ?? 1);
+    const [loading, setLoading] = useState(false);
 
-            // UI-only filtering. Since we don't have department info inside DoctorI directly
-            // from the API response yet (or it's structured differently), we use this simple check
-            // assuming specialisations is an array of objects.
-            const doctorSpecializations = doctor.specialisations?.map(s => s.name).join(" ").toLowerCase() || "";
+    // Track whether the user has changed filters (to skip the first fetch since we have SSR data)
+    const [isInitial, setIsInitial] = useState(true);
 
-            const matchesSpecialization =
-                specialization === "All Specializations" ||
-                doctorSpecializations.includes(specialization.toLowerCase());
+    const displayStats: StatItem[] = stats
+        ? [
+            { id: 1, icon: Users, value: stats.doctors.toString(), label: "Doctors" },
+            { id: 2, icon: Building2, value: stats.departments.toString(), label: "Departments" },
+            { id: 3, icon: Clock3, value: stats.services.toString(), label: "Services" },
+        ]
+        : STATS;
 
-            // We skip department filter here as it might not be part of the doctor object directly
-            const matchesDepartment = department === "All Departments";
-            // || doctor.department === department; // If available
+    // Fetch doctors from backend
+    const fetchDoctors = useCallback(async (page: number, search: string, specId: string, experience: number) => {
+        setLoading(true);
+        try {
+            const result = await fetchDoctorsAPI({
+                hospital_id: hospitalId,
+                page,
+                limit: ITEMS_PER_PAGE,
+                search: search || undefined,
+                specialisation_ids: specId || undefined,
+                experience: experience > 0 ? experience : undefined,
+            });
 
-            return matchesSearch && matchesSpecialization && matchesDepartment;
-        });
-
-        if (sortBy === "Name A-Z") {
-            result = [...result].sort((a, b) => a.name.localeCompare(b.name));
-        } else if (sortBy === "Name Z-A") {
-            result = [...result].sort((a, b) => b.name.localeCompare(a.name));
-        } else if (sortBy === "Newest First") {
-            // result = [...result].sort((a, b) => b.id - a.id);
-        } else {
-            // result = [...result].sort((a, b) => a.id - b.id);
+            if (Array.isArray(result)) {
+                setDoctors(result);
+                setTotalItems(result.length);
+                setTotalPages(1);
+            } else {
+                const response = result as DoctorsResponseI;
+                setDoctors(response.data ?? []);
+                setTotalItems(response.meta?.totalItems ?? 0);
+                setTotalPages(response.meta?.totalPages ?? 1);
+            }
+        } catch {
+            setDoctors([]);
+            setTotalItems(0);
+            setTotalPages(1);
+        } finally {
+            setLoading(false);
         }
+    }, [hospitalId]);
 
-        return result;
-    }, [doctors, searchTerm, specialization, department, sortBy]);
-
-    const totalPages = Math.max(
-        1,
-        Math.ceil(filteredDoctors.length / ITEMS_PER_PAGE)
-    );
-
-    const paginatedDoctors = filteredDoctors.slice(
-        (currentPage - 1) * ITEMS_PER_PAGE,
-        currentPage * ITEMS_PER_PAGE
-    );
+    // Trigger fetch when filters or page change
+    useEffect(() => {
+        if (isInitial) {
+            setIsInitial(false);
+            return;
+        }
+        fetchDoctors(currentPage, searchTerm, selectedSpecialisation, selectedExperience);
+    }, [currentPage, searchTerm, selectedSpecialisation, selectedExperience, fetchDoctors, isInitial]);
 
     const handleSearchSubmit = (event: FormEvent) => {
         event.preventDefault();
         setCurrentPage(1);
+        setIsInitial(false);
+        fetchDoctors(1, searchTerm, selectedSpecialisation, selectedExperience);
     };
 
     const goToPage = (page: number) => {
         if (page < 1 || page > totalPages) return;
         setCurrentPage(page);
+        setIsInitial(false);
     };
+
+    // Compute showing range
+    const startItem = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+    const endItem = Math.min(currentPage * ITEMS_PER_PAGE, totalItems);
 
     return (
         <main className={styles.page}>
@@ -156,7 +184,7 @@ export default function DoctorsListingClient({ doctors, hospitalSlug }: DoctorsL
                         </p>
 
                         <div className={styles.statsGrid}>
-                            {STATS.map((stat) => {
+                            {displayStats.map((stat) => {
                                 const Icon = stat.icon;
                                 return (
                                     <div key={stat.id} className={styles.statItem}>
@@ -173,16 +201,7 @@ export default function DoctorsListingClient({ doctors, hospitalSlug }: DoctorsL
                         </div>
                     </div>
 
-                    <div className={styles.heroImage}>
-                        <Image
-                            src="/images/doctors/hero.jpg"
-                            alt="Two smiling specialists from Apollo Dental Hospital"
-                            fill
-                            priority
-                            sizes="(max-width: 768px) 100vw, 50vw"
-                            className={styles.heroImageEl}
-                        />
-                    </div>
+
                 </div>
             </section>
 
@@ -210,7 +229,6 @@ export default function DoctorsListingClient({ doctors, hospitalSlug }: DoctorsL
                                     value={searchTerm}
                                     onChange={(event) => {
                                         setSearchTerm(event.target.value);
-                                        setCurrentPage(1);
                                     }}
                                     className={styles.searchInput}
                                     aria-label="Search doctor by name"
@@ -219,51 +237,49 @@ export default function DoctorsListingClient({ doctors, hospitalSlug }: DoctorsL
                         </div>
 
                         <div className={styles.selectGroup}>
-                            <label className={styles.selectLabel} htmlFor="specialization">
-                                Specialization
+                            <label className={styles.selectLabel} htmlFor="specialisation">
+                                Specialisation
                             </label>
                             <select
-                                id="specialization"
+                                id="specialisation"
                                 className={styles.selectField}
-                                value={specialization}
+                                value={selectedSpecialisation}
                                 onChange={(event) => {
-                                    setSpecialization(event.target.value);
+                                    setSelectedSpecialisation(event.target.value);
                                     setCurrentPage(1);
+                                    setIsInitial(false);
                                 }}
                             >
-                                {SPECIALIZATION_OPTIONS.map((option) => (
-                                    <option key={option} value={option}>
-                                        {option}
+                                <option value="">All Specialisations</option>
+                                {specialisations.map((spec) => (
+                                    <option key={spec.id} value={spec.id}>
+                                        {spec.name}
                                     </option>
                                 ))}
                             </select>
                         </div>
 
                         <div className={styles.selectGroup}>
-                            <label className={styles.selectLabel} htmlFor="department">
-                                Department
+                            <label className={styles.selectLabel} htmlFor="experience">
+                                Experience
                             </label>
                             <select
-                                id="department"
+                                id="experience"
                                 className={styles.selectField}
-                                value={department}
+                                value={selectedExperience}
                                 onChange={(event) => {
-                                    setDepartment(event.target.value);
+                                    setSelectedExperience(Number(event.target.value));
                                     setCurrentPage(1);
+                                    setIsInitial(false);
                                 }}
                             >
-                                {DEPARTMENT_OPTIONS.map((option) => (
-                                    <option key={option} value={option}>
-                                        {option}
+                                {EXPERIENCE_OPTIONS.map((option) => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
                                     </option>
                                 ))}
                             </select>
                         </div>
-
-                        <button type="submit" className={styles.searchButton}>
-                            <Search size={18} strokeWidth={2} aria-hidden="true" />
-                            Search
-                        </button>
                     </div>
                 </form>
             </section>
@@ -274,37 +290,23 @@ export default function DoctorsListingClient({ doctors, hospitalSlug }: DoctorsL
             <section className={styles.doctorsSection}>
                 <div className={styles.topBar}>
                     <p className={styles.resultsCount}>
-                        Showing {paginatedDoctors.length} of {filteredDoctors.length}{" "}
-                        doctors
+                        {totalItems > 0
+                            ? `Showing ${startItem}–${endItem} of ${totalItems} doctors`
+                            : "No doctors found"}
                     </p>
-
-                    <div className={styles.sortWrapper}>
-                        <span className={styles.sortLabel}>Sort by:</span>
-                        <select
-                            className={styles.sortSelect}
-                            value={sortBy}
-                            onChange={(event) => {
-                                setSortBy(event.target.value);
-                                setCurrentPage(1);
-                            }}
-                            aria-label="Sort doctors"
-                        >
-                            {SORT_OPTIONS.map((option) => (
-                                <option key={option} value={option}>
-                                    {option}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
                 </div>
 
-                {paginatedDoctors.length === 0 ? (
+                {loading ? (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '4rem 0' }}>
+                        <Loader2 size={32} className={styles.spinner} style={{ animation: 'spin 1s linear infinite' }} />
+                    </div>
+                ) : doctors.length === 0 ? (
                     <p className={styles.emptyState}>
                         No doctors match your search. Try a different keyword or filter.
                     </p>
                 ) : (
                     <div className={styles.doctorsGrid}>
-                        {paginatedDoctors.map((doctor) => (
+                        {doctors.map((doctor) => (
                             <article key={doctor.id} className={styles.doctorCard}>
                                 <div className={styles.doctorImageWrap}>
                                     {doctor.profile_pic ? (
@@ -351,43 +353,45 @@ export default function DoctorsListingClient({ doctors, hospitalSlug }: DoctorsL
                 {/* ------------------------------------------------------------- */}
                 {/* PAGINATION */}
                 {/* ------------------------------------------------------------- */}
-                <nav className={styles.pagination} aria-label="Doctors pagination">
-                    <button
-                        type="button"
-                        className={styles.paginationArrow}
-                        onClick={() => goToPage(currentPage - 1)}
-                        disabled={currentPage === 1}
-                        aria-label="Previous page"
-                    >
-                        <ChevronLeft size={18} strokeWidth={2} aria-hidden="true" />
-                    </button>
+                {totalPages > 1 && (
+                    <nav className={styles.pagination} aria-label="Doctors pagination">
+                        <button
+                            type="button"
+                            className={styles.paginationArrow}
+                            onClick={() => goToPage(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            aria-label="Previous page"
+                        >
+                            <ChevronLeft size={18} strokeWidth={2} aria-hidden="true" />
+                        </button>
 
-                    {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-                        (page) => (
-                            <button
-                                key={page}
-                                type="button"
-                                className={`${styles.paginationButton} ${page === currentPage ? styles.paginationButtonActive : ""
-                                    }`}
-                                onClick={() => goToPage(page)}
-                                aria-current={page === currentPage ? "page" : undefined}
-                                aria-label={`Page ${page}`}
-                            >
-                                {page}
-                            </button>
-                        )
-                    )}
+                        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                            (page) => (
+                                <button
+                                    key={page}
+                                    type="button"
+                                    className={`${styles.paginationButton} ${page === currentPage ? styles.paginationButtonActive : ""
+                                        }`}
+                                    onClick={() => goToPage(page)}
+                                    aria-current={page === currentPage ? "page" : undefined}
+                                    aria-label={`Page ${page}`}
+                                >
+                                    {page}
+                                </button>
+                            )
+                        )}
 
-                    <button
-                        type="button"
-                        className={styles.paginationArrow}
-                        onClick={() => goToPage(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                        aria-label="Next page"
-                    >
-                        <ChevronRight size={18} strokeWidth={2} aria-hidden="true" />
-                    </button>
-                </nav>
+                        <button
+                            type="button"
+                            className={styles.paginationArrow}
+                            onClick={() => goToPage(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            aria-label="Next page"
+                        >
+                            <ChevronRight size={18} strokeWidth={2} aria-hidden="true" />
+                        </button>
+                    </nav>
+                )}
             </section>
 
             {/* ----------------------------------------------------------------- */}

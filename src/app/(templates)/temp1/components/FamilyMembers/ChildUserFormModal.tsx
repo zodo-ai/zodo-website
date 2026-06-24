@@ -160,20 +160,20 @@ const ChildUserFormModal = ({
           role="dialog"
           aria-modal="true"
           aria-labelledby="child-user-form-title"
-          className="w-full sm:max-w-sm rounded-xl border border-[#DCE9E6] bg-white shadow-xl max-h-full overflow-y-auto"
+          className="w-full sm:max-w-sm rounded-xl border border-[color-mix(in_srgb,var(--primary-color)_20%,white)] bg-white shadow-xl max-h-full overflow-y-auto"
         >
           {/* Header */}
-          <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#E6EEEC] bg-white px-5 py-4 sm:px-6 rounded-t-2xl sm:rounded-t-xl">
+          <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[color-mix(in_srgb,var(--primary-color)_15%,white)] bg-white px-5 py-4 sm:px-6 rounded-t-2xl sm:rounded-t-xl">
             <h2
               id="child-user-form-title"
-              className="text-lg font-semibold text-[#173F3A]"
+              className="text-lg font-semibold text-[color-mix(in_srgb,var(--primary-color)_80%,black)]"
             >
               {editingUser ? "Edit Family Member" : "Add Family Member"}
             </h2>
             <button
               onClick={onClose}
               disabled={saving || imageUploading}
-              className="flex h-8 w-8 items-center justify-center cursor-pointer rounded-full text-[#6B7C80] transition-colors hover:bg-[#F4F8F7] hover:text-[#173F3A]"
+              className="flex h-8 w-8 items-center justify-center cursor-pointer rounded-full text-gray-500 transition-colors hover:bg-[color-mix(in_srgb,var(--primary-color)_8%,white)] hover:text-[color-mix(in_srgb,var(--primary-color)_80%,black)]"
             >
               <X size={20} />
             </button>
@@ -187,18 +187,19 @@ const ChildUserFormModal = ({
             {/* Profile Picture */}
             <div className="flex flex-col items-center gap-3">
               <div className="relative inline-block">
-                <Avatar className="h-20 w-20 border-2 border-[#DCE9E6] shadow-sm">
+                <Avatar className="h-20 w-20 border-2 border-[color-mix(in_srgb,var(--primary-color)_20%,white)] shadow-sm">
                   {profileImage && (
                     <AvatarImage src={profileImage} alt="Profile" />
                   )}
-                  <AvatarFallback className="bg-[#EAF5F2] text-[#1D453F]">
+                  <AvatarFallback className="bg-[color-mix(in_srgb,var(--primary-color)_10%,white)] text-[var(--primary-color)]">
                     <UserRound size={36} />
                   </AvatarFallback>
                 </Avatar>
 
                 <label
                   htmlFor="child-profile-upload"
-                  className="absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#1D453F] text-white shadow-lg transition-all hover:bg-[#173A35] hover:scale-105"
+                  className="absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-white shadow-lg transition-all hover:opacity-90 hover:scale-105"
+                  style={{ backgroundColor: "var(--primary-color)" }}
                 >
                   {imageUploading ? (
                     <Loader2 size={14} className="animate-spin" />
@@ -222,7 +223,7 @@ const ChildUserFormModal = ({
                   />
                 </label>
               </div>
-              <p className="text-xs text-[#7B8E92]">
+              <p className="text-xs text-gray-500">
                 {imageUploading ? "Uploading..." : "Tap to upload photo"}
               </p>
             </div>
@@ -231,7 +232,7 @@ const ChildUserFormModal = ({
             <div className="space-y-2">
               <label
                 htmlFor="child-fullname"
-                className="text-sm font-medium text-[#344C50]"
+                className="text-sm font-medium text-[color-mix(in_srgb,var(--primary-color)_70%,black)]"
               >
                 Full Name
               </label>
@@ -250,7 +251,7 @@ const ChildUserFormModal = ({
               <div className="space-y-2 flex-1">
                 <label
                   htmlFor="child-age"
-                  className="text-sm font-medium text-[#344C50]"
+                  className="text-sm font-medium text-[color-mix(in_srgb,var(--primary-color)_70%,black)]"
                 >
                   Age
                 </label>
@@ -269,7 +270,7 @@ const ChildUserFormModal = ({
               <div className="space-y-2 flex-1">
                 <label
                   htmlFor="child-gender"
-                  className="text-sm font-medium text-[#344C50]"
+                  className="text-sm font-medium text-[color-mix(in_srgb,var(--primary-color)_70%,black)]"
                 >
                   Gender
                 </label>
@@ -302,7 +303,7 @@ const ChildUserFormModal = ({
             <div className="space-y-2">
               <label
                 htmlFor="child-relation"
-                className="text-sm font-medium text-[#344C50]"
+                className="text-sm font-medium text-[color-mix(in_srgb,var(--primary-color)_70%,black)]"
               >
                 Relation
               </label>
@@ -329,7 +330,7 @@ const ChildUserFormModal = ({
             </div>
 
             {/* Actions */}
-            <div className="flex flex-row gap-3 border-t border-[#E6EEEC] pt-5 justify-end mb-10 sm:mb-0">
+            <div className="flex flex-row gap-3 border-t border-[color-mix(in_srgb,var(--primary-color)_15%,white)] pt-5 justify-end mb-10 sm:mb-0">
               <Button
                 type="button"
                 variant="outline"
@@ -342,7 +343,7 @@ const ChildUserFormModal = ({
               <Button
                 type="submit"
                 disabled={saving || imageUploading || loadingUser}
-                className="gap-2 bg-[#1D453F] hover:bg-[#173A35] flex-1"
+                className="gap-2 hover:opacity-90 flex-1" style={{ backgroundColor: "var(--primary-color)", color: "white" }}
               >
                 {(saving || loadingUser) ? (
                   <>

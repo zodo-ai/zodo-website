@@ -132,6 +132,7 @@
 
 .discountBadge {
     display: inline-flex;
+    align-self: flex-start;
     align-items: center;
     padding: 3px 10px;
     border: 1px solid color-mix(in srgb, var(--primary-color) 30%, white);
@@ -141,6 +142,7 @@
     font-weight: 600;
     color: var(--primary-color, #0b8a53);
     letter-spacing: 0.3px;
+    margin-bottom: 8px;
 }
 
 /* Daily booking info */

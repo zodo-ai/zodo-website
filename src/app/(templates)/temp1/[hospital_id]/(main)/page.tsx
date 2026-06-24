@@ -1,12 +1,13 @@
-import { HeroSection } from "../components/HeroSection";
-import { SearchSection } from "../components/SearchSection";
-import { StatsSection } from "../components/StatsSection";
-import { AboutSection } from "../components/AboutSection";
-import { DoctorsSection } from "../components/DoctorsSection";
-import { DirectorMessage } from "../components/DirectorMessage";
-import { DepartmentsSection } from "../components/DepartmentsSection";
-import { ServicesSection } from "../components/ServicesSection";
-import { TestimonialsSection } from "../components/TestimonialsSection";
+import { HeroSection } from "../../components/HeroSection";
+import { SearchSection } from "../../components/SearchSection";
+import { StatsSection } from "../../components/StatsSection";
+import { AboutSection } from "../../components/AboutSection";
+import { DoctorsSection } from "../../components/DoctorsSection";
+import { DirectorMessage } from "../../components/DirectorMessage";
+import { DepartmentsSection } from "../../components/DepartmentsSection";
+import { ServicesSection } from "../../components/ServicesSection";
+import { TestimonialsSection } from "../../components/TestimonialsSection";
+import { GallerySection } from "../../components/GallerySection";
 
 import { fetchHospitalWebFull } from "@/network/hospital-web/get";
 import { fetchDoctorsAPI } from "@/network/doctors/get";
@@ -62,6 +63,7 @@ export default async function HospitalPage({ params }: PageProps) {
 
   const settings = hospitalWebData?.settings;
   const banners = hospitalWebData?.banners ?? [];
+  const gallery = hospitalWebData?.gallery ?? [];
   const testimonials = hospitalWebData?.testimonials ?? [];
 
   // Use hospital detail name, fallback to settings title
@@ -87,9 +89,11 @@ export default async function HospitalPage({ params }: PageProps) {
         directorName={settings?.director_name}
         directorTitle={settings?.director_title}
         directorMessage={settings?.director_message}
+        directorImage={settings?.director_image}
       />
       <DepartmentsSection departments={departments} hospitalId={hospital_id} />
       <ServicesSection services={services} hospitalId={hospital_id} />
+      <GallerySection gallery={gallery} hospitalName={hospitalName} />
       <TestimonialsSection testimonials={testimonials} />
     </main>
   );

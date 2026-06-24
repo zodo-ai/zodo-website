@@ -10,6 +10,7 @@ export interface FetchHospitalServicesParams {
     page?: number;
     limit?: number;
     hospital_id?: string;
+    search?: string;
 }
 
 export const fetchHospitalServicesAPI = async (
@@ -20,6 +21,7 @@ export const fetchHospitalServicesAPI = async (
         page = 1,
         limit = 10,
         hospital_id,
+        search,
     } = params;
 
     const query: Record<string, string | number> = {
@@ -29,6 +31,10 @@ export const fetchHospitalServicesAPI = async (
 
     if (hospital_id) {
         query.hospital_id = hospital_id;
+    }
+
+    if (search) {
+        query.search = search;
     }
 
     return await apiCall(

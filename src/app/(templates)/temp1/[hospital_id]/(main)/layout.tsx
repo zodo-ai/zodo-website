@@ -1,5 +1,5 @@
-import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
+import { Header } from "../../components/Header";
+import { Footer } from "../../components/Footer";
 import { fetchHospitalByIdAPI } from "@/network/hospitals/get";
 import { fetchHospitalWebFull } from "@/network/hospital-web/get";
 import { fetchHospitalServicesAPI } from "@/network/hospital-services/get";
@@ -42,7 +42,7 @@ export default async function HospitalLayout({
       backgroundColor: "#ffffff",
       "--primary-color": settings?.primary_color || "#1a8b5e"
     } as React.CSSProperties}>
-      <Header hospitalName={hospitalName} logoImage={settings?.logo_image} />
+      <Header hospitalName={hospitalName} logoImage={settings?.logo_image} hospitalSlug={hospital_id} />
       {children}
       <Footer settings={settings} hospitalName={hospitalName} services={services} hospitalSlug={hospital_id} />
     </div>

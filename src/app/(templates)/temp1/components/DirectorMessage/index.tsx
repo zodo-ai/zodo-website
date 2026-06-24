@@ -6,12 +6,14 @@ interface DirectorMessageProps {
   directorName?: string;
   directorTitle?: string;
   directorMessage?: string;
+  directorImage?: string;
 }
 
 export function DirectorMessage({
   directorName,
   directorTitle,
   directorMessage,
+  directorImage,
 }: DirectorMessageProps) {
   if (!directorName && !directorMessage && !directorTitle) return null;
 
@@ -23,7 +25,7 @@ export function DirectorMessage({
           {/* Image */}
           <div className={styles.imageWrapper}>
             <Image 
-              src="https://images.unsplash.com/photo-1594824436998-058d01de1a24?q=80&w=1964&auto=format&fit=crop" 
+              src={directorImage || "https://images.unsplash.com/photo-1594824436998-058d01de1a24?q=80&w=1964&auto=format&fit=crop"} 
               alt="Hospital Director" 
               fill
               className={styles.image}

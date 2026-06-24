@@ -1,7 +1,7 @@
 .header {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 25;
   width: 100%;
   border-bottom: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
   background-color: #ffffff;
@@ -154,7 +154,45 @@
   .bookTextDesktop {
     display: inline;
   }
+
   .bookTextMobile {
+    display: none;
+  }
+}
+
+.loginButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  height: 2.75rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  background-color: transparent;
+  color: var(--primary-color, #1a8b5e);
+  border: 1px solid var(--primary-color, #1a8b5e);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.loginButton:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
+}
+
+.loginTextDesktop {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .loginTextDesktop {
+    display: inline;
+  }
+
+  .loginTextMobile {
     display: none;
   }
 }

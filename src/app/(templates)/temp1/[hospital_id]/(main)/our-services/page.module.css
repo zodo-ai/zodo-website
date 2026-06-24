@@ -8,13 +8,28 @@
     overflow-x: hidden;
 }
 
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    color: var(--primary-color, #0b8a53);
+}
+
 /* ===========================================================================
    HERO SECTION
 =========================================================================== */
 
 .heroSection {
     background-color: #ffffff;
-    padding: 40px 0 0;
+    padding: 40px 0 80px;
 }
 
 .heroInner {
@@ -59,7 +74,7 @@
     font-size: 44px;
     line-height: 1.15;
     font-weight: 700;
-    color: #102a43;
+    color: #1e2a3b;
     margin: 0 0 16px;
     letter-spacing: -0.5px;
 }
@@ -76,44 +91,46 @@
     margin: 0 0 32px;
 }
 
-.statsGrid {
+.featureList {
     display: flex;
     flex-wrap: wrap;
     gap: 28px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-.statItem {
+.featureItem {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
-.statIcon {
+.featureIcon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
     border-radius: 50%;
     background-color: color-mix(in srgb, var(--primary-color) 15%, white);
     color: var(--primary-color, #0b8a53);
 }
 
-.statText {
+.featureText {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.statValue {
-    font-size: 18px;
-    font-weight: 700;
-    color: #102a43;
-    line-height: 1.2;
+.featureTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e2a3b;
 }
 
-.statLabel {
+.featureSubtitle {
     font-size: 12px;
     color: #6b7280;
 }
@@ -149,22 +166,21 @@
     background-color: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 16px;
-    box-shadow: 0 12px 32px rgba(16, 42, 67, 0.08);
+    box-shadow: 0 12px 32px rgba(30, 42, 59, 0.08);
     padding: 24px;
 }
 
 .filterGrid {
     display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr auto;
+    grid-template-columns: 2fr 1fr 1fr auto;
     gap: 16px;
-    align-items: end;
+    align-items: stretch;
 }
 
 .searchField {
     position: relative;
     display: flex;
     align-items: center;
-    align-self: stretch;
 }
 
 .searchFieldIcon {
@@ -181,7 +197,7 @@
     border: 1px solid #e5e7eb;
     border-radius: 10px;
     font-size: 14px;
-    color: #102a43;
+    color: #1e2a3b;
     background-color: #ffffff;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -196,18 +212,6 @@
     box-shadow: 0 0 0 3px rgba(11, 138, 83, 0.12);
 }
 
-.selectGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.selectLabel {
-    font-size: 13px;
-    font-weight: 500;
-    color: #102a43;
-}
-
 .selectField {
     width: 100%;
     height: 48px;
@@ -215,7 +219,7 @@
     border: 1px solid #e5e7eb;
     border-radius: 10px;
     font-size: 14px;
-    color: #102a43;
+    color: #1e2a3b;
     background-color: #ffffff;
     cursor: pointer;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -254,16 +258,16 @@
 }
 
 /* ===========================================================================
-   DOCTORS SECTION
+   SERVICES SECTION
 =========================================================================== */
 
-.doctorsSection {
+.servicesSection {
     max-width: 1320px;
     margin: 0 auto;
     padding: 48px 24px 64px;
 }
 
-.topBar {
+.resultsBar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -278,16 +282,12 @@
     margin: 0;
 }
 
-.sortWrapper {
+.sortLabel {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 14px;
     color: #6b7280;
-}
-
-.sortLabel {
-    white-space: nowrap;
 }
 
 .sortSelect {
@@ -296,7 +296,7 @@
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     font-size: 14px;
-    color: #102a43;
+    color: #1e2a3b;
     background-color: #ffffff;
     cursor: pointer;
 }
@@ -313,13 +313,13 @@
     font-size: 15px;
 }
 
-.doctorsGrid {
+.servicesGrid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
 }
 
-.doctorCard {
+.serviceCard {
     background-color: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 18px;
@@ -329,62 +329,141 @@
     transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
 }
 
-.doctorCard:hover {
-    box-shadow: 0 16px 32px rgba(16, 42, 67, 0.1);
+.serviceCard:hover {
+    box-shadow: 0 16px 32px rgba(30, 42, 59, 0.1);
     transform: translateY(-4px);
     border-color: #d6dce3;
 }
 
-.doctorImageWrap {
+.serviceImageWrap {
     position: relative;
     width: 100%;
-    height: 320px;
+    height: 220px;
     background-color: color-mix(in srgb, var(--primary-color) 15%, white);
 }
 
-.doctorImage {
+.serviceImage {
     object-fit: cover;
 }
 
-.doctorContent {
-    padding: 24px;
+.wishlistButton {
+    position: absolute;
+    top: 16px;
+    right: 16px;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(30, 42, 59, 0.15);
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
-.doctorName {
-    font-size: 20px;
+.wishlistButton:hover {
+    transform: scale(1.08);
+}
+
+.serviceBadge {
+    position: absolute;
+    left: 24px;
+    bottom: -26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    border: 2px solid var(--primary-color, #0b8a53);
+    box-shadow: 0 4px 10px rgba(30, 42, 59, 0.12);
+}
+
+.serviceContent {
+    padding: 40px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.serviceTitle {
+    font-size: 18px;
     font-weight: 700;
-    color: #102a43;
+    color: #1e2a3b;
     margin: 0;
 }
 
-.doctorDesignation {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--primary-color, #0b8a53);
-    margin: 0 0 16px;
-}
-
-.divider {
-    height: 1px;
-    background-color: #e5e7eb;
-    margin-bottom: 16px;
-}
-
-.departmentRow {
+.serviceHospital {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--primary-color, #0b8a53);
+    margin: 0;
+}
+
+.serviceCategory {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0 0 6px;
+}
+
+.priceSection {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 4px 0 16px;
+}
+
+.currentPrice {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary-color, #0b8a53);
+}
+
+.oldPrice {
     font-size: 14px;
     color: #6b7280;
+    text-decoration: line-through;
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
     margin-bottom: 20px;
 }
 
-.departmentRow svg {
+.infoBox {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
+    background-color: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.infoIcon {
     color: var(--primary-color, #0b8a53);
     flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.infoLabel {
+    display: block;
+    font-size: 11px;
+    color: #6b7280;
+}
+
+.infoValue {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e2a3b;
 }
 
 .viewButton {
@@ -432,7 +511,7 @@
     border: 1px solid #e5e7eb;
     border-radius: 10px;
     background-color: #ffffff;
-    color: #102a43;
+    color: #1e2a3b;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -476,7 +555,7 @@
     display: flex;
     align-items: center;
     gap: 24px;
-    background-color: #f1f5f9;
+    background-color: color-mix(in srgb, var(--primary-color) 4%, white);
     border-radius: 20px;
     padding: 32px 40px;
 }
@@ -496,7 +575,7 @@
 .ctaTitle {
     font-size: 22px;
     font-weight: 700;
-    color: #102a43;
+    color: #1e2a3b;
     margin: 0 0 8px;
 }
 
@@ -507,42 +586,14 @@
     max-width: 480px;
 }
 
-.ctaButtons {
+.ctaButton {
     display: flex;
-    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     flex-shrink: 0;
-}
-
-.ctaButtonOutline {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
     height: 48px;
-    padding: 0 22px;
-    border: 1px solid var(--primary-color, #0b8a53);
-    border-radius: 10px;
-    background-color: #ffffff;
-    color: var(--primary-color, #0b8a53);
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.ctaButtonOutline:hover {
-    background-color: var(--primary-color, #0b8a53);
-    color: #ffffff;
-}
-
-.ctaButtonFilled {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    height: 48px;
-    padding: 0 22px;
+    padding: 0 24px;
     border-radius: 10px;
     background-color: var(--primary-color, #0b8a53);
     color: #ffffff;
@@ -553,7 +604,7 @@
     transition: background-color 0.2s ease;
 }
 
-.ctaButtonFilled:hover {
+.ctaButton:hover {
     background-color: color-mix(in srgb, var(--primary-color) 80%, black);
 }
 
@@ -735,7 +786,7 @@
 
     .heroInner,
     .filterSection,
-    .doctorsSection,
+    .servicesSection,
     .ctaSection {
         max-width: 1360px;
     }
@@ -752,7 +803,7 @@
     }
 }
 
-/* 992px: tablet — doctors grid stays 2-up, hero stays side by side */
+/* 992px: tablet — services grid stays 2-up, hero stays side by side */
 @media (max-width: 992px) {
     .heroInner {
         gap: 32px;
@@ -766,7 +817,7 @@
         max-width: 100%;
     }
 
-    .statsGrid {
+    .featureList {
         gap: 18px;
     }
 
@@ -780,10 +831,6 @@
 
     .searchButton {
         grid-column: 1 / -1;
-    }
-
-    .doctorImageWrap {
-        height: 280px;
     }
 }
 
@@ -813,7 +860,7 @@
         font-size: 28px;
     }
 
-    .statsGrid {
+    .featureList {
         flex-direction: column;
         align-items: flex-start;
         gap: 14px;
@@ -837,18 +884,14 @@
         grid-column: auto;
     }
 
-    .topBar {
+    .resultsBar {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .doctorsGrid {
+    .servicesGrid {
         grid-template-columns: 1fr;
         gap: 20px;
-    }
-
-    .doctorImageWrap {
-        height: 300px;
     }
 
     .pagination {
@@ -861,13 +904,7 @@
         padding: 28px 24px;
     }
 
-    .ctaButtons {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .ctaButtonOutline,
-    .ctaButtonFilled {
+    .ctaButton {
         width: 100%;
     }
 }
@@ -877,7 +914,7 @@
 
     .heroInner,
     .filterSection,
-    .doctorsSection,
+    .servicesSection,
     .ctaSection {
         padding-left: 16px;
         padding-right: 16px;
@@ -891,16 +928,20 @@
         font-size: 14px;
     }
 
-    .doctorImageWrap {
-        height: 260px;
+    .serviceImageWrap {
+        height: 180px;
     }
 
-    .doctorContent {
-        padding: 20px;
+    .serviceContent {
+        padding: 36px 18px 18px;
     }
 
-    .doctorName {
-        font-size: 18px;
+    .currentPrice {
+        font-size: 19px;
+    }
+
+    .infoGrid {
+        grid-template-columns: 1fr;
     }
 
     .newsletterForm {

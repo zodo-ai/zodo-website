@@ -8,6 +8,7 @@ export interface HospitalWebSettings {
   director_name?: string;
   director_title?: string;
   director_message?: string;
+  director_image?: string;
   primary_color?: string;
   logo_image?: string;
   contact_email: string;
@@ -66,4 +67,11 @@ export interface HospitalWebFullResponse {
   banners: HospitalWebBanner[];
   gallery: GalleryItem[];
   testimonials: TestimonialItem[];
+}
+
+export interface HospitalStatsResponse {
+  hospital_id: string;
+  doctors: number;
+  departments: number;
+  services: number;
 }

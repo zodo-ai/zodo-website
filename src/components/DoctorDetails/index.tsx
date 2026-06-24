@@ -182,19 +182,21 @@ const DoctorDetails = ({
                 Enquiry Now
               </Link>
             </Button>
-            <Button
-              asChild
-              className="h-11 rounded-full bg-[#1D453F] px-6 font-semibold text-white hover:bg-[#173A35]"
-            >
-              <Link
-                href={`/booking/create?doctorId=${encodeURIComponent(
-                  doctor.id
-                )}&doctorSlug=${encodeURIComponent(doctor.slug || doctor.id)}`}
+            {doctor?.appointment_type !== "enquiry" && (
+              <Button
+                asChild
+                className="h-11 rounded-full bg-[#1D453F] px-6 font-semibold text-white hover:bg-[#173A35]"
               >
-                <CalendarCheck size={18} />
-                Book Now
-              </Link>
-            </Button>
+                <Link
+                  href={`/booking/create?doctorId=${encodeURIComponent(
+                    doctor.id
+                  )}&doctorSlug=${encodeURIComponent(doctor.slug || doctor.id)}`}
+                >
+                  <CalendarCheck size={18} />
+                  Book Now
+                </Link>
+              </Button>
+            )}
           </div>
         </div>
       )}

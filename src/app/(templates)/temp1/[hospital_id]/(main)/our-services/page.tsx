@@ -15,9 +15,11 @@ export default async function OurServicesPage({ params }: PageProps) {
   );
   const trueHospitalId = hospitalDetail?.id || hospital_id;
 
+  // Fetch initial services (page 1)
   const servicesData = await fetchHospitalServicesAPI({
     hospital_id: trueHospitalId,
-    limit: 100,
+    limit: 10,
+    page: 1,
   }).catch(() => null);
 
   // Normalize services data
@@ -25,5 +27,16 @@ export default async function OurServicesPage({ params }: PageProps) {
     ? servicesData
     : (servicesData as HospitalServicesResponseI)?.data ?? [];
 
-  return <ServicesListingClient services={services} hospitalSlug={hospital_id} />;
+  const meta = !Array.isArray(servicesData)
+    ? (servicesData as HospitalServicesResponseI)?.meta
+    : undefined;
+
+  return (
+    <ServicesListingClient
+      initialServices={services}
+      initialMeta={meta}
+      hospitalSlug={hospital_id}
+      hospitalId={trueHospitalId}
+    />
+  );
 }

@@ -165,9 +165,9 @@ export default function ServiceDetailClient({
                         )}
 
                         {/* Book Now */}
-                        <button type="button" className={styles.bookNowBtn}>
+                        <Link href={`/temp1/${hospitalSlug}/booking/create?type=service&serviceId=${service.id}`} className={styles.bookNowBtn}>
                             Book Now
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </section>
