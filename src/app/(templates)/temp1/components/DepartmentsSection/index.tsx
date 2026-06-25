@@ -15,24 +15,30 @@ export function DepartmentsSection({
   if (departments.length === 0) return null;
 
   return (
-    <section id="departments" className={styles.section}>
+    <section id="departments" className={styles.section} aria-labelledby="departments-heading">
       <div className={styles.container}>
-        <h2 className={styles.title}>Our Departments</h2>
+        <h2 id="departments-heading" className={styles.title}>
+          Our Departments
+        </h2>
 
-        <div className={styles.grid}>
+        <ul className={styles.grid} aria-label="Departments">
           {departments.map((dept) => (
-            <div key={dept.id} className={styles.card}>
+            <li key={dept.id} className={styles.card}>
               <div className={styles.iconWrapper}>
-                <Stethoscope size={32} strokeWidth={1.5} />
+                <Stethoscope className={styles.icon} strokeWidth={1.5} aria-hidden="true" />
               </div>
               <p className={styles.name}>{dept.name}</p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
 
         <div className={styles.footer}>
-          <Link href={hospitalId ? `/temp1/${hospitalId}/our-departments` : "our-departments"} className={styles.viewAll}>
-            View All Departments <ArrowRight size={16} />
+          <Link
+            href={hospitalId ? `/temp1/${hospitalId}/our-departments` : "our-departments"}
+            className={styles.viewAll}
+          >
+            View All Departments
+            <ArrowRight className={styles.arrowIcon} aria-hidden="true" />
           </Link>
         </div>
       </div>

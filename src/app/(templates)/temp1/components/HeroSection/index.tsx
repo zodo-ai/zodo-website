@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./HeroSection.module.css";
 import { HospitalWebBanner } from "@/network/hospital-web/types";
 
@@ -11,51 +11,77 @@ interface HeroSectionProps {
   banners?: HospitalWebBanner[];
 }
 
-export function HeroSection({
-  title = "",
-  description = "",
-  banners = [],
-}: HeroSectionProps) {
-  const images = banners.filter((b) => b.is_active).map((b) => b.image).filter(Boolean);
+const AUTO_PLAY_INTERVAL_MS = 5000;
+
+export function HeroSection({ banners = [] }: HeroSectionProps) {
+  const images = banners
+    .filter((banner) => banner.is_active)
+    .map((banner) => banner.image)
+    .filter(Boolean);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     if (images.length <= 1) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (prefersReducedMotion) return;
+
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    }, 5000);
+    }, AUTO_PLAY_INTERVAL_MS);
+
     return () => clearInterval(interval);
   }, [images.length]);
 
   return (
-    <section className={styles.hero}>
-      {/* Background Carousel */}
+    <section className={styles.hero} aria-label="Hero banner">
       {images.length > 0 && (
-        <div className={styles.backgroundContainer}>
+        <div className={styles.bannerWrapper}>
           {images.map((src, index) => (
             <Image
               key={src}
               src={src}
-              alt={`Hero Background ${index + 1}`}
+              alt={`Hero banner ${index + 1}`}
               fill
-              className={`${styles.backgroundImage} ${index === currentImageIndex ? styles.active : ""}`}
+              sizes="100vw"
               priority={index === 0}
+              className={[
+                styles.backgroundImage,
+                index === currentImageIndex && styles.active,
+              ]
+                .filter(Boolean)
+                .join(" ")}
             />
           ))}
-        </div>
-      )}
 
-      {/* Carousel Indicators */}
-      {images.length > 1 && (
-        <div className={styles.indicators}>
-          {images.map((_, index) => (
-            <button
-              key={index}
-              className={`${styles.indicator} ${index === currentImageIndex ? styles.indicatorActive : ""}`}
-              onClick={() => setCurrentImageIndex(index)}
-            />
-          ))}
+          {images.length > 1 && (
+            <div
+              className={styles.indicators}
+              role="tablist"
+              aria-label="Banner slides"
+            >
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  role="tab"
+                  aria-selected={index === currentImageIndex}
+                  aria-label={`Go to slide ${index + 1}`}
+                  onClick={() => setCurrentImageIndex(index)}
+                  className={[
+                    styles.indicator,
+                    index === currentImageIndex && styles.indicatorActive,
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </section>

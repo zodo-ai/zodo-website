@@ -11,6 +11,7 @@ export interface FetchHospitalServicesParams {
     limit?: number;
     hospital_id?: string;
     search?: string;
+    name?: string;
 }
 
 export const fetchHospitalServicesAPI = async (
@@ -22,6 +23,7 @@ export const fetchHospitalServicesAPI = async (
         limit = 10,
         hospital_id,
         search,
+        name,
     } = params;
 
     const query: Record<string, string | number> = {
@@ -37,6 +39,12 @@ export const fetchHospitalServicesAPI = async (
         query.search = search;
     }
 
+    if (name) {
+        query.name = name;
+    }
+
+
+
     return await apiCall(
         "hospital-services/user",
         "GET",
@@ -47,18 +55,18 @@ export const fetchHospitalServicesAPI = async (
 };
 
 export const fetchHospitalServiceDetailAPI =
-  async (
-    serviceId: string
-  ): Promise<HospitalServiceI> => {
+    async (
+        serviceId: string
+    ): Promise<HospitalServiceI> => {
 
-    const response:
-      HospitalServiceDetailResponseI =
-      await apiCall(
-        `hospital-services/${encodeURIComponent(
-          serviceId
-        )}`,
-        "GET"
-      );
+        const response:
+            HospitalServiceDetailResponseI =
+            await apiCall(
+                `hospital-services/${encodeURIComponent(
+                    serviceId
+                )}`,
+                "GET"
+            );
 
-    return response.data;
-};
+        return response.data;
+    };
