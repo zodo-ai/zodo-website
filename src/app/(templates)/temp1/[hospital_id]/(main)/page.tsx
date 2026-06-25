@@ -14,7 +14,9 @@ import { fetchDoctorsAPI } from "@/network/doctors/get";
 import { fetchHospitalServicesAPI } from "@/network/hospital-services/get";
 import { fetchMultipleDepartments } from "@/network/departments/get";
 import { fetchHospitalByIdAPI } from "@/network/hospitals/get";
-import { DoctorI } from "@/network/doctors/types";
+import { fetchSpecialisationsAPI } from "@/network/specialisations/get";
+import { DoctorI, SpecialisationI } from "@/network/doctors/types";
+import { SpecialisationsResponseI } from "@/network/specialisations/types";
 import { HospitalServiceI } from "@/network/hospital-services/types";
 
 interface PageProps {
@@ -33,7 +35,7 @@ export default async function HospitalPage({ params }: PageProps) {
   const trueHospitalId = hospitalDetail?.id || hospital_id;
 
   // Fetch all other data using the true UUID
-  const [hospitalWebData, doctorsData, servicesData] = await Promise.all([
+  const [hospitalWebData, doctorsData, servicesData, specData] = await Promise.all([
     fetchHospitalWebFull(trueHospitalId).catch(() => null),
     fetchDoctorsAPI({ hospital_id: trueHospitalId, limit: 10 }).catch(
       () => null
@@ -41,7 +43,13 @@ export default async function HospitalPage({ params }: PageProps) {
     fetchHospitalServicesAPI({ hospital_id: trueHospitalId, limit: 10 }).catch(
       () => null
     ),
+    fetchSpecialisationsAPI({ limit: 100 }).catch(() => null),
   ]);
+
+  // Normalize specialisations data
+  const specialisations: SpecialisationI[] = Array.isArray(specData)
+    ? specData
+    : (specData as SpecialisationsResponseI)?.data ?? [];
 
   // Resolve department details from IDs
   const departmentIds =
@@ -77,7 +85,7 @@ export default async function HospitalPage({ params }: PageProps) {
         description={settings?.description ?? ""}
         banners={banners}
       />
-      <SearchSection />
+      <SearchSection hospitalSlug={hospital_id} specialisations={specialisations} />
       <StatsSection />
       <AboutSection
         hospitalName={hospitalName}

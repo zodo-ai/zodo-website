@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { fetchHospitalServicesAPI } from "@/network/hospital-services/get";
 import { fetchHospitalByIdAPI } from "@/network/hospitals/get";
 import { HospitalServiceI, HospitalServicesResponseI } from "@/network/hospital-services/types";
@@ -32,11 +33,13 @@ export default async function OurServicesPage({ params }: PageProps) {
     : undefined;
 
   return (
-    <ServicesListingClient
-      initialServices={services}
-      initialMeta={meta}
-      hospitalSlug={hospital_id}
-      hospitalId={trueHospitalId}
-    />
+    <Suspense>
+      <ServicesListingClient
+        initialServices={services}
+        initialMeta={meta}
+        hospitalSlug={hospital_id}
+        hospitalId={trueHospitalId}
+      />
+    </Suspense>
   );
 }

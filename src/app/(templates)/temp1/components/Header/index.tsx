@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { LogOut, Stethoscope, UserRound } from "lucide-react";
+import { LogOut, Menu, Stethoscope, UserRound, X } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import ConfirmModal from "@/components/ConfirmModal";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -16,50 +16,106 @@ interface HeaderProps {
   hospitalSlug?: string;
 }
 
-export function Header({ hospitalName = "Apollo", logoImage, hospitalSlug }: HeaderProps) {
+const NAV_ITEMS = ["Home", "About Us", "Doctors", "Departments", "Services", "Contact"];
+
+export function Header({
+  hospitalName = "Apollo",
+  logoImage,
+  hospitalSlug,
+}: HeaderProps) {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { user, isHydrated, logout } = useAuth();
   const router = useRouter();
 
+  const homeHref = hospitalSlug ? `/temp1/${hospitalSlug}` : "/";
+
   const handleLogout = () => {
     setShowLogoutConfirm(false);
+    setMenuOpen(false);
     logout();
-    router.push(hospitalSlug ? `/temp1/${hospitalSlug}` : "/");
+    router.push(homeHref);
+  };
+
+  // Lock body scroll + close on Escape while the mobile drawer is open
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKey);
+    };
+  }, [menuOpen]);
+
+  const renderAuthActions = (onNavigate?: () => void) => {
+    if (isHydrated && user) {
+      return (
+        <div className={styles.userActions}>
+          <Link
+            href={hospitalSlug ? `/temp1/${hospitalSlug}/profile` : "/profile"}
+            aria-label="Profile"
+            onClick={onNavigate}
+          >
+            <Avatar className={styles.avatar}>
+              <AvatarFallback className={styles.avatarFallback}>
+                <UserRound className={styles.avatarIcon} aria-hidden="true" />
+              </AvatarFallback>
+            </Avatar>
+          </Link>
+          <button
+            type="button"
+            className={styles.logoutButton}
+            onClick={() => setShowLogoutConfirm(true)}
+            title="Logout"
+            aria-label="Logout"
+          >
+            <LogOut className={styles.logoutIcon} aria-hidden="true" />
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <Link
+        href={hospitalSlug ? `/temp1/${hospitalSlug}/auth` : "/auth"}
+        className={styles.loginButton}
+        onClick={onNavigate}
+      >
+        Login
+      </Link>
+    );
   };
 
   return (
     <>
       <header className={styles.header}>
         <div className={styles.container}>
-          <div className={styles.logoGroup}>
-            {/* Logo Section */}
-            <Link href={hospitalSlug ? `/temp1/${hospitalSlug}` : "/"} className={styles.logoLink}>
-              {logoImage ? (
-                <Image
-                  src={logoImage}
-                  alt={hospitalName || "Logo"}
-                  width={150}
-                  height={50}
-                  style={{ objectFit: "contain", maxHeight: "50px" }}
-                />
-              ) : (
-                <div className={styles.logoIcon}>
-                  <Stethoscope size={24} />
-                </div>
-              )}
-            </Link>
-          </div>
+          {/* Logo */}
+          <Link href={homeHref} className={styles.logoLink}>
+            {logoImage ? (
+              <Image
+                src={logoImage}
+                alt={hospitalName || "Logo"}
+                width={150}
+                height={50}
+                className={styles.logoImage}
+              />
+            ) : (
+              <span className={styles.logoIcon}>
+                <Stethoscope className={styles.logoIconSvg} aria-hidden="true" />
+              </span>
+            )}
+          </Link>
 
-          {/* Navigation Links */}
-          <nav className={styles.nav}>
-            {[
-              "Home",
-              "About Us",
-              "Doctors",
-              "Departments",
-              "Services",
-              "Contact",
-            ].map((item) => (
+          {/* Desktop Navigation */}
+          <nav className={styles.nav} aria-label="Primary">
+            {NAV_ITEMS.map((item) => (
               <Link
                 key={item}
                 href={`#${item.toLowerCase().replace(" ", "-")}`}
@@ -70,40 +126,85 @@ export function Header({ hospitalName = "Apollo", logoImage, hospitalSlug }: Hea
             ))}
           </nav>
 
-          {/* Action Buttons */}
-          <div className={styles.actions}>
-            {isHydrated && user ? (
-              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                <Link
-                  href={hospitalSlug ? `/temp1/${hospitalSlug}/profile` : "/profile"}
-                  aria-label="Profile"
-                >
-                  <Avatar style={{ height: "2.5rem", width: "2.5rem", cursor: "pointer", border: "1px solid color-mix(in srgb, var(--primary-color) 20%, white)", transition: "opacity 0.15s" }}>
-                    <AvatarFallback style={{ backgroundColor: "color-mix(in srgb, var(--primary-color) 10%, white)", color: "var(--primary-color)" }}>
-                      <UserRound size={20} />
-                    </AvatarFallback>
-                  </Avatar>
-                </Link>
-                <button
-                  onClick={() => setShowLogoutConfirm(true)}
-                  style={{ borderRadius: "9999px", padding: "0.5rem", cursor: "pointer", border: "none", background: "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}
-                  title="Logout"
-                >
-                  <LogOut size={20} style={{ color: "color-mix(in srgb, var(--primary-color) 60%, black)" }} />
-                </button>
-              </div>
-            ) : (
-              <Link
-                href={hospitalSlug ? `/temp1/${hospitalSlug}/auth` : "/auth"}
-                className={styles.loginButton}
-              >
-                <span className={styles.loginTextDesktop}>Login</span>
-                <span className={styles.loginTextMobile}>Login</span>
-              </Link>
-            )}
-          </div>
+          {/* Desktop Actions */}
+          <div className={styles.actions}>{renderAuthActions()}</div>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            type="button"
+            className={styles.menuToggle}
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={menuOpen}
+          >
+            <Menu className={styles.menuIcon} aria-hidden="true" />
+          </button>
         </div>
       </header>
+
+      {/* Mobile Drawer */}
+      {menuOpen && (
+        <div
+          className={styles.drawerOverlay}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setMenuOpen(false);
+          }}
+        >
+          <div
+            className={styles.drawerPanel}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+          >
+            <div className={styles.drawerHeader}>
+              <Link
+                href={homeHref}
+                className={styles.logoLink}
+                onClick={() => setMenuOpen(false)}
+              >
+                {logoImage ? (
+                  <Image
+                    src={logoImage}
+                    alt={hospitalName || "Logo"}
+                    width={130}
+                    height={44}
+                    className={styles.logoImage}
+                  />
+                ) : (
+                  <span className={styles.logoIcon}>
+                    <Stethoscope className={styles.logoIconSvg} aria-hidden="true" />
+                  </span>
+                )}
+              </Link>
+              <button
+                type="button"
+                className={styles.drawerClose}
+                onClick={() => setMenuOpen(false)}
+                aria-label="Close menu"
+              >
+                <X className={styles.menuIcon} aria-hidden="true" />
+              </button>
+            </div>
+
+            <nav className={styles.drawerNav} aria-label="Mobile primary">
+              {NAV_ITEMS.map((item) => (
+                <Link
+                  key={item}
+                  href={`#${item.toLowerCase().replace(" ", "-")}`}
+                  className={styles.drawerNavLink}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </Link>
+              ))}
+            </nav>
+
+            <div className={styles.drawerActions}>
+              {renderAuthActions(() => setMenuOpen(false))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <ConfirmModal
         open={showLogoutConfirm}

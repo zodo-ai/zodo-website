@@ -1,117 +1,103 @@
+/* ===== Section wrapper (floating card) ===== */
 .section {
   position: relative;
   z-index: 10;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: -4rem;
   width: 100%;
-  max-width: 82rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  max-width: 1280px;
+  margin: -32px auto 0;
+  padding: 0 16px;
 }
 
-@media (min-width: 1024px) {
-  .section {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-}
-
+/* ===== Card ===== */
 .card {
-  border-radius: 0.75rem;
+  border-radius: 16px;
   background-color: #ffffff;
-  padding: 1rem;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+  padding: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
-@media (min-width: 768px) {
-  .card {
-    padding: 1.5rem;
-  }
-}
-
+/* ===== Tabs ===== */
 .tabs {
-  margin-bottom: 1.5rem;
   display: flex;
-  gap: 1rem;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
   border-bottom: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
-  padding-bottom: 1rem;
 }
 
-.tabActive {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-bottom: 2px solid color-mix(in srgb, var(--primary-color) 40%, black);
-  padding-bottom: 1rem;
-  margin-bottom: -1rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  font-weight: 700;
-  color: color-mix(in srgb, var(--primary-color) 40%, black);
-  background: none;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  cursor: pointer;
-}
-
+.tabActive,
 .tabInactive {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding-bottom: 1rem;
-  margin-bottom: -1rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  font-weight: 600;
-  color: #6B7C80;
-  transition: color 0.15s ease-in-out;
+  gap: 6px;
+  padding: 0 4px 12px 4px;
+  margin-bottom: -13px;
   background: none;
   border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.tabActive {
+  font-weight: 700;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
+  border-bottom-color: color-mix(in srgb, var(--primary-color) 40%, black);
+}
+
+.tabInactive {
+  color: #6b7c80;
 }
 
 .tabInactive:hover {
   color: color-mix(in srgb, var(--primary-color) 40%, black);
 }
 
+.iconWrapperActive,
+.iconWrapperInactive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+}
+
 .iconWrapperActive {
-  border-radius: 0.375rem;
   background-color: rgba(29, 69, 63, 0.1);
-  padding: 0.375rem;
+}
+
+.iconWrapperInactive {
+  background-color: #f3f4f6;
+}
+
+.iconActive,
+.iconInactive {
+  width: 15px;
+  height: 15px;
 }
 
 .iconActive {
   color: color-mix(in srgb, var(--primary-color) 40%, black);
 }
 
-.iconWrapperInactive {
-  border-radius: 0.375rem;
-  background-color: #f3f4f6;
-  padding: 0.375rem;
-}
-
 .iconInactive {
   color: #6b7280;
 }
 
+/* ===== Fields ===== */
 .fieldsContainer {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-@media (min-width: 768px) {
-  .fieldsContainer {
-    flex-direction: row;
-    align-items: flex-end;
-  }
+  gap: 10px;
 }
 
 .searchField {
-  flex: 1;
+  width: 100%;
 }
 
 .inputWrapper {
@@ -120,21 +106,22 @@
 
 .searchIcon {
   position: absolute;
-  left: 0.75rem;
+  left: 12px;
   top: 50%;
-  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
   color: #9ca3af;
+  transform: translateY(-50%);
 }
 
 .input {
-  height: 3rem;
+  height: 44px;
   width: 100%;
-  border-radius: 0.375rem;
+  border-radius: 8px;
   border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
   background-color: #ffffff;
-  padding-left: 2.5rem;
-  padding-right: 1rem;
-  font-size: 0.875rem;
+  padding: 0 14px 0 38px;
+  font-size: 14px;
   color: #111827;
 }
 
@@ -147,35 +134,25 @@
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary-color) 40%, black);
 }
 
-.selectField1 {
+/* Two selects side-by-side, even on mobile, to keep the card compact */
+.selectsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.selectField {
   width: 100%;
-}
-
-@media (min-width: 768px) {
-  .selectField1 {
-    width: 12rem;
-  }
-}
-
-.selectField2 {
-  width: 100%;
-}
-
-@media (min-width: 768px) {
-  .selectField2 {
-    width: 10rem;
-  }
 }
 
 .select {
-  height: 3rem;
+  height: 44px;
   width: 100%;
-  border-radius: 0.375rem;
+  border-radius: 8px;
   border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
   background-color: #ffffff;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  font-size: 0.875rem;
+  padding: 0 12px;
+  font-size: 13px;
   color: #111827;
   appearance: none;
 }
@@ -185,24 +162,141 @@
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary-color) 40%, black);
 }
 
+/* ===== Button ===== */
 .button {
-  height: 3rem;
+  height: 48px;
   width: 100%;
-  border-radius: 0.375rem;
-  background-color: var(--primary-color, #1a8b5e);
-  font-weight: 600;
-  color: #ffffff;
+  border-radius: 10px;
   border: none;
+  background-color: var(--primary-color, #1a8b5e);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.15s ease-in-out;
-}
-
-@media (min-width: 768px) {
-  .button {
-    width: 8rem;
-  }
+  transition: background-color 0.3s ease;
 }
 
 .button:hover {
   background-color: color-mix(in srgb, var(--primary-color) 80%, black);
+}
+
+/* ===== 576px - 767px ===== */
+@media (min-width: 576px) {
+  .section {
+    margin-top: -40px;
+    padding: 0 16px;
+  }
+
+  .tabs {
+    font-size: 14px;
+  }
+
+  .select {
+    font-size: 14px;
+  }
+}
+
+/* ===== 768px - 991px ===== */
+@media (min-width: 768px) {
+  .section {
+    margin-top: -48px;
+    padding: 0 18px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .tabActive,
+  .tabInactive {
+    font-size: 14px;
+  }
+
+  .iconWrapperActive,
+  .iconWrapperInactive {
+    width: 28px;
+    height: 28px;
+  }
+
+  .fieldsContainer {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 12px;
+  }
+
+  .searchField {
+    flex: 1;
+  }
+
+  .selectsRow {
+    flex: 0 0 auto;
+    width: auto;
+    grid-template-columns: 160px 140px;
+  }
+
+  .input,
+  .select,
+  .button {
+    height: 48px;
+  }
+
+  .button {
+    width: 130px;
+  }
+}
+
+/* ===== 992px - 1199px ===== */
+@media (min-width: 992px) {
+  .section {
+    margin-top: -56px;
+    padding: 0 20px;
+  }
+
+  .card {
+    padding: 24px;
+  }
+
+  .input,
+  .select,
+  .button {
+    height: 52px;
+    font-size: 15px;
+  }
+
+  .selectsRow {
+    grid-template-columns: 180px 150px;
+  }
+
+  .button {
+    width: 140px;
+  }
+}
+
+/* ===== 1200px - 1439px ===== */
+@media (min-width: 1200px) {
+  .section {
+    margin-top: -60px;
+  }
+
+  .input,
+  .select,
+  .button {
+    height: 54px;
+    font-size: 16px;
+  }
+
+  .selectsRow {
+    grid-template-columns: 192px 160px;
+  }
+
+  .button {
+    width: 150px;
+  }
+}
+
+/* ===== 1440px and up ===== */
+@media (min-width: 1440px) {
+  .section {
+    margin-top: -64px;
+  }
 }

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { fetchDoctorsAPI } from "@/network/doctors/get";
 import { fetchHospitalByIdAPI } from "@/network/hospitals/get";
 import { fetchHospitalStats } from "@/network/hospital-web/get";
@@ -43,13 +44,15 @@ export default async function OurDoctorsPage({ params }: PageProps) {
   const stats = await fetchHospitalStats(hospital_id).catch(() => undefined);
 
   return (
-    <DoctorsListingClient
-      initialDoctors={doctors}
-      initialMeta={meta}
-      hospitalSlug={hospital_id}
-      hospitalId={trueHospitalId}
-      specialisations={specialisations}
-      stats={stats}
-    />
+    <Suspense>
+      <DoctorsListingClient
+        initialDoctors={doctors}
+        initialMeta={meta}
+        hospitalSlug={hospital_id}
+        hospitalId={trueHospitalId}
+        specialisations={specialisations}
+        stats={stats}
+      />
+    </Suspense>
   );
 }

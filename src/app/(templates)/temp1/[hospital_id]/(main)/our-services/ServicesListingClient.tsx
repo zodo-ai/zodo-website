@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -83,8 +84,13 @@ export default function ServicesListingClient({
     hospitalSlug,
     hospitalId,
 }: ServicesListingClientProps) {
+    // Read URL search params to pre-fill filters
+    const searchParams = useSearchParams();
+    const initialSearch = searchParams.get("search") || "";
+    const hasUrlParams = !!searchParams.get("search");
+
     // Filter state
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState(initialSearch);
     const [currentPage, setCurrentPage] = useState(initialMeta?.currentPage ?? 1);
 
     // Data state
@@ -94,7 +100,8 @@ export default function ServicesListingClient({
     const [loading, setLoading] = useState(false);
     const [wishlist, setWishlist] = useState<Set<string>>(new Set());
 
-    const [isInitial, setIsInitial] = useState(true);
+    // If URL params are present, we should fetch immediately
+    const [isInitial, setIsInitial] = useState(!hasUrlParams);
 
     const fetchServices = useCallback(async (page: number, search: string) => {
         setLoading(true);

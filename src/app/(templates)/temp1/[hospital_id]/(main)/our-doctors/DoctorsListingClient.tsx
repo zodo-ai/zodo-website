@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -79,10 +80,17 @@ export default function DoctorsListingClient({
     specialisations,
     stats,
 }: DoctorsListingClientProps) {
+    // Read URL search params to pre-fill filters
+    const searchParams = useSearchParams();
+    const initialSearch = searchParams.get("search") || "";
+    const initialSpec = searchParams.get("specialisation") || "";
+    const initialExp = Number(searchParams.get("experience") || 0);
+    const hasUrlParams = !!(searchParams.get("search") || searchParams.get("specialisation") || searchParams.get("experience"));
+
     // Filter state
-    const [searchTerm, setSearchTerm] = useState("");
-    const [selectedSpecialisation, setSelectedSpecialisation] = useState("");
-    const [selectedExperience, setSelectedExperience] = useState(0);
+    const [searchTerm, setSearchTerm] = useState(initialSearch);
+    const [selectedSpecialisation, setSelectedSpecialisation] = useState(initialSpec);
+    const [selectedExperience, setSelectedExperience] = useState(initialExp);
     const [currentPage, setCurrentPage] = useState(initialMeta?.currentPage ?? 1);
 
     // Data state
@@ -92,7 +100,8 @@ export default function DoctorsListingClient({
     const [loading, setLoading] = useState(false);
 
     // Track whether the user has changed filters (to skip the first fetch since we have SSR data)
-    const [isInitial, setIsInitial] = useState(true);
+    // If URL params are present, we should fetch immediately
+    const [isInitial, setIsInitial] = useState(!hasUrlParams);
 
     const displayStats: StatItem[] = stats
         ? [
@@ -110,7 +119,7 @@ export default function DoctorsListingClient({
                 hospital_id: hospitalId,
                 page,
                 limit: ITEMS_PER_PAGE,
-                search: search || undefined,
+                name: search || undefined,
                 specialisation_ids: specId || undefined,
                 experience: experience > 0 ? experience : undefined,
             });

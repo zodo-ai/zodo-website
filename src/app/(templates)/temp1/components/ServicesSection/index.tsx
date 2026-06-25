@@ -7,25 +7,34 @@ interface ServicesSectionProps {
   hospitalId?: string;
 }
 
-export function ServicesSection({ services = [], hospitalId = "" }: ServicesSectionProps) {
+export function ServicesSection({
+  services = [],
+  hospitalId = "",
+}: ServicesSectionProps) {
   const displayServices = services.slice(0, 4);
+
   if (displayServices.length === 0) return null;
 
   return (
-    <section id="services" className={styles.section}>
+    <section id="services" className={styles.section} aria-labelledby="services-heading">
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Our Services</h2>
-          <Link href={hospitalId ? `/temp1/${hospitalId}/our-services` : "our-services"} className={styles.viewAll}>
+          <h2 id="services-heading" className={styles.title}>
+            Our Services
+          </h2>
+          <Link
+            href={hospitalId ? `/temp1/${hospitalId}/our-services` : "our-services"}
+            className={styles.viewAll}
+          >
             View All Services
           </Link>
         </div>
 
-        <div className={styles.grid}>
+        <ul className={styles.grid}>
           {displayServices.map((service) => (
-            <div key={service.id} className={styles.card}>
+            <li key={service.id} className={styles.card}>
               <div className={styles.imageContainer}>
-                <div className={styles.badge}>Service</div>
+                <span className={styles.badge}>Service</span>
               </div>
               <div className={styles.content}>
                 <h3 className={styles.name}>{service.name}</h3>
@@ -33,9 +42,9 @@ export function ServicesSection({ services = [], hospitalId = "" }: ServicesSect
                   {service.description || "Professional healthcare service."}
                 </p>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

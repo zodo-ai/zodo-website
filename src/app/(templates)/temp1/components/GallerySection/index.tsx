@@ -25,21 +25,17 @@ export function GallerySection({
   gallery = [],
   hospitalName = "Our Hospital",
 }: GallerySectionProps) {
-  // Filter to only images that have an actual URL
   const images = gallery.filter((g) => g.image && g.image.trim() !== "");
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
 
-  // ---------- Modal helpers ----------
   const openLightbox = (index: number) => {
     setModalIndex(index);
     setModalOpen(true);
   };
 
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+  const closeModal = () => setModalOpen(false);
 
   const goToPrev = useCallback(() => {
     setModalIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -49,7 +45,6 @@ export function GallerySection({
     setModalIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   }, [images.length]);
 
-  // Keyboard navigation
   useEffect(() => {
     if (!modalOpen) return;
 
@@ -67,38 +62,46 @@ export function GallerySection({
     };
   }, [modalOpen, goToPrev, goToNext]);
 
-  // ---------- Render nothing if gallery data is completely empty ----------
   if (gallery.length === 0) return null;
 
-  // ---------- Determine grid items ----------
   const gridImages = images.slice(0, MAX_GRID_ITEMS);
   const remaining = images.length - MAX_GRID_ITEMS;
 
-  // Pick appropriate grid class based on count
   const getGridClass = () => {
     if (images.length === 1) return styles.singleGrid;
     if (images.length === 2) return styles.twoGrid;
     return styles.grid;
   };
 
+  const current = images[modalIndex];
+
   return (
-    <section id="gallery" className={styles.section}>
+    <section id="gallery" className={styles.section} aria-labelledby="gallery-heading">
       <div className={styles.container}>
         {/* ---- Header ---- */}
         <div className={styles.header}>
           <div className={styles.headerLeft}>
-            <h2>Our Hospital Gallery</h2>
-            <p>Take a look inside {hospitalName}</p>
+            <h2 id="gallery-heading" className={styles.headerTitle}>
+              Our Hospital Gallery
+            </h2>
+            <p className={styles.headerSubtitle}>
+              Take a look inside {hospitalName}
+            </p>
           </div>
 
           {images.length > 0 && (
             <div className={styles.headerRight}>
               <span className={styles.photoCount}>
-                <Camera size={15} />
+                <Camera className={styles.photoIcon} aria-hidden="true" />
                 {images.length} Photo{images.length !== 1 ? "s" : ""}
               </span>
-              <button className={styles.viewAllBtn} onClick={() => openLightbox(0)}>
-                View All Photos <ArrowRight size={15} />
+              <button
+                type="button"
+                className={styles.viewAllBtn}
+                onClick={() => openLightbox(0)}
+              >
+                View All Photos
+                <ArrowRight className={styles.arrowIcon} aria-hidden="true" />
               </button>
             </div>
           )}
@@ -107,7 +110,7 @@ export function GallerySection({
         {/* ---- Gallery Grid or Empty State ---- */}
         {images.length === 0 ? (
           <div className={styles.emptyState}>
-            <ImageIcon className={styles.emptyIcon} />
+            <ImageIcon className={styles.emptyIcon} aria-hidden="true" />
             <p className={styles.emptyTitle}>No photos yet</p>
             <p className={styles.emptySubtitle}>
               Gallery photos will appear here once uploaded.
@@ -116,29 +119,30 @@ export function GallerySection({
         ) : (
           <div className={getGridClass()}>
             {gridImages.map((item, index) => {
-              const isLast =
-                index === gridImages.length - 1 && remaining > 0;
+              const isLast = index === gridImages.length - 1 && remaining > 0;
 
               return (
-                <div
+                <button
+                  type="button"
                   key={item.id}
                   className={styles.gridItem}
                   onClick={() => openLightbox(index)}
+                  aria-label={item.caption || `Open gallery image ${index + 1}`}
                 >
                   <Image
                     src={item.image}
                     alt={item.caption || `Gallery image ${index + 1}`}
                     fill
-                    sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
-                    style={{ objectFit: "cover" }}
+                    sizes="(max-width: 575px) 100vw, (max-width: 991px) 50vw, 33vw"
+                    className={styles.gridImage}
                   />
                   {isLast && (
-                    <div className={styles.moreOverlay}>
+                    <span className={styles.moreOverlay}>
                       <span className={styles.moreCount}>+{remaining}</span>
                       <span className={styles.moreLabel}>More Photos</span>
-                    </div>
+                    </span>
                   )}
-                </div>
+                </button>
               );
             })}
           </div>
@@ -146,81 +150,82 @@ export function GallerySection({
       </div>
 
       {/* ======== MODAL ======== */}
-      {modalOpen && (
+      {modalOpen && current && (
         <div
           className={styles.modalBackdrop}
-          onClick={(e) => {
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => {
             if (e.target === e.currentTarget) closeModal();
           }}
         >
-          {/* --- Single-Image Lightbox --- */}
-          <div className={styles.modalContent}>
-            <button className={styles.modalClose} onClick={closeModal}>
-              <X size={20} />
+          <div
+            className={styles.modalContent}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Gallery image viewer"
+          >
+            <button
+              type="button"
+              className={styles.modalClose}
+              onClick={closeModal}
+              aria-label="Close gallery"
+            >
+              <X className={styles.closeIcon} aria-hidden="true" />
             </button>
 
             <div className={styles.modalImageWrap}>
               {images.length > 1 && (
                 <button
+                  type="button"
                   className={`${styles.modalNav} ${styles.modalNavLeft}`}
                   onClick={goToPrev}
                   aria-label="Previous image"
                 >
-                  <ChevronLeft size={22} />
+                  <ChevronLeft className={styles.navArrowIcon} aria-hidden="true" />
                 </button>
               )}
 
               <img
                 key={modalIndex}
                 className={styles.modalImage}
-                src={images[modalIndex].image}
-                alt={
-                  images[modalIndex].caption ||
-                  `Gallery image ${modalIndex + 1}`
-                }
+                src={current.image}
+                alt={current.caption || `Gallery image ${modalIndex + 1}`}
               />
 
               {images.length > 1 && (
                 <button
+                  type="button"
                   className={`${styles.modalNav} ${styles.modalNavRight}`}
                   onClick={goToNext}
                   aria-label="Next image"
                 >
-                  <ChevronRight size={22} />
+                  <ChevronRight className={styles.navArrowIcon} aria-hidden="true" />
                 </button>
               )}
             </div>
 
-            {/* Caption */}
-            {images[modalIndex].caption && (
-              <p className={styles.modalCaption}>
-                {images[modalIndex].caption}
-              </p>
+            {current.caption && (
+              <p className={styles.modalCaption}>{current.caption}</p>
             )}
 
-            {/* Counter */}
             <p className={styles.modalCounter}>
               {modalIndex + 1} / {images.length}
             </p>
 
-            {/* Thumbnail strip */}
             {images.length > 1 && (
               <div className={styles.thumbnailStrip}>
                 {images.map((item, idx) => (
-                  <div
+                  <button
+                    type="button"
                     key={item.id}
                     className={
-                      idx === modalIndex
-                        ? styles.thumbnailActive
-                        : styles.thumbnail
+                      idx === modalIndex ? styles.thumbnailActive : styles.thumbnail
                     }
                     onClick={() => setModalIndex(idx)}
+                    aria-label={`View image ${idx + 1}`}
+                    aria-current={idx === modalIndex}
                   >
-                    <img
-                      src={item.image}
-                      alt={item.caption || `Thumbnail ${idx + 1}`}
-                    />
-                  </div>
+                    <img src={item.image} alt={item.caption || `Thumbnail ${idx + 1}`} />
+                  </button>
                 ))}
               </div>
             )}
