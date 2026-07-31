@@ -1,0 +1,1217 @@
+/* ===========================================================================
+   DOCTOR DETAIL PAGE
+=========================================================================== */
+
+.page {
+    background-color: #f8fafc;
+    width: 100%;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ===========================================================================
+   BREADCRUMB + SHARE ROW
+=========================================================================== */
+
+.topBar {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.breadcrumb a {
+    color: #6b7280;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb a:hover {
+    color: var(--primary-color, #0b8a53);
+}
+
+.breadcrumbCurrent {
+    color: #102a43;
+    font-weight: 500;
+}
+
+.shareButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background-color: #ffffff;
+    color: #102a43;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.shareButton:hover {
+    border-color: var(--primary-color, #0b8a53);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ===========================================================================
+   PROFILE CARD
+=========================================================================== */
+
+.profileCard {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.profileCardInner {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    box-shadow: 0 4px 24px rgba(16, 42, 67, 0.06);
+}
+
+.profileImageWrap {
+    position: relative;
+    width: 180px;
+    height: 200px;
+    flex-shrink: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: color-mix(in srgb, var(--primary-color) 12%, white);
+}
+
+.profileImage {
+    object-fit: cover;
+}
+
+.profileImagePlaceholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: color-mix(in srgb, var(--primary-color) 12%, white);
+}
+
+.profileInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.doctorName {
+    font-size: 32px;
+    font-weight: 700;
+    color: #102a43;
+    margin: 0 0 6px;
+    line-height: 1.2;
+}
+
+.doctorSpeciality {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--primary-color, #0b8a53);
+    margin-bottom: 20px;
+}
+
+.doctorSpecialityIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: var(--primary-color, #0b8a53);
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+/* Info chips row */
+.infoChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.infoChip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background-color: #ffffff;
+}
+
+.infoChipIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+}
+
+.infoChipText {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.infoChipLabel {
+    font-size: 11px;
+    color: #6b7280;
+    line-height: 1.2;
+}
+
+.infoChipValue {
+    font-size: 13px;
+    font-weight: 600;
+    color: #102a43;
+    line-height: 1.3;
+}
+
+/* Availability badge */
+.availabilityBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary-color, #0b8a53);
+    margin-top: 4px;
+}
+
+.availabilityDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--primary-color, #0b8a53);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* ===========================================================================
+   CONTACT STRIP
+=========================================================================== */
+
+.contactStrip {
+    max-width: 1320px;
+    margin: 20px auto 0;
+    padding: 0 24px;
+}
+
+.contactStripInner {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 12px rgba(16, 42, 67, 0.04);
+}
+
+.contactItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.contactItemIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--primary-color) 10%, white);
+    color: var(--primary-color, #0b8a53);
+}
+
+.contactItemText {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.contactItemLabel {
+    font-size: 11px;
+    color: #6b7280;
+    line-height: 1.2;
+}
+
+.contactItemValue {
+    font-size: 14px;
+    font-weight: 600;
+    color: #102a43;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.contactDivider {
+    width: 1px;
+    height: 40px;
+    background-color: #e5e7eb;
+    flex-shrink: 0;
+}
+
+/* ===========================================================================
+   BOOK APPOINTMENT CTA
+=========================================================================== */
+
+.bookingCta {
+    max-width: 1320px;
+    margin: 20px auto 0;
+    padding: 0 24px;
+}
+
+.bookingCtaInner {
+    background-color: #f0faf5;
+    border: 1px solid color-mix(in srgb, var(--primary-color) 20%, white);
+    border-radius: 16px;
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.bookingCtaLeft {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.bookingCtaIconWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.bookingCtaText h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #102a43;
+    margin: 0 0 4px;
+}
+
+.bookingCtaText p {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.bookingCtaButtons {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.bookAppointmentBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 46px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 12px;
+    background-color: var(--primary-color, #0b8a53);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.bookAppointmentBtn:hover {
+    background-color: color-mix(in srgb, var(--primary-color) 80%, black);
+}
+
+.bookAppointmentBtn:active {
+    transform: scale(0.97);
+}
+
+.enquiryBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 46px;
+    padding: 0 24px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: #102a43;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.enquiryBtn:hover {
+    border-color: var(--primary-color, #0b8a53);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ===========================================================================
+   TABS
+=========================================================================== */
+
+.tabsSection {
+    max-width: 1320px;
+    margin: 28px auto 0;
+    padding: 0 24px;
+}
+
+.tabsContainer {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.tab {
+    padding: 14px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    border: none;
+    background: none;
+    position: relative;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+.tab:hover {
+    color: #102a43;
+}
+
+.tabActive {
+    color: #102a43;
+    font-weight: 600;
+}
+
+.tabActive::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--primary-color, #0b8a53);
+    border-radius: 2px 2px 0 0;
+}
+
+/* ===========================================================================
+   TAB CONTENT
+=========================================================================== */
+
+.tabContent {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+}
+
+/* About Section */
+.aboutSection {
+    margin-bottom: 40px;
+}
+
+.sectionTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #102a43;
+    margin: 0 0 12px;
+}
+
+.sectionDivider {
+    height: 1px;
+    background-color: #e5e7eb;
+    margin-bottom: 16px;
+}
+
+.aboutText {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* Specialisation & Departments Grid */
+.specDeptGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.specialisationItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    background-color: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #f0f2f5;
+}
+
+.specIconWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background-color: color-mix(in srgb, var(--primary-color) 10%, white);
+    color: var(--primary-color, #0b8a53);
+}
+
+.specInfo h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #102a43;
+    margin: 0 0 4px;
+}
+
+.specInfo p {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #6b7280;
+    margin: 0;
+}
+
+.departmentTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.departmentTag {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary-color, #0b8a53);
+    background-color: #ffffff;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.departmentTag:hover {
+    background-color: color-mix(in srgb, var(--primary-color) 8%, white);
+    border-color: var(--primary-color, #0b8a53);
+}
+
+/* ===========================================================================
+   SCHEDULE & HOSPITAL (Bottom Two-Column)
+=========================================================================== */
+
+.bottomGrid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 28px;
+}
+
+/* Time Slots */
+.timeSlotsCard {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 2px 12px rgba(16, 42, 67, 0.04);
+}
+
+.timeSlotsHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.timeSlotsTitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: #102a43;
+    margin: 0;
+}
+
+.dateNavigator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.dateNavArrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #6b7280;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dateNavArrow:hover {
+    background-color: var(--primary-color, #0b8a53);
+    color: #ffffff;
+}
+
+.dateNavArrow:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.dateNavArrow:disabled:hover {
+    background-color: #ffffff;
+    color: #6b7280;
+}
+
+.dateText {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #102a43;
+    min-width: 180px;
+    justify-content: center;
+}
+
+.dateTextIcon {
+    color: var(--primary-color, #0b8a53);
+}
+
+/* Period tabs (Morning / Afternoon / Evening) */
+.periodTabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 20px;
+}
+
+.periodTab {
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    border: none;
+    background: none;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.periodTab:hover {
+    color: #102a43;
+}
+
+.periodTabActive {
+    color: #102a43;
+    font-weight: 600;
+}
+
+.periodTabActive::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--primary-color, #0b8a53);
+}
+
+/* Time slot grid */
+.slotsGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.slotBtn {
+    padding: 10px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background-color: #ffffff;
+    color: #102a43;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+}
+
+.slotBtn:hover {
+    border-color: var(--primary-color, #0b8a53);
+    color: var(--primary-color, #0b8a53);
+}
+
+.slotBtnSelected {
+    background-color: var(--primary-color, #0b8a53);
+    border-color: var(--primary-color, #0b8a53);
+    color: #ffffff;
+}
+
+.slotBtnDisabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background-color: #f3f4f6;
+}
+
+.slotBtnDisabled:hover {
+    border-color: #e5e7eb;
+    color: #102a43;
+}
+
+.slotsTimezone {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 12px;
+}
+
+.noSlots {
+    font-size: 13px;
+    color: #9ca3af;
+    padding: 24px 0;
+    text-align: center;
+}
+
+/* Hospital Info Card */
+.hospitalCard {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 2px 12px rgba(16, 42, 67, 0.04);
+    align-self: start;
+}
+
+.hospitalCardTitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: #102a43;
+    margin: 0 0 20px;
+}
+
+.hospitalIdentity {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.hospitalLogo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background-color: color-mix(in srgb, var(--primary-color) 10%, white);
+    color: var(--primary-color, #0b8a53);
+    overflow: hidden;
+}
+
+.hospitalLogoImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hospitalNameText h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #102a43;
+    margin: 0 0 2px;
+}
+
+.hospitalNameText p {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.hospitalDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.hospitalDetailItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.hospitalDetailIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    color: var(--primary-color, #0b8a53);
+}
+
+.hospitalDetailText {
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.4;
+}
+
+.viewHospitalBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 44px;
+    margin-top: 24px;
+    border: 1px solid var(--primary-color, #0b8a53);
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: var(--primary-color, #0b8a53);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.viewHospitalBtn:hover {
+    background-color: var(--primary-color, #0b8a53);
+    color: #ffffff;
+}
+
+/* ===========================================================================
+   REVIEWS SECTION
+=========================================================================== */
+
+.reviewsSection {
+    margin-top: 40px;
+}
+
+.reviewsList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.reviewCard {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px 24px;
+}
+
+.reviewHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.reviewAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--primary-color) 12%, white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-color, #0b8a53);
+    flex-shrink: 0;
+}
+
+.reviewName {
+    font-size: 14px;
+    font-weight: 600;
+    color: #102a43;
+    margin: 0;
+}
+
+.reviewStars {
+    display: flex;
+    gap: 2px;
+    color: #f59e0b;
+}
+
+.reviewText {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #6b7280;
+    margin: 0;
+}
+
+.noReviews {
+    text-align: center;
+    padding: 32px;
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+/* ===========================================================================
+   TRUST BANNER
+=========================================================================== */
+
+.trustBanner {
+    max-width: 1320px;
+    margin: 0 auto 48px;
+    padding: 0 24px;
+}
+
+.trustBannerInner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 28px;
+    background-color: #f0faf5;
+    border: 1px solid color-mix(in srgb, var(--primary-color) 20%, white);
+    border-radius: 14px;
+}
+
+.trustIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--primary-color, #0b8a53);
+}
+
+.trustText h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--primary-color, #0b8a53);
+    margin: 0 0 2px;
+}
+
+.trustText p {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* ===========================================================================
+   RESPONSIVE BREAKPOINTS
+=========================================================================== */
+
+@media (min-width: 1440px) {
+    .topBar,
+    .profileCard,
+    .contactStrip,
+    .bookingCta,
+    .tabsSection,
+    .tabContent,
+    .trustBanner {
+        max-width: 1360px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .profileCardInner {
+        padding: 32px;
+        gap: 32px;
+    }
+
+    .doctorName {
+        font-size: 28px;
+    }
+
+    .bottomGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 992px) {
+    .profileCardInner {
+        padding: 28px;
+        gap: 24px;
+    }
+
+    .profileImageWrap {
+        width: 150px;
+        height: 170px;
+    }
+
+    .doctorName {
+        font-size: 24px;
+    }
+
+    .infoChips {
+        gap: 8px;
+    }
+
+    .infoChip {
+        padding: 8px 14px;
+    }
+
+    .contactStripInner {
+        padding: 16px 24px;
+        gap: 12px;
+    }
+
+    .bookingCtaInner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .specDeptGrid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .bottomGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .tabsContainer {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 768px) {
+    .topBar {
+        padding: 16px 20px;
+    }
+
+    .profileCard {
+        padding: 0 20px;
+    }
+
+    .profileCardInner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 24px;
+        gap: 20px;
+    }
+
+    .profileImageWrap {
+        width: 140px;
+        height: 160px;
+    }
+
+    .doctorName {
+        font-size: 24px;
+    }
+
+    .infoChips {
+        justify-content: center;
+    }
+
+    .availabilityBadge {
+        justify-content: center;
+    }
+
+    .contactStripInner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .contactDivider {
+        width: 100%;
+        height: 1px;
+    }
+
+    .bookingCtaInner {
+        padding: 20px 24px;
+    }
+
+    .bookingCtaButtons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .bookAppointmentBtn,
+    .enquiryBtn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .tabsSection {
+        padding: 0 20px;
+    }
+
+    .tabsContainer {
+        gap: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tab {
+        padding: 12px 16px;
+        font-size: 13px;
+    }
+
+    .tabContent {
+        padding: 24px 20px 40px;
+    }
+
+    .timeSlotsCard,
+    .hospitalCard {
+        padding: 20px;
+    }
+
+    .dateNavigator {
+        padding: 6px 10px;
+    }
+
+    .dateText {
+        min-width: 150px;
+        font-size: 12px;
+    }
+
+    .trustBanner {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .topBar {
+        padding: 12px 16px;
+    }
+
+    .shareButton {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .profileCard {
+        padding: 0 16px;
+    }
+
+    .profileCardInner {
+        padding: 20px;
+    }
+
+    .profileImageWrap {
+        width: 120px;
+        height: 140px;
+    }
+
+    .doctorName {
+        font-size: 22px;
+    }
+
+    .infoChip {
+        padding: 6px 10px;
+    }
+
+    .infoChipLabel {
+        font-size: 10px;
+    }
+
+    .infoChipValue {
+        font-size: 12px;
+    }
+
+    .contactStrip {
+        padding: 0 16px;
+    }
+
+    .contactStripInner {
+        padding: 14px 18px;
+    }
+
+    .bookingCta {
+        padding: 0 16px;
+    }
+
+    .tabsSection {
+        padding: 0 16px;
+    }
+
+    .tabContent {
+        padding: 20px 16px 32px;
+    }
+
+    .sectionTitle {
+        font-size: 18px;
+    }
+
+    .timeSlotsHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .slotsGrid {
+        gap: 8px;
+    }
+
+    .slotBtn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .trustBanner {
+        padding: 0 16px;
+    }
+
+    .trustBannerInner {
+        padding: 14px 18px;
+        flex-direction: column;
+        text-align: center;
+    }
+}

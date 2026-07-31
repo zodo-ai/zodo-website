@@ -1,0 +1,336 @@
+/* ===== Header ===== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1280px;
+  height: 64px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ===== Logo ===== */
+.logoLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logoImage {
+  object-fit: contain;
+  max-height: 40px;
+  width: auto;
+  height: auto;
+}
+
+.logoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: color-mix(in srgb, var(--primary-color) 40%, black);
+  color: #ffffff;
+}
+
+.logoIconSvg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ===== Desktop Nav ===== */
+.nav {
+  display: none;
+  align-items: center;
+  gap: 28px;
+}
+
+.navLink {
+  font-size: 14px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.navLink:hover {
+  opacity: 0.7;
+}
+
+/* ===== Desktop Actions ===== */
+.actions {
+  display: none;
+  align-items: center;
+  gap: 12px;
+}
+
+.userActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, white);
+  transition: opacity 0.3s ease;
+}
+
+.avatar:hover {
+  opacity: 0.85;
+}
+
+.avatarFallback {
+  background-color: color-mix(in srgb, var(--primary-color) 10%, white);
+  color: var(--primary-color, #1a8b5e);
+}
+
+.avatarIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logoutButton:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 8%, transparent);
+}
+
+.logoutIcon {
+  width: 18px;
+  height: 18px;
+  color: color-mix(in srgb, var(--primary-color) 60%, black);
+}
+
+.loginButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 22px;
+  border: 1px solid var(--primary-color, #1a8b5e);
+  border-radius: 10px;
+  background-color: transparent;
+  color: var(--primary-color, #1a8b5e);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.loginButton:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
+}
+
+/* ===== Mobile Menu Toggle ===== */
+.menuToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background-color: color-mix(in srgb, var(--primary-color) 8%, transparent);
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.menuToggle:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 15%, transparent);
+}
+
+.menuIcon {
+  width: 22px;
+  height: 22px;
+}
+
+/* ===== Mobile Drawer ===== */
+.drawerOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.drawerPanel {
+  display: flex;
+  flex-direction: column;
+  width: 84%;
+  max-width: 320px;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--primary-color) 12%, transparent);
+}
+
+.drawerClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 9999px;
+  background-color: color-mix(in srgb, var(--primary-color) 8%, transparent);
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.drawerClose:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 15%, transparent);
+}
+
+.drawerNav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 8px 8px;
+  overflow-y: auto;
+}
+
+.drawerNavLink {
+  padding: 16px 12px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.drawerNavLink:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 6%, transparent);
+}
+
+.drawerActions {
+  padding: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--primary-color) 12%, transparent);
+}
+
+.drawerActions .loginButton {
+  width: 100%;
+}
+
+.drawerActions .userActions {
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* ===== 576px - 767px ===== */
+@media (min-width: 576px) {
+  .container {
+    height: 68px;
+  }
+}
+
+/* ===== 768px - 991px ===== */
+@media (min-width: 768px) {
+  .container {
+    height: 72px;
+    padding: 0 18px;
+  }
+
+  .logoIcon {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* ===== 992px and up: show desktop nav/actions, hide hamburger ===== */
+@media (min-width: 992px) {
+  .container {
+    height: 80px;
+    padding: 0 20px;
+  }
+
+  .nav {
+    display: flex;
+  }
+
+  .actions {
+    display: flex;
+  }
+
+  .menuToggle {
+    display: none;
+  }
+
+  .loginButton {
+    height: 54px;
+    padding: 0 28px;
+    font-size: 16px;
+  }
+}
+
+/* ===== 1200px - 1439px ===== */
+@media (min-width: 1200px) {
+  .nav {
+    gap: 32px;
+  }
+}

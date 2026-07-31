@@ -1,0 +1,241 @@
+/* ===== Section ===== */
+.section {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background-color: color-mix(in srgb, var(--primary-color) 4%, white);
+}
+
+/* ===== Container ===== */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ===== Card ===== */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* ===== Image ===== */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+.image {
+  object-fit: cover;
+  object-position: top;
+}
+
+/* ===== Content ===== */
+.content {
+  position: relative;
+  width: 100%;
+  padding: 24px;
+}
+
+.quoteIcon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  color: color-mix(in srgb, var(--primary-color) 20%, transparent);
+  opacity: 0.5;
+}
+
+.subtitle {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
+  margin: 0 0 8px 0;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
+  margin: 0 0 16px 0;
+  padding-right: 48px;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #5c7074;
+  margin: 0 0 24px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.authorSection {
+  margin-top: 16px;
+}
+
+.signature {
+  font-family: serif;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.3;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
+  margin: 0 0 8px 0;
+}
+
+.authorName {
+  font-size: 16px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--primary-color) 40%, black);
+  margin: 0;
+}
+
+.authorRole {
+  font-size: 14px;
+  color: #5c7074;
+  margin: 4px 0 0 0;
+}
+
+/* ===== 576px - 767px ===== */
+@media (min-width: 576px) {
+  .content {
+    padding: 28px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+
+  .quoteIcon {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* ===== 768px - 991px ===== */
+@media (min-width: 768px) {
+  .section {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+
+  .container {
+    padding: 0 18px;
+  }
+
+  .card {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .imageWrapper {
+    flex: 0 0 40%;
+    width: 40%;
+    height: 100%;
+    aspect-ratio: auto;
+    align-self: stretch;
+  }
+
+  .content {
+    flex: 1;
+    padding: 32px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .description {
+    font-size: 17px;
+  }
+
+  .quoteIcon {
+    width: 56px;
+    height: 56px;
+    top: 28px;
+    right: 28px;
+  }
+
+  .signature {
+    font-size: 24px;
+  }
+}
+
+/* ===== 992px - 1199px ===== */
+@media (min-width: 992px) {
+  .section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+
+  .content {
+    padding: 40px;
+  }
+
+  .title {
+    font-size: 26px;
+    padding-right: 64px;
+  }
+
+  .quoteIcon {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* ===== 1200px - 1439px ===== */
+@media (min-width: 1200px) {
+  .content {
+    padding: 48px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .description {
+    font-size: 18px;
+  }
+
+  .quoteIcon {
+    width: 72px;
+    height: 72px;
+    top: 32px;
+    right: 32px;
+  }
+}
+
+/* ===== 1440px and up ===== */
+@media (min-width: 1440px) {
+  .content {
+    padding: 56px;
+  }
+
+  .quoteIcon {
+    width: 80px;
+    height: 80px;
+  }
+}

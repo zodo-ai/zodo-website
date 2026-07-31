@@ -1,0 +1,140 @@
+.hero {
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.bannerWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.backgroundImage {
+  object-fit: cover;
+  object-position: center center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.backgroundImage.active {
+  opacity: 1;
+}
+
+.indicators {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.indicator:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.15);
+}
+
+.indicatorActive {
+  background-color: var(--primary-color, #1a8b5e);
+  border-color: var(--primary-color, #1a8b5e);
+  transform: scale(1.2);
+}
+
+.indicatorActive:hover {
+  transform: scale(1.3);
+}
+
+/* 320px - 575px (base/mobile) handled above */
+
+/* 576px - 767px */
+@media (min-width: 576px) {
+  .indicators {
+    bottom: 16px;
+    gap: 8px;
+  }
+
+  .indicator {
+    width: 9px;
+    height: 9px;
+  }
+}
+
+/* 768px - 991px */
+@media (min-width: 768px) {
+  .indicators {
+    bottom: 20px;
+    gap: 8px;
+  }
+
+  .indicator {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* 992px - 1199px */
+@media (min-width: 992px) {
+  .indicators {
+    left: auto;
+    right: 40px;
+    bottom: 24px;
+    gap: 10px;
+    transform: none;
+  }
+
+  .indicator {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* 1200px - 1439px */
+@media (min-width: 1200px) {
+  .indicators {
+    right: 56px;
+    bottom: 28px;
+  }
+
+  .indicator {
+    width: 11px;
+    height: 11px;
+  }
+}
+
+/* 1440px and up */
+@media (min-width: 1440px) {
+  .indicators {
+    right: 80px;
+    bottom: 32px;
+    gap: 12px;
+  }
+
+  .indicator {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .backgroundImage,
+  .indicator,
+  .indicatorActive {
+    transition: none;
+  }
+}

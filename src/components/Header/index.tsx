@@ -1,7 +1,16 @@
-'use client'
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { LogOut, UserRound } from "lucide-react";
 import { BrandLogo } from "../Logo";
 import Navigation from "../Navigation";
 import { SidebarTrigger } from "../ui/sidebar";
+import { Button } from "../ui/button";
+import { useAuth } from "@/hooks/use-auth";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import ConfirmModal from "../ConfirmModal";
 
 const headerLinks = [
   {
@@ -10,55 +19,91 @@ const headerLinks = [
   },
   {
     label: "Find Doctors",
-    link: "/doctors"
+    link: "/doctors",
   },
   {
     label: "Find Hospitals",
-    link: "/hospitals"
+    link: "/hospitals",
   },
   {
     label: "About Us",
-    link: "/"
+    link: "/",
   },
   {
     label: "Contact",
-    link: "/contact",   // ✅ Correct path
+    link: "/contact",
   },
 ];
 
-
 const Header = () => {
-  return (
-    <div className="flex items-center justify-between py-4 px-6 border-b border-gray-100">
-      <div className="flex gap-2 items-center">
-        <div className="flex lg:hidden">
-        <SidebarTrigger />
-          
-        </div>
-      <BrandLogo />
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const { user, isHydrated, logout } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
 
+  if (pathname.startsWith("/auth")) {
+    return null;
+  }
+
+  const handleLogout = () => {
+    setShowLogoutConfirm(false);
+    logout();
+    router.push("/");
+  };
+
+  if (!isHydrated) return null;
+
+  return (
+    <>
+      <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
+        <div className="flex items-center gap-2">
+          <div className="flex lg:hidden">
+            <SidebarTrigger />
+          </div>
+          <BrandLogo />
+        </div>
+
+        <Navigation headerLinks={headerLinks} />
+
+        <div className="flex items-center gap-4">
+          {user ? (
+            <div className="flex items-center gap-3">
+              <Link href="/profile" aria-label="Profile">
+                <Avatar className="h-10 w-10 cursor-pointer border border-[#DCE9E6] transition-opacity hover:opacity-80">
+                  <AvatarFallback className="bg-[#EAF5F2] text-[#1D453F]">
+                    <UserRound size={20} />
+                  </AvatarFallback>
+                </Avatar>
+              </Link>
+              <button
+                onClick={() => setShowLogoutConfirm(true)}
+                className="rounded-full p-2 transition-colors hover:bg-gray-100"
+                title="Logout"
+              >
+                <LogOut size={18} className="text-gray-600" />
+              </button>
+            </div>
+          ) : (
+            <Button
+              asChild
+              className="h-10 rounded-full bg-teal-700 px-6 text-white hover:bg-teal-800"
+            >
+              <Link href="/auth">Login</Link>
+            </Button>
+          )}
+        </div>
       </div>
 
-      <Navigation headerLinks={headerLinks} />
-
-      {/* <div className=" items-center space-x-4 hidden lg:flex"> */}
-        {/* <div className="relative ">
-          <Search
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-            size={18}
-          />
-          <Input
-            type="text"
-            placeholder="Search doctor"
-            className="pl-10 pr-4 py-2 h-10 rounded-full border border-gray-200 focus:border-emerald-500 focus:ring-0 w-48"
-          />
-        </div> */}
-        {/* <Button className="bg-[#1D453F] hover:bg-emerald-900 text-white rounded-full px-7 h-10 flex">
-          Get Appointment
-          <ArrowRight />
-        </Button> */}
-      {/* </div> */}
-    </div>
+      <ConfirmModal
+        open={showLogoutConfirm}
+        title="Logout?"
+        description="You will need to verify your phone number again to access your profile and bookings."
+        confirmText="Logout"
+        destructive
+        onCancel={() => setShowLogoutConfirm(false)}
+        onConfirm={handleLogout}
+      />
+    </>
   );
 };
 

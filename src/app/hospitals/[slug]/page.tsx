@@ -7,12 +7,15 @@ import DownloadApp from "@/components/DownloadApp";
 import HospitalDetails from "@/components/HospitalDetails";
 import Lister from "@/components/Lister";
 
+import useHospitalServices from "@/hooks/hospital-services/use-hook";
+
 import { useRouter, useParams } from "next/navigation";
 import useDoctorListing from "@/hooks/doctors/use-hook";
 import useHospitalDetail from "@/hooks/hospitals/use-detail-hook";
 import { DoctorI } from "@/network/doctors/types";
 import Search from "~/svg/search.svg";
 import Image from 'next/image';
+import HospitalServiceCard from '@/components/HospitalServiceCard';
 
 const HospitalDetailed = () => {
     const router = useRouter()
@@ -23,7 +26,20 @@ const HospitalDetailed = () => {
         hospital,
         loading: hospitalLoading,
         error: hospitalError
-    } = useHospitalDetail(hospitalSlug);        
+    } = useHospitalDetail(hospitalSlug);  
+    
+    const {
+        services,
+        loading: servicesLoading,
+        loadingMore: servicesLoadingMore,
+        hasMore: servicesHasMore,
+        loadMore: loadMoreServices,
+        error: servicesError,
+        filterByHospital: filterServicesByHospital,
+    } = useHospitalServices({
+        initialLimit: 8,
+        autoFetch: false,
+    });
     
     const {
         doctors: apiDoctors,
@@ -40,10 +56,20 @@ const HospitalDetailed = () => {
     });
 
     React.useEffect(() => {
-        // if (hospital?.id) {
-            filterByHospital(hospital?.id ?? '');
-        // }
-    }, [ hospital?.id,filterByHospital, hospitalSlug]);
+
+        if (!hospital?.id) return;
+
+        filterByHospital(hospital.id);
+
+        filterServicesByHospital(
+            hospital.id
+        );
+
+    }, [
+        hospital?.id,
+        filterByHospital,
+        filterServicesByHospital,
+    ]);
 
     const handleSearchChange = (query: string) => {
         search(query);
@@ -62,6 +88,44 @@ const HospitalDetailed = () => {
                             <p>Error loading hospital details: {hospitalError}</p>
                         </div>
                     )}
+                    
+                    <section className="max-w-7xl mx-auto px-4 md:px-10 mb-16">
+    
+                        <div className="mb-10">
+                            <h2 className="text-3xl md:text-4xl font-semibold text-[#004746] text-center">
+                                Services
+                            </h2>
+
+                            <p className="text-gray-500 text-center mt-3">
+                                Explore healthcare services offered by{" "}
+                                {hospital?.name}
+                            </p>
+                        </div>
+
+                        {servicesError && (
+                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+                                {servicesError}
+                            </div>
+                        )}
+
+                        <Lister
+                            items={services}
+                            itemsPerPage={8}
+                            hasMore={servicesHasMore}
+                            loading={servicesLoading}
+                            loadingMore={servicesLoadingMore}
+                            onLoadMore={loadMoreServices}
+                            useLegacyPagination={false}
+                            noResultsTitle="No services available"
+                            noResultsDescription="This hospital has not added any services yet."
+                            renderItem={(service) => (
+                                <HospitalServiceCard
+                                    service={service}
+                                />
+                            )}
+                        />
+                    </section>
+
                     <h4 className="text-[#004746] font-medium text-4xl text-center">
                         Doctors From {hospital?.name || 'This Hospital'}
                     </h4>
@@ -112,6 +176,8 @@ const HospitalDetailed = () => {
                     )}
                 />
             </section>
+
+            
             <DownloadApp />
         </div>
     )

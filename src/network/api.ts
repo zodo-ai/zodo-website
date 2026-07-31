@@ -71,15 +71,8 @@ const generateUrl = ({ baseUrl, path, query, routeId }: GenerateUrlOptions): str
     return url;
 };
 
-const getHeaders = (): HeadersI => ({
-    'X-Powered-By': 'Express',
-    'Access-Control-Allow-Origin': '*',
+const getHeaders = (): Partial<HeadersI> => ({
     'Content-Type': 'application/json; charset=utf-8',
-    'Content-Length': '794',
-    'ETag': 'W/"31a-Jkr73O2ABhHARa176dQQxOfY+fY"',
-    'Date': new Date().toUTCString(),
-    'Connection': 'keep-alive',
-    'Keep-Alive': 'timeout=5',
 });
 
 // Main API call function
@@ -110,12 +103,24 @@ export const apiCall = async <PayloadT = unknown, ResponseT = unknown>(
         }
 
         const options: RequestInit = {
-            headers: baseHeaders,
+            headers: baseHeaders as HeadersInit,
             method,
         };
 
         if (isFilled(payload)) {
-            options.body = JSON.stringify(payload);
+
+            // Handle FormData separately
+            if (payload instanceof FormData) {
+
+                options.body = payload;
+
+                // Remove JSON content type for FormData
+                delete (baseHeaders as Partial<HeadersI>)["Content-Type"];
+
+            } else {
+
+                options.body = JSON.stringify(payload);
+            }
         }
 
         const response = await fetch(url, options);

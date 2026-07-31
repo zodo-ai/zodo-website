@@ -9,6 +9,9 @@ import TimeSlots from "./Timeslots";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { DatePicker } from "@/components/ui/date-picker";
 import useTimeSlots from "@/hooks/timeslots/use-hook";
+import { Button } from "@/components/ui/button";
+import { CalendarCheck } from "lucide-react";
+import Link from "next/link";
 // import { useParams } from "next/navigation";
 
 interface DoctorDetailsProps {
@@ -154,6 +157,49 @@ const DoctorDetails = ({
             }committed to patient care and medical excellence.`,
         }}
       />
+
+      {doctor?.id && (
+        <div className="mx-4 mb-6 mt-4 flex flex-col gap-3 rounded-lg border border-[#DDEBE8] bg-white p-4 shadow-sm md:mx-0 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="text-sm font-medium text-[#6B7C80]">
+              Ready to schedule your consultation?
+            </p>
+            <p className="mt-1 text-lg font-semibold text-[#173F3A]">
+              Book an appointment with Dr. {doctor.name}
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <Button
+              asChild
+              variant="outline"
+              className="h-11 rounded-full border-[#1D453F] text-[#1D453F] px-6 font-semibold hover:bg-[#EAF5F2]"
+            >
+              <Link
+                href={`/enquiry/create?type=doctor&doctorId=${encodeURIComponent(
+                  doctor.id
+                )}&doctorSlug=${encodeURIComponent(doctor.slug || doctor.id)}`}
+              >
+                Enquiry Now
+              </Link>
+            </Button>
+            {doctor?.appointment_type !== "enquiry" && (
+              <Button
+                asChild
+                className="h-11 rounded-full bg-[#1D453F] px-6 font-semibold text-white hover:bg-[#173A35]"
+              >
+                <Link
+                  href={`/booking/create?doctorId=${encodeURIComponent(
+                    doctor.id
+                  )}&doctorSlug=${encodeURIComponent(doctor.slug || doctor.id)}`}
+                >
+                  <CalendarCheck size={18} />
+                  Book Now
+                </Link>
+              </Button>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="grid md:grid-cols-[3fr_2fr] gap-4 rounded-2xl md:w-7xl md:mx-0 mx-4">
         <div className="space-y-4 rounded-2xl border border-[#E4E4E4] px-4 py-6 gap-6 bg-[#FAFAFA] min-h-[550px] md:min-h-[450px] h-auto">

@@ -17,7 +17,19 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "images.unsplash.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "zodo-private.s3.eu-north-1.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "dev-palqar-bucket.s3.ap-south-1.amazonaws.com",
         port: "",
         pathname: "/**",
       },
