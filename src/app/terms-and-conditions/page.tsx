@@ -1,7 +1,7 @@
 import styles from "./Terms.module.css";
 
 export const metadata = {
-  title: "Terms & Conditions | ZODO AI",
+  title: "Terms & Conditions | PALQAR LLC",
 };
 
 export default function Terms() {
@@ -14,116 +14,156 @@ export default function Terms() {
         </p>
 
         <p className={styles.paragraph}>
-          These Terms and Conditions, along with our Privacy Policy and other applicable
-          policies (“Terms”), constitute a legally binding agreement between
-          <strong> ZODO HEALTH CARE PRIVATE LIMITED </strong>
-          (“Company”, “Website Owner”, “we”, “us”, or “our”) and you (“User”, “you”, or “your”)
-          governing your access to and use of our website, applications, products,
-          and services (collectively, the “Services”).
+          These Terms and Conditions, along with our Privacy Policy and other
+          applicable policies ("Terms"), constitute a legally binding agreement
+          between <strong>PALQAR LLC</strong> ("Company", "Website Owner", "we",
+          "us", or "our") and you ("User", "you", or "your") governing your
+          access to and use of our website, applications, products, and services
+          (collectively, the "Services").
         </p>
 
         <p className={styles.paragraph}>
-          By accessing or using our Services, you acknowledge that you have read,
-          understood, and agreed to be bound by these Terms. If you do not agree,
-          you must discontinue use immediately.
+          By accessing or using our Services, you acknowledge that you have
+          read, understood, and agreed to be bound by these Terms. If you do
+          not agree, you must discontinue use immediately.
         </p>
 
         <h2 className={styles.sectionTitle}>1. Eligibility</h2>
         <p className={styles.paragraph}>
           You must be at least 18 years of age and legally capable of entering
-          into binding agreements under applicable laws of India.
+          into legally binding agreements under applicable laws.
         </p>
 
         <h2 className={styles.sectionTitle}>2. Account Registration</h2>
         <ul className={styles.list}>
-          <li>You agree to provide accurate, complete, and updated information.</li>
-          <li>You are responsible for maintaining confidentiality of login credentials.</li>
-          <li>You accept responsibility for all activities under your account.</li>
+          <li>
+            You agree to provide accurate, complete, and updated information.
+          </li>
+          <li>
+            You are responsible for maintaining the confidentiality of your
+            login credentials.
+          </li>
+          <li>
+            You accept responsibility for all activities conducted under your
+            account.
+          </li>
         </ul>
 
         <h2 className={styles.sectionTitle}>3. Services Description</h2>
         <p className={styles.paragraph}>
-          ZODO HEALTH CARE PRIVATE LIMITED provides digital healthcare-related
-          technology services including hospital onboarding, appointment facilitation,
-          and SaaS-based healthcare solutions. We reserve the right to modify,
-          suspend, or discontinue Services without prior notice.
+          PALQAR LLC provides technology services, including software
+          development, SaaS platforms, web and mobile applications, AI-powered
+          solutions, cloud infrastructure, digital transformation services, and
+          related technology products. We reserve the right to modify, suspend,
+          or discontinue any part of the Services at any time without prior
+          notice.
         </p>
 
         <h2 className={styles.sectionTitle}>4. User Obligations</h2>
         <ul className={styles.list}>
           <li>Not use the Services for unlawful or fraudulent purposes.</li>
           <li>Not interfere with website security or system integrity.</li>
-          <li>Not attempt unauthorized access to systems or data.</li>
-          <li>Comply with all applicable Indian laws and regulations.</li>
+          <li>
+            Not attempt unauthorized access to our systems, servers, or data.
+          </li>
+          <li>Comply with all applicable laws and regulations.</li>
         </ul>
 
         <h2 className={styles.sectionTitle}>5. Payments & Refund Policy</h2>
         <ul className={styles.list}>
-          <li>You agree to pay all charges applicable to Services availed.</li>
-          <li>Refunds are processed only if Services cannot be delivered.</li>
-          <li>Refund requests must be raised within the specified time.</li>
-          <li>Refund timelines follow applicable company policies.</li>
+          <li>You agree to pay all charges applicable to the Services used.</li>
+          <li>
+            Refunds are processed only where required by law or if Services
+            cannot be delivered.
+          </li>
+          <li>
+            Refund requests must be submitted within the applicable refund
+            period.
+          </li>
+          <li>
+            Refund processing timelines are subject to our internal policies and
+            payment provider procedures.
+          </li>
         </ul>
 
-        <h2 className={styles.sectionTitle}>6. Intellectual Property Rights</h2>
+        <h2 className={styles.sectionTitle}>
+          6. Intellectual Property Rights
+        </h2>
         <p className={styles.paragraph}>
-          All content, trademarks, logos, graphics, software, and design elements
-          on the website are owned by ZODO HEALTH CARE PRIVATE LIMITED.
-          Unauthorized copying, distribution, or commercial use is strictly prohibited.
+          All content, trademarks, logos, software, source code, graphics,
+          designs, documentation, and other intellectual property displayed or
+          provided through the Services are owned by PALQAR LLC or its licensors.
+          Unauthorized copying, modification, distribution, reverse
+          engineering, or commercial use is strictly prohibited.
         </p>
 
         <h2 className={styles.sectionTitle}>7. Limitation of Liability</h2>
         <p className={styles.paragraph}>
-          The Company makes no warranties regarding the accuracy or completeness
-          of the Services. Your use is at your own risk. To the maximum extent
-          permitted by law, we shall not be liable for indirect, incidental,
-          special, or consequential damages.
+          The Company makes no warranties regarding the uninterrupted
+          availability, accuracy, or completeness of the Services. Your use of
+          the Services is entirely at your own risk. To the fullest extent
+          permitted by applicable law, PALQAR LLC shall not be liable for any
+          indirect, incidental, consequential, special, or punitive damages.
         </p>
 
-        <h2 className={styles.sectionTitle}>8. Third-Party Links</h2>
+        <h2 className={styles.sectionTitle}>8. Third-Party Services</h2>
         <p className={styles.paragraph}>
-          Our website may contain links to third-party websites. We are not
-          responsible for their content, policies, or practices.
+          Our Services may integrate with or contain links to third-party
+          websites, APIs, or services. PALQAR LLC is not responsible for the
+          content, security, privacy practices, or availability of such
+          third-party services.
         </p>
 
         <h2 className={styles.sectionTitle}>9. Force Majeure</h2>
         <p className={styles.paragraph}>
-          Neither party shall be liable for failure or delay in performance due
-          to events beyond reasonable control including natural disasters,
-          government actions, technical failures, or similar events.
+          Neither party shall be liable for delays or failures caused by events
+          beyond reasonable control, including natural disasters, government
+          actions, internet outages, cyber-attacks, labor disputes, pandemics,
+          or technical failures.
         </p>
 
         <h2 className={styles.sectionTitle}>10. Indemnification</h2>
         <p className={styles.paragraph}>
-          You agree to indemnify and hold harmless the Company from any claims,
-          liabilities, damages, losses, or expenses arising from your misuse
-          of the Services or violation of these Terms.
+          You agree to indemnify, defend, and hold harmless PALQAR LLC, its
+          directors, employees, partners, and affiliates against any claims,
+          liabilities, damages, costs, and expenses arising from your use of the
+          Services or violation of these Terms.
         </p>
 
         <h2 className={styles.sectionTitle}>11. Termination</h2>
         <p className={styles.paragraph}>
-          We reserve the right to suspend or terminate your access to the Services
-          at our sole discretion without prior notice if you violate these Terms.
+          We reserve the right to suspend, restrict, or terminate your access to
+          the Services immediately, with or without notice, if you violate these
+          Terms or engage in activities that may harm the Company or other
+          users.
         </p>
 
-        <h2 className={styles.sectionTitle}>12. Governing Law & Jurisdiction</h2>
+        <h2 className={styles.sectionTitle}>
+          12. Governing Law & Jurisdiction
+        </h2>
         <p className={styles.paragraph}>
-          These Terms shall be governed by and construed in accordance with
-          the laws of India. All disputes shall be subject to the exclusive
-          jurisdiction of the courts in Kannur, Kerala.
+          These Terms shall be governed by and interpreted in accordance with
+          the applicable laws governing PALQAR LLC. Any disputes arising from
+          these Terms shall be subject to the exclusive jurisdiction of the
+          competent courts where PALQAR LLC maintains its principal place of
+          business, unless otherwise required by applicable law.
         </p>
 
         <h2 className={styles.sectionTitle}>13. Changes to Terms</h2>
         <p className={styles.paragraph}>
-          We may revise these Terms at any time without prior notice.
-          Continued use of the Services constitutes acceptance of updated Terms.
+          PALQAR LLC reserves the right to modify these Terms at any time.
+          Updated versions will become effective upon publication on our
+          website. Continued use of the Services constitutes acceptance of the
+          revised Terms.
         </p>
 
         <h2 className={styles.sectionTitle}>14. Contact Information</h2>
-        <p>
-          ZODO HEALTH CARE PRIVATE LIMITED<br />
-          Kannur, Kerala – 673316<br />
-          Email: support@zodo.ai
+        <p className={styles.paragraph}>
+          <strong>PALQAR LLC</strong>
+          <br />
+          Walnut Creek, California, USA
+          <br />
+          Email: info@palqar.com
         </p>
       </div>
     </main>
